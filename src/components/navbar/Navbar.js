@@ -22,14 +22,14 @@ const Navbar = ({ isLoggedIn }) => {
 
   const [color, setColor] = useState(false);
   const changeColor = () => {
-    if (window.scrollY >= 280) {
-      setColor(true);
-    } else {
-      setColor(false);
-    }
+    // if (window.scrollY >= 280) {
+    //   setColor(true);
+    // } else {
+    //   setColor(false);
+    // }
   };
 
-  window.addEventListener("scroll", changeColor);
+  // window.addEventListener("scroll", changeColor);
 
   return (
     <>
