@@ -1,0 +1,10 @@
+.search-bar{
+  position: relative;
+  width: 100%;
+  padding: 0.4em 1em;
+  font-size: 1.25rem;
+  border-radius: 1em;
+  background-color: var(--tertiary-color);
+  border: none;
+  outline: none;
+}
