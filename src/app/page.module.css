@@ -1,0 +1,28 @@
+.homepage{
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.homepage-left{
+  width: 100%;
+}
+
+.homepage-right{
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .homepage{
+    display: flex;
+  }
+
+  .homepage-left{
+    width: 65% !important;
+  }
+
+  .homepage-right{
+    display: flex;
+    flex-direction: column;
+    width: 35% !important;
+  }
+}

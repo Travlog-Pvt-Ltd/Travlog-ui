@@ -1,0 +1,8 @@
+.infolink{
+  background-color: bisque;
+  max-width: 100%;
+  text-align: center;
+  margin: 2.5em 1em 0 1em;
+  /* margin: 2.5em 1em; */
+  padding: 1em;
+}
