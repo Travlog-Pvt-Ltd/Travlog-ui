@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchBlogs() {
       try{
-        const response = await fetch("http://localhost:8080/blog/all");
+        const response = await fetch("https://travlog.onrender.com/blog/all");
         const resData = await response.json();
         setBlogs(resData);
       } catch(error){
