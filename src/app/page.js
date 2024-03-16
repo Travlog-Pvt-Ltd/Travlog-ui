@@ -12,18 +12,18 @@ import Attractions from "@/components/attractions/Attractions";
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
 
-  try {
-    useEffect(() => {
-      async function fetchBlogs() {
+  useEffect(() => {
+    async function fetchBlogs() {
+      try{
         const response = await fetch("http://localhost:8080/blog/all");
         const resData = await response.json();
         setBlogs(resData);
+      } catch(error){
+        console.error(error)
       }
-      fetchBlogs();
-    }, []);
-  } catch (err) {
-    console.log(err);
-  }
+    }
+    fetchBlogs();
+  }, []);
 
   return (
     <main>
