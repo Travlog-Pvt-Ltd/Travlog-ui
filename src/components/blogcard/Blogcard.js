@@ -12,11 +12,11 @@ const Blogcard = ({ blog }) => {
 
   return (
     <div className="blogcard">
-      {blog.attachments[0] ? (
+      {blog.thumbnail ? (
         <div
           className="bc-img"
           style={{
-            background: `url('${blog.attachments[0]}') center center/cover`,
+            background: `url('${blog.thumbnail}') center center/cover`,
           }}
         ></div>
       ) : null}
@@ -39,7 +39,7 @@ const Blogcard = ({ blog }) => {
           {/* <span>{blog.tags}</span> */}
           <span>{blog.likeCount} likes </span>
           <span>{blog.commentCount} dislikes </span>
-          <span>{blog.views} comments </span>
+          <span>{blog.viewCount} comments </span>
         </div>
       </div>
     </div>
