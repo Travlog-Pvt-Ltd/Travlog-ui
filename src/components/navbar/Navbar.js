@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import "./Navbar.css";
 import Hero from "@/components/hero/Hero";
 import SearchBar from "../searchbar/SearchBar";
+import { useAuth } from "@/context/AuthContext";
 
 import travlogLogo from "@/assets/images/logo.svg";
 import searchLogo from "@/assets/images/search.svg";
@@ -15,10 +16,12 @@ import accountLogo from "@/assets/images/account.svg";
 import accountWLogo from "@/assets/images/accountw.svg";
 import notificationLogo from "@/assets/images/notification.svg";
 import notificationWLogo from "@/assets/images/notificationw.svg";
-// import ProfileDropdown from "./ProfileDropdown";
+import ProfileDropdown from "../profiledropdown/ProfileDropdown";
+import Login from "../auth/Login";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
   const [accountClicked, setAccountClicked] = useState(false);
+  const {openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn} = useAuth()
 
   const [color, setColor] = useState(false);
   const changeColor = () => {
@@ -65,18 +68,20 @@ const Navbar = ({ isLoggedIn }) => {
                     ? "nav-item nav-login"
                     : "nav-item nav-login nav-login-w"
                 }
+                onClick={()=>setOpenLogin(true)}
               >
                 Login
               </li>
             )}
           </ul>
-          {accountClicked ? <ProfileDropdown isLoggedIn={isLoggedIn} /> : null}
+          {/* {accountClicked ? <ProfileDropdown isLoggedIn={isLoggedIn} /> : null} */}
           {/* {color ? <div className="search-container">
             <SearchBar />
           </div> : null} */}
         </nav>
       </div>
       <Hero isScrolled={color} />
+      {openLogin && <Login openLogin={openLogin} closeLogin={() => setOpenLogin(false)} />}
     </>
   );
 };
