@@ -1,8 +1,8 @@
 import axios from 'axios'
-const base_url='http://localhost:8080'
+const base_url='https://travlog.onrender.com'
 
 const getAuthorizationHeaders = () => {
-    const token = localStorage.getItem("platinumRxDashboardToken")
+    const token = localStorage.getItem("travlogUserToken")
     if (!token) return {}
     return { Authorization: `Bearer ${token}` }
 }
