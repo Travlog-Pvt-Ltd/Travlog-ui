@@ -24,7 +24,7 @@ const Blogcard = ({ blog }) => {
       <div className="bc-body">
         <div>
           <div className="bc-header">
-            <Image src={blog.author.profileImage} alt="" />
+            <Image src={blog.author.profileLogo ? blog.author.profileLogo : ""} alt="" />
             <span>{blog.author.name}</span>
             <span className="bc-date">{getFormattedDate()}</span>
           </div>
