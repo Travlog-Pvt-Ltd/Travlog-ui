@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import "./Navbar.css";
+import classes from "./Navbar.module.css";
 import Hero from "@/components/hero/Hero";
-import SearchBar from "../searchbar/SearchBar";
+import ProfileDropdown from "@/components/profiledropdown/ProfileDropdown";
 
 import travlogLogo from "@/assets/images/logo.svg";
 import searchLogo from "@/assets/images/search.svg";
@@ -15,55 +15,47 @@ import accountLogo from "@/assets/images/account.svg";
 import accountWLogo from "@/assets/images/accountw.svg";
 import notificationLogo from "@/assets/images/notification.svg";
 import notificationWLogo from "@/assets/images/notificationw.svg";
-// import ProfileDropdown from "./ProfileDropdown";
+import SearchBar from "../searchbar/SearchBar";
+import Link from "next/link";
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn, scrolled, search }) => {
   const [accountClicked, setAccountClicked] = useState(false);
-
-  const [color, setColor] = useState(false);
-  const changeColor = () => {
-    if (window.scrollY >= 280) {
-      setColor(true);
-    } else {
-      setColor(false);
-    }
-  };
-
-  window.addEventListener("scroll", changeColor);
 
   return (
     <>
-      <div className={color ? "navbar navbar-bg" : "navbar"}>
+      <div className={scrolled ? `${classes.navbar} ${classes["navbar-bg"]}` : classes["navbar"]}>
         <nav>
-          <img className="nav-logo" src={travlogLogo.src} alt="Travlog Logo" />
-          <ul className="nav-list">
-            <li className="nav-item nav-item-logo nav-search-logo">
-              <img src={color ? searchLogo.src : searchWLogo.src} alt="" />
+          <Link href="/">
+            <img className={classes["nav-logo"]} src={travlogLogo.src} alt="Travlog Logo" />
+          </Link>
+          <ul className={classes["nav-list"]}>
+            <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]} ${classes["nav-search-logo"]}`}>
+              <img src={scrolled ? searchLogo.src : searchWLogo.src} alt="" />
             </li>
-            <li className="nav-item nav-item-logo">
-              <img src={color ? writeLogo.src : writeWLogo.src} alt="" />
+            <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
+              <img src={scrolled ? writeLogo.src : writeWLogo.src} alt="" />
             </li>
             {isLoggedIn ? (
               <>
-                <li className="nav-item nav-item-logo">
+                <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
                   <img
-                    src={color ? notificationLogo.src : notificationWLogo.src}
+                    src={scrolled ? notificationLogo.src : notificationWLogo.src}
                     alt=""
                   />
                 </li>
                 <li
-                  className="nav-item nav-item-logo"
+                  className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}
                   onClick={() => setAccountClicked((prev) => !prev)}
                 >
-                  <img src={color ? accountLogo.src : accountWLogo.src} alt="" />
+                  <img src={scrolled ? accountLogo.src : accountWLogo.src} alt="" />
                 </li>
               </>
             ) : (
               <li
                 className={
-                  color
-                    ? "nav-item nav-login"
-                    : "nav-item nav-login nav-login-w"
+                  scrolled
+                    ? `${classes["nav-item"]} ${classes["nav-login"]}`
+                    : `${classes["nav-item"]} ${classes["nav-login"]} ${classes["nav-login-w"]}`
                 }
               >
                 Login
@@ -71,12 +63,10 @@ const Navbar = ({ isLoggedIn }) => {
             )}
           </ul>
           {accountClicked ? <ProfileDropdown isLoggedIn={isLoggedIn} /> : null}
-          {/* {color ? <div className="search-container">
-            <SearchBar />
-          </div> : null} */}
+          {/* <Hero isScrolled={scrolled} /> */}
+          {search && <SearchBar scrolled={scrolled} />}
         </nav>
       </div>
-      <Hero isScrolled={color} />
     </>
   );
 };

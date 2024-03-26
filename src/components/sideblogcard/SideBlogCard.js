@@ -1,10 +1,9 @@
 import React from 'react'
+import classes from './SideBlogCard.module.css'
 
-const SideBlogCard = () => {
+const SideBlogCard = ({ blog }) => {
   return (
-    <div>
-      
-    </div>
+    <p className={classes.sideblog}>{blog.title}</p>
   )
 }
 

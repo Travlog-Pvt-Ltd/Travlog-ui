@@ -7,4 +7,27 @@
   background-color: var(--tertiary-color);
   border: none;
   outline: none;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .search-bar{
+    display: block;
+  }
+  
+  .search-container-nav {
+    display: block;
+    position: fixed;
+    top: 0.7rem;
+    left: 25vw;
+    width: 50vw;
+  }
+
+  .search-container-hero {
+    display: block;
+    position: absolute;
+    top: 300px;
+    left: 25vw;
+    width: 50vw;
+  }
 }

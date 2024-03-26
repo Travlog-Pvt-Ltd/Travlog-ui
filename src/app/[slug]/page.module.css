@@ -1,31 +1,28 @@
-.homepage{
+.blogpage{
   max-width: var(--max-width);
-  /* margin: 62px auto; */
+  margin: 62px auto;
 }
 
-.homepage-left{
+.blogpage-left{
   width: 100%;
 }
 
-.homepage-right{
+.blogpage-right{
   display: none;
 }
 
 @media (min-width: 768px) {
-  .homepage{
+  .blogpage{
     display: flex;
-    margin: 0 auto;
   }
 
-  .homepage-left{
+  .blogpage-left{
     width: 65% !important;
   }
 
-  .homepage-right{
+  .blogpage-right{
     display: flex;
     flex-direction: column;
     width: 35% !important;
   }
-
-  
 }

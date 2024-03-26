@@ -1,0 +1,47 @@
+.blog {
+  margin: 1em;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: white;
+}
+
+.blog h1 {
+  font-size: 1.7rem;
+}
+
+.blog p {
+  margin: 0.5em auto;
+}
+
+.blogContent {
+  font-size: 1.2rem;
+  line-height: 1.7rem;
+  /* padding: 1em; */
+}
+
+.blog p button {
+  border: none;
+  background: none;
+  color: blue;
+}
+
+@media (min-width: 768px) {
+  .blog {
+    margin: 1.5em 1em;
+    padding: 2em 3em;
+  }
+
+  .blog h1 {
+    font-size: 2.5rem;
+  }
+  
+  .blog p {
+    margin: 1em auto;
+  }
+  
+  .blogContent {
+    font-size: 1.5rem;
+    line-height: 1.9rem;
+    /* padding: 1em; */
+  }
+}

@@ -1,58 +1,43 @@
 import Image from "next/image";
-import "./Blogcard.css";
+import classes from "./Blogcard.module.css";
+import Link from "next/link";
+import { formatDate } from "@/util/formatdate";
 
 const Blogcard = ({ blog }) => {
-  console.log(blog);
-
-  const date = new Date(blog.updatedAt);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const formattedDate = `${date.getDate()} ${
-    months[date.getMonth() - 1]
-  }, ${date.getFullYear()}`;
+  const formattedDate = formatDate(blog.updatedAt);
 
   return (
-    <div className="blogcard">
-      {blog.attachments[0] ? (
+    <div className={classes.blogcard}>
+      {blog.thumbnail ? (
         <div
-          className="bc-img"
+          className={classes["bc-img"]}
           style={{
-            background: `url('${blog.attachments[0]}') center center/cover`,
+            background: `url('${blog.thumbnail}') center center/cover`,
           }}
         ></div>
       ) : null}
 
-      <div className="bc-body">
+      <div className={classes["bc-body"]}>
         <div>
-        <div className="bc-header">
-          <Image src={blog.author.profileImage} alt="" />
-          <span>{blog.author.name}</span>
-          <span className="bc-date">{formattedDate}</span>
+          <div className={classes["bc-header"]}>
+            <img src={blog.author.profileLogo} alt=""/>
+            <span>{blog.author.name}</span>
+            <span className={classes["bc-date"]}>{formattedDate}</span>
+          </div>
+
+          <Link href={`/${blog._id}`}>
+            <div className={classes["bc-content"]}>
+              <h2>{blog.title}</h2>
+              <p>{blog.content.slice(0, 400)}</p>
+            </div>
+          </Link>
         </div>
 
-        <div className="bc-content">
-          <h2>{blog.title}</h2>
-          <p>{blog.content.slice(0, 400)}</p>
-        </div>
-        </div>
-
-        <div className="bc-footer">
+        <div className={classes["bc-footer"]}>
           {/* <span>{blog.tags}</span> */}
-          <span>{blog.likes.length} likes </span>
+          <span>{blog.likeCount} likes </span>
           <span>{blog.commentCount} dislikes </span>
-          <span>{blog.views.length} comments </span>
+          <span>{blog.viewCount} comments </span>
         </div>
       </div>
     </div>

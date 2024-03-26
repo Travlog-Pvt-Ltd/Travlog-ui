@@ -1,11 +1,11 @@
-.navbar{
+.navbar {
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
 }
 
-nav{
+.navbar nav {
   display: flex;
   width: 100%;
   max-width: var(--max-width);
@@ -14,29 +14,29 @@ nav{
   align-items: center;
 }
 
-.nav-logo{
+.nav-logo {
   max-width: 60px;
   margin: 1em;
 }
 
-.nav-item{
+.nav-item {
   list-style: none;
   cursor: pointer;
   margin: 1em;
 }
 
-.nav-item-logo{
+.nav-item-logo {
   max-width: 25px;
 }
 
-.nav-list{
+.nav-list {
   display: flex;
   width: 100%;
   justify-content: flex-end;
   align-items: center;
 }
 
-.nav-login{
+.nav-login {
   font-size: 1.2rem;
   background-color: var(--secondary-color);
   color: white;
@@ -46,35 +46,30 @@ nav{
   font-weight: 500;
 }
 
-.nav-logo{
+.nav-logo {
   max-width: 60px;
 }
 
-.nav-login-w{
+.nav-login-w {
   background-color: white;
   color: black;
 }
 
-.search-container{
+.search-container-hero {
   display: none;
-  position: absolute;
-  top: 0.7rem;
-  left: 25vw;
-  width: 50vw;
 }
 
-.navbar-bg{
+.search-container-nav {
+  display: none;
+}
+
+.navbar-bg {
   background-color: white;
   border-bottom: 1px solid black;
 }
 
-
 @media (min-width: 768px) {
-  .nav-search-logo{
+  .nav-search-logo {
     display: none;
-  }
-  
-  .search-container {
-    display: block;
   }
 }

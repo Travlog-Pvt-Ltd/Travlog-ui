@@ -1,0 +1,9 @@
+.sideblog {
+  margin: 1em 1em;
+  background-color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 1em;
+  box-shadow: 0 0 3px gray;
+  border-radius: 5px;
+}
