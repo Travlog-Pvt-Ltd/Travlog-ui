@@ -2,6 +2,7 @@ import Image from "next/image";
 import classes from "./Blogcard.module.css";
 import Link from "next/link";
 import { formatDate } from "@/util/formatdate";
+import accountIcon from '@/assets/images/account.svg';
 
 const Blogcard = ({ blog }) => {
   const formattedDate = formatDate(blog.updatedAt);
@@ -20,7 +21,7 @@ const Blogcard = ({ blog }) => {
       <div className={classes["bc-body"]}>
         <div>
           <div className={classes["bc-header"]}>
-            <img src={blog.author.profileLogo} alt=""/>
+            <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt=""/>
             <span>{blog.author.name}</span>
             <span className={classes["bc-date"]}>{formattedDate}</span>
           </div>
