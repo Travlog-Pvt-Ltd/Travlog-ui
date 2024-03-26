@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 
 import classes from './page.module.css'
 
-import Navbar from '@/components/navbar/Navbar';
 import Blogcard from "@/components/blogcard/Blogcard";
 import InfoLink from "@/components/infolink/InfoLink";
 import Attractions from "@/components/attractions/Attractions";
@@ -15,37 +14,21 @@ import Itineary from "@/components/itineary/Itineary";
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
 
-  try {
-    useEffect(() => {
-      async function fetchBlogs() {
+  useEffect(() => {
+    async function fetchBlogs() {
+      try {
         const response = await fetch("https://travlog.onrender.com/blog/all");
         const resData = await response.json();
         setBlogs(resData);
+      } catch (error) {
+        console.error(error)
       }
-      fetchBlogs();
-    }, []);
-  } catch (err) {
-    console.log(err);
-  }
-
-  const [scrolled, setScrolled] = useState(false);
-  const changescrolled = () => {
-    if (window.scrollY >= 280) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
     }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", changescrolled);
-  }, [])
+    fetchBlogs();
+  }, []);
 
   return (
-    <main>
-      <Navbar isLoggedIn={true} scrolled={scrolled} search={false}/>
-      <Hero scrolled={scrolled} />
-
+    <>
       <div className={classes.homepage}>
         <div className={classes['homepage-left']}>
           {blogs.map((blog) => (<Blogcard blog={blog} key={blog._id} />))}
@@ -56,6 +39,6 @@ export default function Home() {
           <Itineary />
         </div>
       </div>
-    </main>
+    </>
   );
 }

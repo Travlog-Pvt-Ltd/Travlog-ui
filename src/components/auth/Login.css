@@ -1,0 +1,71 @@
+.login-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register-div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.password-input{
+    border: none !important;
+    width: calc(100% - 50px);
+}
+
+.password-box{
+    border: 2px solid rgb(133, 133, 133);
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+    border-radius: 7px;
+}
+
+.login-div input, .register-div input, .enter-password input{
+    height: 3rem;
+    padding: 5px 10px;
+}
+
+.login-modal-heading{
+    margin-bottom: 10px;
+}
+
+.login-toggle-p{
+    margin-top: 15px;
+}
+
+.enter-otp-div{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.otp-input-box{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    width: fit-content;
+    margin: auto;
+}
+
+.otp-input{
+    width: 55px;
+    height: 3.5rem;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.enter-password{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
