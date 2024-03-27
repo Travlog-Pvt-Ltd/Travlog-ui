@@ -1,0 +1,72 @@
+.container{
+  margin: 1.25em;
+  padding: 1.25em 1em;
+  background-color: var(--primary-color);
+  box-shadow: 0 0 3px gray;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container h2{
+  text-align: center;
+}
+
+.inputdate{
+  display: flex;
+  flex-direction: column;
+}
+
+.date-container{
+  display: flex;
+  margin: 1.25em 2em;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.container input{
+  padding: 0.25em;
+  font-size: 1.1rem;
+}
+
+.inputplace{
+  margin: 1.25em 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.inputplace label{
+  font-size: 1.25rem;
+}
+
+.inputplace input{
+  width: 100%;
+}
+
+.btn{
+  margin: 1em auto;
+  width: 50%;
+  font-size: 1.1rem;
+  padding: 0.5em;
+  border-radius: 20px;
+  border: none;
+  background-color: var(--secondary-color);
+  color: var(--primary-color)
+}
+
+@media (min-width: 1400px) {
+  .date-container{
+    flex-direction: row;
+  }
+
+  .inputplace{
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .inputplace input{
+    width: 60%;
+  }
+}

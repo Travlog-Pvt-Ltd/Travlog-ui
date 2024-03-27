@@ -1,13 +1,13 @@
-import './Hero.css'
 import SearchBar from '../searchbar/SearchBar'
 
-const Hero = ({ isScrolled }) => {
+import classes from './Hero.module.css'
+
+const Hero = ({ scrolled }) => {
 
   return (
-    <div className='hero'>
-      <div className='content'>
-        <div className='search-container'><SearchBar /></div>
-        {/* {!isScrolled ? <div className='search-container'><SearchBar /></div> : null} */}
+    <div className={classes.hero}>
+      <div className={classes.content}>
+        <SearchBar scrolled={scrolled}/>
       </div>
     </div>
   )

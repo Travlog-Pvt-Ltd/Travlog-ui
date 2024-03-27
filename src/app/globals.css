@@ -9,8 +9,8 @@
   --overlay: rgba(0, 0, 0, 0.5);
   --primary-color: white;
   --secondary-color: green; 
+  --tertiary-color: rgb(254, 241, 229);
   --background-color: #f0f9ff;
-  --tertiary-color: rgb(239, 239, 239);
   --max-width: 1440px;
 }
 

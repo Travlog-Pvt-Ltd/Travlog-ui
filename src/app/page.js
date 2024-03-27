@@ -6,6 +6,9 @@ import classes from './page.module.css'
 import Blogcard from "@/components/blogcard/Blogcard";
 import InfoLink from "@/components/infolink/InfoLink";
 import Attractions from "@/components/attractions/Attractions";
+import Hero from "@/components/hero/Hero";
+import Itineary from "@/components/itineary/Itineary";
+
 
 
 export default function Home() {
@@ -33,6 +36,7 @@ export default function Home() {
         <div className={classes["homepage-right"]}>
           <InfoLink />
           <Attractions />
+          <Itineary />
         </div>
       </div>
     </>

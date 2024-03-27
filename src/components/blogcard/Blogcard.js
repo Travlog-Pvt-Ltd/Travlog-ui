@@ -1,45 +1,56 @@
 import Image from "next/image";
-import "./Blogcard.css";
+import classes from "./Blogcard.module.css";
+import Link from "next/link";
+import { formatDate } from "@/utils/formatdate";
+import accountIcon from '@/assets/images/account.svg';
+import heartIcon from '@/assets/images/heart.svg';
+import tagIcon from '@/assets/images/tag.svg';
+import commentIcon from '@/assets/images/comment.svg';
+import dotsIcon from '@/assets/images/dots.svg';
+import bookmarkIcon from '@/assets/images/bookmark.svg';
+import viewIcon from '@/assets/images/view.svg';
 
 const Blogcard = ({ blog }) => {
-
-  const getFormattedDate = () => {
-    const date = new Date(blog.updatedAt);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    const formattedDate = `${date.getDate()} ${months[date.getMonth() - 1]}, ${date.getFullYear()}`;
-    return formattedDate
-  }
+  const formattedDate = formatDate(blog.updatedAt);
 
   return (
-    <div className="blogcard">
+    <div className={classes.blogcard}>
       {blog.thumbnail ? (
         <div
-          className="bc-img"
+          className={classes["bc-img"]}
           style={{
             background: `url('${blog.thumbnail}') center center/cover`,
           }}
         ></div>
       ) : null}
 
-      <div className="bc-body">
+      <div className={classes["bc-body"]}>
         <div>
-          <div className="bc-header">
-            <Image src={blog.author.profileLogo ? blog.author.profileLogo : ""} alt="" />
+          <div className={classes["bc-header"]}>
+            <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt="" />
             <span>{blog.author.name}</span>
-            <span className="bc-date">{getFormattedDate()}</span>
+            <span className={classes["bc-date"]}>{formattedDate}</span>
           </div>
 
-          <div className="bc-content">
-            <h2>{blog.title}</h2>
-            <p>{blog.content.slice(0, 400)}</p>
-          </div>
+          <Link href={`/${blog._id}`}>
+            <div className={classes["bc-content"]}>
+              <h2>{blog.title}</h2>
+              <p>{blog.content.slice(0, 400)}</p>
+            </div>
+          </Link>
         </div>
 
-        <div className="bc-footer">
-          {/* <span>{blog.tags}</span> */}
-          <span>{blog.likeCount} likes </span>
-          <span>{blog.commentCount} dislikes </span>
-          <span>{blog.viewCount} comments </span>
+        <div className={classes["bc-footer"]}>
+          <div className={classes.tags}>
+            <span className={classes.icons}><Image src={tagIcon} /> tags</span>
+          </div>
+          <div className={classes.iconContainer}>
+            <span className={classes.icons}><p>{blog.viewCount}</p> <Image src={viewIcon} /> </span>
+            <span className={classes.icons}><p>{blog.likeCount}</p> <Image src={heartIcon} /> </span>
+            <span className={classes.icons}><p>{blog.commentCount}</p> <Image src={commentIcon} /> </span>
+            <span className={classes.icons}><Image src={bookmarkIcon} /> </span>
+            <span className={classes.icons}><Image src={dotsIcon} /> </span>
+          </div>
         </div>
       </div>
     </div>
