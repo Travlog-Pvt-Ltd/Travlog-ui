@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import classes from './SingleBlog.module.css'
-import { formatDate } from '@/util/formatdate';
+import { formatDate } from '@/utils/formatdate';
 
 const SingleBlog = ({ blogId }) => {
   const [blog, setBlog] = useState([]);

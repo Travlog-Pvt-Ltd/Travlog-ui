@@ -1,8 +1,14 @@
 import Image from "next/image";
 import classes from "./Blogcard.module.css";
 import Link from "next/link";
-import { formatDate } from "@/util/formatdate";
+import { formatDate } from "@/utils/formatdate";
 import accountIcon from '@/assets/images/account.svg';
+import heartIcon from '@/assets/images/heart.svg';
+import tagIcon from '@/assets/images/tag.svg';
+import commentIcon from '@/assets/images/comment.svg';
+import dotsIcon from '@/assets/images/dots.svg';
+import bookmarkIcon from '@/assets/images/bookmark.svg';
+import viewIcon from '@/assets/images/view.svg';
 
 const Blogcard = ({ blog }) => {
   const formattedDate = formatDate(blog.updatedAt);
@@ -21,7 +27,7 @@ const Blogcard = ({ blog }) => {
       <div className={classes["bc-body"]}>
         <div>
           <div className={classes["bc-header"]}>
-            <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt=""/>
+            <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt="" />
             <span>{blog.author.name}</span>
             <span className={classes["bc-date"]}>{formattedDate}</span>
           </div>
@@ -35,10 +41,16 @@ const Blogcard = ({ blog }) => {
         </div>
 
         <div className={classes["bc-footer"]}>
-          {/* <span>{blog.tags}</span> */}
-          <span>{blog.likeCount} likes </span>
-          <span>{blog.commentCount} dislikes </span>
-          <span>{blog.viewCount} comments </span>
+          <div className={classes.tags}>
+            <span className={classes.icons}><Image src={tagIcon} /> tags</span>
+          </div>
+          <div className={classes.iconContainer}>
+            <span className={classes.icons}><p>{blog.viewCount}</p> <Image src={viewIcon} /> </span>
+            <span className={classes.icons}><p>{blog.likeCount}</p> <Image src={heartIcon} /> </span>
+            <span className={classes.icons}><p>{blog.commentCount}</p> <Image src={commentIcon} /> </span>
+            <span className={classes.icons}><Image src={bookmarkIcon} /> </span>
+            <span className={classes.icons}><Image src={dotsIcon} /> </span>
+          </div>
         </div>
       </div>
     </div>

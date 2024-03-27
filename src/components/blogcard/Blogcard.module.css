@@ -68,6 +68,32 @@
   border-radius: 50%;
 }
 
+.icons img{
+  height: 15px;
+  width: 15px;
+}
+
+.bc-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icons{
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  margin: 0.2em 0.3em;
+}
+
+.iconContainer{
+  display: flex;
+}
+
+.icons p{
+  margin-right: 0.2em;
+}
+
 @media (min-width: 500px) {
   .bc-img {
     width: 120px;
@@ -96,6 +122,11 @@
   .bc-header img {
     width: 20px;
     height: 20px;
+  }
+  
+  .icons img{
+    width: 17px;
+    height: 17px;
   }
 
   .bc-header span {

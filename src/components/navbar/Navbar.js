@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 
 import classes from "./Navbar.module.css";
 import Hero from "@/components/hero/Hero";
-import ProfileDropdown from "@/components/profiledropdown/ProfileDropdown";
 import { useAuth } from "@/context/AuthContext";
 
 import travlogLogo from "@/assets/images/logo.svg";
@@ -16,8 +15,8 @@ import accountLogo from "@/assets/images/account.svg";
 import accountWLogo from "@/assets/images/accountw.svg";
 import notificationLogo from "@/assets/images/notification.svg";
 import notificationWLogo from "@/assets/images/notificationw.svg";
-import ProfileDropdown from "../profiledropdown/ProfileDropdown";
 import Login from "../auth/Login";
+import Link from "next/link";
 
 const Navbar = () => {
   const [accountClicked, setAccountClicked] = useState(false);
@@ -36,23 +35,23 @@ const Navbar = () => {
 
   return (
     <>
-      <div className={scrolled ? `${classes.navbar} ${classes["navbar-bg"]}` : classes["navbar"]}>
+      <div className={classes["navbar"]}>
         <nav>
           <Link href="/">
             <img className={classes["nav-logo"]} src={travlogLogo.src} alt="Travlog Logo" />
           </Link>
           <ul className={classes["nav-list"]}>
             <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]} ${classes["nav-search-logo"]}`}>
-              <img src={scrolled ? searchLogo.src : searchWLogo.src} alt="" />
+              <img src={searchLogo.src} alt="" />
             </li>
             <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
-              <img src={scrolled ? writeLogo.src : writeWLogo.src} alt="" />
+              <img src={writeLogo.src } alt="" />
             </li>
             {isLoggedIn ? (
               <>
                 <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
                   <img
-                    src={scrolled ? notificationLogo.src : notificationWLogo.src}
+                    src={notificationLogo.src }
                     alt=""
                   />
                 </li>
@@ -60,15 +59,12 @@ const Navbar = () => {
                   className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}
                   onClick={() => setAccountClicked((prev) => !prev)}
                 >
-                  <img src={scrolled ? accountLogo.src : accountWLogo.src} alt="" />
+                  <img src={accountLogo.src } alt="" />
                 </li>
               </>
             ) : (
               <li
-                className={
-                  scrolled
-                    ? `${classes["nav-item"]} ${classes["nav-login"]}`
-                    : `${classes["nav-item"]} ${classes["nav-login"]} ${classes["nav-login-w"]}`
+                className={`${classes["nav-item"]} ${classes["nav-login"]}`
                 }
                 onClick={()=>setOpenLogin(true)}
               >
@@ -82,7 +78,7 @@ const Navbar = () => {
           </div> : null} */}
         </nav>
       </div>
-      <Hero isScrolled={color} />
+      {/* <Hero  /> */}
       {openLogin && <Login openLogin={openLogin} closeLogin={() => setOpenLogin(false)} />}
     </>
   );
