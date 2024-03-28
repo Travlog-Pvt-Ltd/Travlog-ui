@@ -4,7 +4,9 @@
   height: 400px;
   width: 100%;
   z-index: -4;
-  /* display: none; */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .hero::before {
@@ -19,21 +21,8 @@
   left: 0;
 }
 
-.hero .content {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .hero {
-    display: block;
-    height: 400px;
-  }
-
-  .hero::before {
-    height: 400px;
-  }
-
-  .hero .content {
-    display: flex;
-  }
+.content{
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
 }

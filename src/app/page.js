@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "@mui/material";
 
 import classes from './page.module.css'
 
@@ -12,12 +13,13 @@ import Itineary from "@/components/itineary/Itineary";
 
 
 export default function Home() {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState([])
+  const mobile = useMediaQuery('(max-width:768px)')
 
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const response = await fetch("https://travlog.onrender.com/blog/all");
+        const response = await fetch("https://travlog.onrender.com/blog/all")
         const resData = await response.json();
         setBlogs(resData);
       } catch (error) {
@@ -29,15 +31,16 @@ export default function Home() {
 
   return (
     <>
+      {!mobile ? <Hero /> : <Attractions top={true} />}
       <div className={classes.homepage}>
-        <div className={classes['homepage-left']}>
+        <div className={mobile ? classes['homepage-mobile-left'] : classes['homepage-left']}>
           {blogs.map((blog) => (<Blogcard blog={blog} key={blog._id} />))}
         </div>
-        <div className={classes["homepage-right"]}>
+        {!mobile && <div className={classes["homepage-right"]}>
           <InfoLink />
           <Attractions />
           <Itineary />
-        </div>
+        </div>}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ function AuthProvider({children}){
         if(auth){
             setIsLoggedIn(true)
         }
-    })
+    },[])
 
     return (
         <AuthContext.Provider value={{openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn}}>

@@ -1,31 +1,19 @@
 .homepage{
   max-width: var(--max-width);
-  /* margin: 62px auto; */
+  display: flex;
+  margin: 0 auto;
 }
 
 .homepage-left{
+  width: 65%;
+}
+
+.homepage-mobile-left{
   width: 100%;
 }
 
 .homepage-right{
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .homepage{
-    display: flex;
-    margin: 0 auto;
-  }
-
-  .homepage-left{
-    width: 65% !important;
-  }
-
-  .homepage-right{
-    display: flex;
-    flex-direction: column;
-    width: 35% !important;
-  }
-
-  
+  width: 35%;
+  display: flex;
+  flex-direction: column;
 }
