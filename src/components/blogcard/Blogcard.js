@@ -2,13 +2,13 @@ import Image from "next/image";
 import classes from "./Blogcard.module.css";
 import Link from "next/link";
 import { formatDate } from "@/utils/formatdate";
-import accountIcon from '@/assets/images/account.svg';
-import heartIcon from '@/assets/images/heart.svg';
-import tagIcon from '@/assets/images/tag.svg';
-import commentIcon from '@/assets/images/comment.svg';
-import dotsIcon from '@/assets/images/dots.svg';
-import bookmarkIcon from '@/assets/images/bookmark.svg';
-import viewIcon from '@/assets/images/view.svg';
+import accountIcon from '@/assets/logos/account.svg';
+import heartIcon from '@/assets/logos/heart.svg';
+import tagIcon from '@/assets/logos/tag.svg';
+import commentIcon from '@/assets/logos/comment.svg';
+import dotsIcon from '@/assets/logos/dots.svg';
+import bookmarkIcon from '@/assets/logos/bookmark.svg';
+import viewIcon from '@/assets/logos/view.svg';
 
 const Blogcard = ({ blog }) => {
   const formattedDate = formatDate(blog.updatedAt);

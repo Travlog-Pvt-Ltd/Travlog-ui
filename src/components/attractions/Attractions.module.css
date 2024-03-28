@@ -2,7 +2,10 @@
   max-width: 100%;
   margin: 1.25em 1em;
   text-align: center;
+}
 
+.mobile-container{
+  margin-top: 60px;
 }
 
 .container h2{

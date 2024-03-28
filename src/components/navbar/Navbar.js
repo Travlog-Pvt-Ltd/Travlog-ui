@@ -1,57 +1,64 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import classes from "./Navbar.module.css";
-import Hero from "@/components/hero/Hero";
 import { useAuth } from "@/context/AuthContext";
 
-import travlogLogo from "@/assets/images/logo.svg";
-import searchLogo from "@/assets/images/search.svg";
-import searchWLogo from "@/assets/images/searchw.svg";
-import writeLogo from "@/assets/images/write.svg";
-import writeWLogo from "@/assets/images/writew.svg";
-import accountLogo from "@/assets/images/account.svg";
-import accountWLogo from "@/assets/images/accountw.svg";
-import notificationLogo from "@/assets/images/notification.svg";
-import notificationWLogo from "@/assets/images/notificationw.svg";
+import travlogLogo from "@/assets/logos/logo.svg";
+import searchLogo from "@/assets/logos/search.svg";
+import searchWLogo from "@/assets/logos/searchw.svg";
+import writeLogo from "@/assets/logos/write.svg";
+import writeWLogo from "@/assets/logos/writew.svg";
+import accountLogo from "@/assets/logos/account.svg";
+import accountWLogo from "@/assets/logos/accountw.svg";
+import notificationLogo from "@/assets/logos/notification.svg";
+import notificationWLogo from "@/assets/logos/notificationw.svg";
 import Login from "../auth/Login";
 import Link from "next/link";
+import { useNavbar } from "@/context/NavbarContext";
+import { useMediaQuery } from "@mui/material";
+import SearchBar from "../searchbar/SearchBar";
+import { usePathname } from "next/navigation";
+
 
 const Navbar = () => {
-  const [accountClicked, setAccountClicked] = useState(false);
-  const {openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn} = useAuth()
+  const { openLogin, setOpenLogin, isLoggedIn } = useAuth()
+  const { showSearch } = useNavbar()
+  const mobile = useMediaQuery('(max-width:768px)')
+  const pathname = usePathname()
+  const [accountClicked, setAccountClicked] = useState(false)
+  const [showFullNavbar, setShowFullNavbar] = useState()
 
-  const [color, setColor] = useState(false);
-  const changeColor = () => {
-    // if (window.scrollY >= 280) {
-    //   setColor(true);
-    // } else {
-    //   setColor(false);
-    // }
-  };
-
-  // window.addEventListener("scroll", changeColor);
+  useEffect(()=>{
+    if(mobile) setShowFullNavbar(true)
+    else if(pathname!=='/') setShowFullNavbar(true)
+    else if(pathname==='/' && showSearch) setShowFullNavbar(true)
+    else setShowFullNavbar(false)
+  },[pathname, showSearch, mobile])
 
   return (
     <>
-      <div className={classes["navbar"]}>
+      <div className={`${classes["navbar"]} ${showFullNavbar && classes["navbar-bg"]}`}>
         <nav>
-          <Link href="/">
-            <img className={classes["nav-logo"]} src={travlogLogo.src} alt="Travlog Logo" />
-          </Link>
+          <div className={classes['navbar-left']}>
+            <Link href="/">
+              <img className={classes["nav-logo"]} src={travlogLogo.src} alt="Travlog Logo" />
+            </Link>
+            {showFullNavbar && !mobile && <SearchBar />}
+          </div>
           <ul className={classes["nav-list"]}>
-            <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]} ${classes["nav-search-logo"]}`}>
+            {mobile && <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]} ${classes["nav-search-logo"]}`}>
               <img src={searchLogo.src} alt="" />
-            </li>
+            </li>}
             <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
-              <img src={writeLogo.src } alt="" />
+              <img src={showFullNavbar ? writeLogo.src : writeWLogo.src} alt="" />
             </li>
             {isLoggedIn ? (
               <>
                 <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
                   <img
-                    src={notificationLogo.src }
+                    src={showFullNavbar ? notificationLogo.src : notificationWLogo.src}
                     alt=""
                   />
                 </li>
@@ -59,26 +66,21 @@ const Navbar = () => {
                   className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}
                   onClick={() => setAccountClicked((prev) => !prev)}
                 >
-                  <img src={accountLogo.src } alt="" />
+                  <img src={showFullNavbar ? accountLogo.src : accountWLogo.src} alt="" />
                 </li>
               </>
             ) : (
               <li
                 className={`${classes["nav-item"]} ${classes["nav-login"]}`
                 }
-                onClick={()=>setOpenLogin(true)}
+                onClick={() => setOpenLogin(true)}
               >
                 Login
               </li>
             )}
           </ul>
-          {/* {accountClicked ? <ProfileDropdown isLoggedIn={isLoggedIn} /> : null} */}
-          {/* {color ? <div className="search-container">
-            <SearchBar />
-          </div> : null} */}
         </nav>
       </div>
-      {/* <Hero  /> */}
       {openLogin && <Login openLogin={openLogin} closeLogin={() => setOpenLogin(false)} />}
     </>
   );
