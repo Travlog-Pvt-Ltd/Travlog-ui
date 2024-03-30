@@ -1,6 +1,5 @@
 import Image from "next/image";
 import classes from "./Blogcard.module.css";
-import Link from "next/link";
 import { formatDate } from "@/utils/formatdate";
 import accountIcon from '@/assets/logos/account.svg';
 import heartIcon from '@/assets/logos/heart.svg';
@@ -9,19 +8,16 @@ import commentIcon from '@/assets/logos/comment.svg';
 import dotsIcon from '@/assets/logos/dots.svg';
 import bookmarkIcon from '@/assets/logos/bookmark.svg';
 import viewIcon from '@/assets/logos/view.svg';
+import { useRouter } from "next/navigation";
 
 const Blogcard = ({ blog }) => {
-  const formattedDate = formatDate(blog.updatedAt);
+  const router = useRouter()
 
   return (
-    <div className={classes.blogcard}>
+    <>
       {blog.thumbnail ? (
-        <div
-          className={classes["bc-img"]}
-          style={{
-            background: `url('${blog.thumbnail}') center center/cover`,
-          }}
-        ></div>
+        // Don't use image on background in css. Use <img/> and flex. We need alt and lazy loading on images which won't be possible with background image.
+        <img loading="lazy" className={classes["bc-img"]} src={blog.thumbnail} />
       ) : null}
 
       <div className={classes["bc-body"]}>
@@ -29,15 +25,13 @@ const Blogcard = ({ blog }) => {
           <div className={classes["bc-header"]}>
             <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt="" />
             <span>{blog.author.name}</span>
-            <span className={classes["bc-date"]}>{formattedDate}</span>
+            <span className={classes["bc-date"]}>{formatDate(blog.updatedAt)}</span>
           </div>
-
-          <Link href={`/${blog._id}`}>
-            <div className={classes["bc-content"]}>
-              <h2>{blog.title}</h2>
-              <p>{blog.content.slice(0, 400)}</p>
-            </div>
-          </Link>
+          {/* Use conditional routing using useRouter and onClick instead of link and <a> since we may need to implement more functionality like analytics and web engage when we click on something in future. */}
+          <div onClick={() => router.push(`/${blog._id}`)} className={classes["bc-content"]}>
+            <h2>{blog.title}</h2>
+            <p>{blog.content.slice(0, 400)}</p>
+          </div>
         </div>
 
         <div className={classes["bc-footer"]}>
@@ -53,8 +47,8 @@ const Blogcard = ({ blog }) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </>
+  )
 };
 
 export default Blogcard;

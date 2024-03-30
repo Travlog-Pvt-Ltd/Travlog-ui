@@ -1,0 +1,30 @@
+.homepage-left {
+  width: 65%;
+}
+
+.homepage-mobile-left {
+  width: 100%;
+}
+
+.blogcard {
+  margin: 1em;
+  padding: 0.5em;
+  display: flex;
+  gap: 1em;
+  max-width: 100%;
+  box-shadow: 0px 3px 4px 0px #00000040;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+}
+
+@media (min-width: 500px) {
+  .blogcard {
+    margin: 1.15em;
+  }
+}
+
+@media (min-width: 1000px) {
+  .blogcard {
+    margin: 2.5em 1em;
+  }
+}

@@ -1,14 +1,15 @@
 .container{
-  margin: 1.25em;
-  padding: 1.25em 1em;
+  margin: 1em;
+  padding: 1em 3em;
   background-color: var(--primary-color);
   box-shadow: 0 0 3px gray;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
+  gap: 1.5em;
 }
 
-.container h2{
+.container h3{
   text-align: center;
 }
 
@@ -19,7 +20,6 @@
 
 .date-container{
   display: flex;
-  margin: 1.25em 2em;
   justify-content: space-between;
   flex-direction: column;
 }
@@ -30,7 +30,6 @@
 }
 
 .inputplace{
-  margin: 1.25em 2em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,9 +45,8 @@
 }
 
 .btn{
-  margin: 1em auto;
-  width: 50%;
-  font-size: 1.1rem;
+  width: 100%;
+  font-size: 1rem;
   padding: 0.5em;
   border-radius: 20px;
   border: none;
