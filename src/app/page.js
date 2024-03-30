@@ -19,11 +19,9 @@ export default function Home() {
       <div className={classes.homepage}>
         <FeedContainer />
         {!mobile && <div className={classes["homepage-right"]}>
-          <div className={classes.sticky}>
-            <InfoLink />
-            <Attractions />
-            <Itineary />
-          </div>
+          <InfoLink />
+          <Attractions />
+          <Itineary />
         </div>}
       </div>
     </>
