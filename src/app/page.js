@@ -1,45 +1,29 @@
 'use client';
-import React, { useEffect, useState } from "react";
-import { useMediaQuery } from "@mui/material";
 
+import { useMediaQuery } from "@mui/material";
 import classes from './page.module.css'
 
-import Blogcard from "@/components/blogcard/Blogcard";
 import InfoLink from "@/components/infolink/InfoLink";
 import Attractions from "@/components/attractions/Attractions";
 import Hero from "@/components/hero/Hero";
 import Itineary from "@/components/itineary/Itineary";
-
+import FeedContainer from "@/containers/Create/Feed/FeedContainer";
 
 
 export default function Home() {
-  const [blogs, setBlogs] = useState([])
   const mobile = useMediaQuery('(max-width:768px)')
-
-  useEffect(() => {
-    async function fetchBlogs() {
-      try {
-        const response = await fetch("https://travlog.onrender.com/blog/all")
-        const resData = await response.json();
-        setBlogs(resData);
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    fetchBlogs();
-  }, []);
 
   return (
     <>
       {!mobile ? <Hero /> : <Attractions top={true} />}
       <div className={classes.homepage}>
-        <div className={mobile ? classes['homepage-mobile-left'] : classes['homepage-left']}>
-          {blogs.map((blog) => (<Blogcard blog={blog} key={blog._id} />))}
-        </div>
+        <FeedContainer />
         {!mobile && <div className={classes["homepage-right"]}>
-          <InfoLink />
-          <Attractions />
-          <Itineary />
+          <div className={classes.sticky}>
+            <InfoLink />
+            <Attractions />
+            <Itineary />
+          </div>
         </div>}
       </div>
     </>

@@ -4,7 +4,7 @@ import classes from './Itineary.module.css'
 const Itineary = () => {
   return (
     <div className={classes.container}>
-      <h2>Plan Your Itineary</h2>
+      <h3>Plan Your Itineary</h3>
       <div className={classes['date-container']}>
         <div className={classes.inputdate}>
           <label>From</label>

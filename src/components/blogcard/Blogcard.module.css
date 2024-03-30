@@ -1,18 +1,9 @@
-.blogcard {
-  margin: 1em;
-  padding: 1em;
-  display: flex;
-  max-width: 100%;
-  box-shadow: 0 0 3px gray;
-  background-color: var(--primary-color);
-}
-
 .bc-img {
-  margin-right: 1em;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: auto;
   flex-grow: 0;
   flex-shrink: 0;
+  border-radius: 8px;
 }
 
 .bc-body {
@@ -20,6 +11,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0.5em;
 }
 
 .bc-content {
@@ -32,11 +24,6 @@
 .bc-content h2 {
   font-size: 0.95rem;
   margin: 0.25em 0;
-}
-
-.bc-body a {
-  text-decoration: none;
-  color: black;
 }
 
 .bc-content p {
@@ -97,7 +84,7 @@
 @media (min-width: 500px) {
   .bc-img {
     width: 120px;
-    height: 90px;
+    height: auto;
   }
 
   .bc-content h2 {
@@ -105,12 +92,7 @@
   }
 
   .bc-content p {
-    font-size: 0.9em;
-  }
-
-  .blogcard {
-    margin: 1.15em;
-    padding: 1em;
+    font-size: 0.75rem;
   }
 }
 
@@ -139,7 +121,7 @@
   }
 
   .bc-content p {
-    font-size: 0.95rem;
+    font-size: 14px;
   }
 
   .bc-img {
@@ -151,19 +133,14 @@
 @media (min-width: 1000px) {
   .bc-img {
     width: 200px;
-    height: 150px;
+    height: auto;
   }
 
   .bc-content p {
-    font-size: 1rem;
+    font-size: 15px;
   }
 
   .bc-content h2 {
     font-size: 1.25rem;
-  }
-
-  .blogcard {
-    margin: 2.5em 1em;
-    padding: 1em;
   }
 }
