@@ -10,7 +10,7 @@ const SingleBlog = ({ blogId }) => {
   try {
     useEffect(() => {
       async function fetchBlog() {
-        const response = await fetch(`https://travlog.onrender.com/blog/${blogId}`);
+        const response = await fetch(`https://backend-travlog.vercel.app/blog/${blogId}`);
         const resData = await response.json();
         setBlog(resData);
       }

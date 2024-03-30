@@ -1,5 +1,5 @@
 import axios from 'axios'
-const base_url= 'https://travlog.onrender.com'
+const base_url= 'https://backend-travlog.vercel.app'
 
 const getAuthorizationHeaders = () => {
     const token = localStorage.getItem("travlogUserToken")
