@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import classes from "./Navbar.module.css";
 import { useAuth } from "@/context/AuthContext";
@@ -17,19 +17,43 @@ import notificationWLogo from "@/assets/logos/notificationw.svg";
 import Login from "../auth/Login";
 import Link from "next/link";
 import { useNavbar } from "@/context/NavbarContext";
-import { useMediaQuery } from "@mui/material";
+import { Avatar, useMediaQuery } from "@mui/material";
 import SearchBar from "../searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
 
 
 const Navbar = () => {
-  const { openLogin, setOpenLogin, isLoggedIn } = useAuth()
+  const { openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn } = useAuth()
   const { showSearch } = useNavbar()
   const router = useRouter()
   const mobile = useMediaQuery('(max-width:768px)')
   const pathname = usePathname()
   const [accountClicked, setAccountClicked] = useState(false)
   const [showFullNavbar, setShowFullNavbar] = useState()
+  const dropdownRef = useRef(null)
+  const avatarRef = useRef(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && avatarRef.current && !avatarRef.current.contains(event.target)) {
+        setAccountClicked(false);
+      }
+    }
+
+    const handleEscPress = (event) => {
+      if (event.key === 'Escape') {
+        setAccountClicked(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleEscPress);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleEscPress);
+    }
+  }, []);
 
   useEffect(() => {
     if (mobile) setShowFullNavbar(true)
@@ -41,6 +65,13 @@ const Navbar = () => {
   const handleCreateClick = () => {
     if(isLoggedIn) router.push('/create')
     else setOpenLogin(true)
+  }
+
+  const logout = () => {
+    localStorage.removeItem('travlogUserToken')
+    localStorage.removeItem('travlogUserDetail')
+    setIsLoggedIn(false)
+    setAccountClicked(false)
   }
 
   return (
@@ -71,9 +102,24 @@ const Navbar = () => {
                 <li
                   className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}
                   onClick={() => setAccountClicked((prev) => !prev)}
+                  ref={avatarRef}
                 >
-                  <img src={showFullNavbar ? accountLogo.src : accountWLogo.src} alt="" />
+                  <Avatar src={showFullNavbar ? accountLogo.src : accountWLogo.src} />
                 </li>
+                {accountClicked && !mobile && <div className={classes['dropdown-list']} ref={dropdownRef}>
+                  <Link onClick={()=>setAccountClicked(false)} href="/profile?tab=1">Profile</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/profile?tab=2">Bookmarks</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/settings">Settings</Link>
+                  <span onClick={logout}>Logout</span>
+                </div>}
+                {accountClicked && mobile && <div className={classes['dropdown-list']} ref={dropdownRef}>
+                  <Link onClick={()=>setAccountClicked(false)} href="/user">Profile</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/creations">Creations</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/bookmarks">Bookmarks</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/Activity">Activity</Link>
+                  <Link onClick={()=>setAccountClicked(false)} href="/settings">Settings</Link>
+                  <span onClick={logout}>Logout</span>
+                </div>}
               </>
             ) : (
               <li

@@ -19,7 +19,6 @@ img{
 
 body{
   background-color: var(--background-color);
-  z-index: -100;
   font-family: 'Inter', sans-serif;
 }
 
