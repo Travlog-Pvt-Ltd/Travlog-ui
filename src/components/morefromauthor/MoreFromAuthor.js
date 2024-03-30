@@ -9,7 +9,7 @@ const MoreFromAuthor = () => {
   try {
     useEffect(() => {
       async function fetchBlogs() {
-        const response = await fetch("https://travlog.onrender.com/blog/all?limit=3");
+        const response = await fetch("https://backend-travlog.vercel.app/blog/all?limit=3");
         const resData = await response.json();
         setAuthorBlogs(resData);
       }
