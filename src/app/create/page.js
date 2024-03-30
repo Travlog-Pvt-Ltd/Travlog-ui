@@ -1,10 +1,12 @@
-import styles from "./page.module.css"
+'use client';
+
+import { Suspense } from "react";
+import CreateContainer from "@/containers/Create/CreateContainer";
 
 export default function Create() {
-    return (
-      <div className={styles.create}>
-        This is blog creation page
-      </div>
-    );
-  }
-  
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreateContainer />
+    </Suspense>
+  )
+}

@@ -19,23 +19,29 @@ import Link from "next/link";
 import { useNavbar } from "@/context/NavbarContext";
 import { useMediaQuery } from "@mui/material";
 import SearchBar from "../searchbar/SearchBar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 
 const Navbar = () => {
   const { openLogin, setOpenLogin, isLoggedIn } = useAuth()
   const { showSearch } = useNavbar()
+  const router = useRouter()
   const mobile = useMediaQuery('(max-width:768px)')
   const pathname = usePathname()
   const [accountClicked, setAccountClicked] = useState(false)
   const [showFullNavbar, setShowFullNavbar] = useState()
 
-  useEffect(()=>{
-    if(mobile) setShowFullNavbar(true)
-    else if(pathname!=='/') setShowFullNavbar(true)
-    else if(pathname==='/' && showSearch) setShowFullNavbar(true)
+  useEffect(() => {
+    if (mobile) setShowFullNavbar(true)
+    else if (pathname !== '/') setShowFullNavbar(true)
+    else if (pathname === '/' && showSearch) setShowFullNavbar(true)
     else setShowFullNavbar(false)
-  },[pathname, showSearch, mobile])
+  }, [pathname, showSearch, mobile])
+
+  const handleCreateClick = () => {
+    if(isLoggedIn) router.push('/create')
+    else setOpenLogin(true)
+  }
 
   return (
     <>
@@ -51,7 +57,7 @@ const Navbar = () => {
             {mobile && <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]} ${classes["nav-search-logo"]}`}>
               <img src={searchLogo.src} alt="" />
             </li>}
-            <li className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
+            <li onClick={handleCreateClick} className={`${classes["nav-item"]} ${classes["nav-item-logo"]}`}>
               <img src={showFullNavbar ? writeLogo.src : writeWLogo.src} alt="" />
             </li>
             {isLoggedIn ? (
