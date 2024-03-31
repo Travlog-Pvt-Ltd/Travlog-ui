@@ -7,7 +7,7 @@ import InfoLink from "@/components/infolink/InfoLink";
 import Attractions from "@/components/attractions/Attractions";
 import Hero from "@/components/hero/Hero";
 import Itineary from "@/components/itineary/Itineary";
-import FeedContainer from "@/containers/Create/Feed/FeedContainer";
+import FeedContainer from "@/containers/Feed/FeedContainer";
 
 
 export default function Home() {
