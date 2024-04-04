@@ -7,9 +7,10 @@
 :root{
   --overlay: rgba(0, 0, 0, 0.5);
   --primary-color: white;
-  --secondary-color: green; 
+  --secondary-color: rgba(16, 190, 213, 0.17); 
   --tertiary-color: rgb(254, 241, 229);
   --background-color: #f0f9ff;
+  --button-color: #FF6B5C;
   --max-width: 1440px;
 }
 
