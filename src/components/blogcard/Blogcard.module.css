@@ -18,6 +18,7 @@
 .bc-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
   max-height: 38px;
 }
