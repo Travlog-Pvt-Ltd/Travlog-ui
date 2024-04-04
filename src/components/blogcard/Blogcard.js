@@ -3,16 +3,17 @@ import classes from "./Blogcard.module.css";
 import { formatDate } from "@/utils/formatdate";
 import accountIcon from '@/assets/logos/account.svg';
 import heartIcon from '@/assets/logos/heart.svg';
-import tagIcon from '@/assets/logos/tag.svg';
-import commentIcon from '@/assets/logos/comment.svg';
+import shareIcon from '@/assets/logos/share.svg'
 import dotsIcon from '@/assets/logos/dots.svg';
-import bookmarkIcon from '@/assets/logos/bookmark.svg';
-import viewIcon from '@/assets/logos/view.svg';
+import dislike from '@/assets/logos/dislike.svg';
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser"
+import { useMediaQuery } from "@mui/material";
 
 const Blogcard = ({ blog }) => {
   const router = useRouter()
+  const smallMobile = useMediaQuery('(max-width:580px)')
+  console.log(blog.author)
 
   const getBlogContent = (content) => {
     const result = content.replace(/<img[^>]*>/g, '').replace(/<a[^>]*>(.*?)<\/a>/g, '$1').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
@@ -26,28 +27,44 @@ const Blogcard = ({ blog }) => {
       ) : null}
 
       <div className={classes["bc-body"]}>
-        <div>
-          <div className={classes["bc-header"]}>
+        <div className={classes['bc-header']}>
+          <div className={classes['bc-title']}>{blog.title}</div>
+          <div className={classes["bc-info"]}>
+            <div className={classes['bc-author-info']}>
+              <span>{blog.author.name}</span>
+              <span className={classes["bc-date"]}>{formatDate(blog.createdAt)}</span>
+            </div>
             <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt="" />
-            <span>{blog.author.name}</span>
-            <span className={classes["bc-date"]}>{formatDate(blog.createdAt)}</span>
           </div>
+        </div>
+        <div>
           <div onClick={() => router.push(`/${blog._id}`)} className={classes["bc-content"]}>
-            <h2>{blog.title}</h2>
             {parse(`${getBlogContent(blog.content)}`)}
           </div>
         </div>
 
-        <div className={classes["bc-footer"]}>
-          <div className={classes.tags}>
-            <span className={classes.icons}><Image src={tagIcon} /> tags</span>
+        <div>
+          <div className={classes["bc-footer"]}>
+            <div className={classes.tags}>
+              {!smallMobile && blog.tags.slice(0, 2).map(tag => {
+                return <span key={tag} className={classes['tag-chip']}>{tag}</span>
+              })}
+              {smallMobile && blog.tags.slice(0, 1).map(tag => {
+                return <span key={tag} className={classes['tag-chip']}>{tag}</span>
+              })}
+              {!smallMobile && blog.tags.length > 2 && <span className={`${classes['tag-chip']} ${classes['num-chip']}`}>+{blog.tags.length - 2}</span>}
+              {smallMobile && blog.tags.length > 1 && <span className={`${classes['tag-chip']} ${classes['num-chip']}`}>+{blog.tags.length - 1}</span>}
+            </div>
+            <div className={classes.iconContainer}>
+              <span className={classes.icons}><Image src={heartIcon} /> </span>
+              <span className={classes.icons}><Image src={dislike} /> </span>
+              <span className={classes.icons}><Image src={shareIcon} /> </span>
+              <span className={classes.icons}><Image src={dotsIcon} /> </span>
+            </div>
           </div>
-          <div className={classes.iconContainer}>
-            <span className={classes.icons}><p>{blog.viewCount}</p> <Image src={viewIcon} /> </span>
-            <span className={classes.icons}><p>{blog.likeCount}</p> <Image src={heartIcon} /> </span>
-            <span className={classes.icons}><p>{blog.commentCount}</p> <Image src={commentIcon} /> </span>
-            <span className={classes.icons}><Image src={bookmarkIcon} /> </span>
-            <span className={classes.icons}><Image src={dotsIcon} /> </span>
+          <div className={classes['bc-stat-count']}>
+            <span>{blog.likeCount} likes</span>
+            <span>{blog.viewCount} views</span>
           </div>
         </div>
       </div>
