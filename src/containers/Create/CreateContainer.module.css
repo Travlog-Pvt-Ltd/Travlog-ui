@@ -100,17 +100,11 @@
     height: 700px;
 }
 
-.body-top {
-    border: 1px solid #000000;
-    background: #F2F2F2;
-    border-radius: 8px 8px 0 0;
-    height: 60px;
-}
-
-.body-bottom {
+.body-textarea {
     border: 1px solid #000000;
     border-radius: 0 0 8px 8px;
     height: calc(100% - 60px);
+    width: 100%;
 }
 
 .body-bottom textarea {

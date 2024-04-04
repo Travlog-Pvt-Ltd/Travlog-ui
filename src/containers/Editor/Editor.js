@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import ComponentLoader from '@/components/loaders/ComponentLoader';
 import { Editor } from '@tinymce/tinymce-react';
-import parse from "html-react-parser"
+import { useEffect } from 'react';
 
-function RichEditor() {
-    const [content, setContent] = useState()
+function RichEditor({ setEditorLoading, editorLoading, onChange }) {
 
-    const onChange = (value) => {
-        setContent(value)
-    }
+    useEffect(() => {
+        setEditorLoading(false)
+    }, [])
 
     return (
         <>
-            <div style={{ margin: "200px" }}>
+            {editorLoading ?
+                <ComponentLoader /> :
                 <Editor
                     apiKey={process.env.NEXT_PUBLIC_TINY_MCE_API_KEY}
                     init={{
                         menubar: false,
                         branding: false,
-                        height: 500,
-                        plugins: 'anchor autolink charmap emoticons image link lists media table visualblocks wordcount checklist mediaembed casechange formatpainter pageembed linkchecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
-                        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | backcolor forecolor | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons | removeformat',
+                        height: 600,
+                        resize: false,
+                        plugins: 'anchor autolink charmap emoticons image link lists media table visualblocks wordcount checklist mediaembed casechange formatpainter pageembed linkchecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate mentions tinycomments tableofcontents footnotes mergetags autocorrect inlinecss markdown',
+                        toolbar: 'undo redo | blocks | bold italic underline strikethrough | backcolor forecolor | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck | align lineheight | checklist numlist bullist indent outdent | emoticons | removeformat',
                         tinycomments_mode: 'embedded',
                         tinycomments_author: 'Author name',
                         mergetags_list: [
@@ -27,13 +28,10 @@ function RichEditor() {
                             { value: 'Email', title: 'Email' },
                         ],
                     }}
-                    onEditorChange={onChange}
+                    onEditorChange={(value) => onChange(value)}
                     initialValue="Start writing your travlog ..."
                 />
-                <div>
-                    {parse(`${content}`)}
-                </div>
-            </div>
+            }
         </>
     );
 }

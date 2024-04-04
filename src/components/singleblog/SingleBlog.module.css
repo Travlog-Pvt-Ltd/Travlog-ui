@@ -13,10 +13,13 @@
   margin: 0.5em auto;
 }
 
-.blogContent {
-  font-size: 1.2rem;
-  line-height: 1.7rem;
-  /* padding: 1em; */
+.blogContent * p, .blogContent * span {
+  line-height: 1.4;
+  font-size: 1.1rem;
+}
+
+.blogContent div{
+  margin-top: 10px;
 }
 
 .blog p button {
@@ -37,11 +40,5 @@
   
   .blog p {
     margin: 1em auto;
-  }
-  
-  .blogContent {
-    font-size: 1.5rem;
-    line-height: 1.9rem;
-    /* padding: 1em; */
   }
 }

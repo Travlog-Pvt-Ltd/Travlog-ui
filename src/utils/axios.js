@@ -1,5 +1,5 @@
 import axios from 'axios'
-const base_url= 'https://backend-travlog.vercel.app'
+const base_url = 'https://backend-travlog.vercel.app'
 
 const getAuthorizationHeaders = () => {
     const token = localStorage.getItem("travlogUserToken")
@@ -9,26 +9,53 @@ const getAuthorizationHeaders = () => {
 
 const get = async ({ url, data }) => {
     const authHeader = getAuthorizationHeaders()
-    const response = await axios.get( base_url+url, {params: data, headers: authHeader})
-    return response
+    try {
+        const response = await axios.get(base_url + url, { params: data, headers: authHeader })
+        return response
+    } catch (error) {
+        throw error
+    }
 }
 
 const post = async ({ url, data }) => {
     const authHeader = getAuthorizationHeaders()
-    const response = await axios.post( base_url+url, data, {headers: authHeader})
-    return response
+    try {
+        const response = await axios.post(base_url + url, data, { headers: authHeader })
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+const postForm = async({url,data}) => {
+    const authHeader = getAuthorizationHeaders()
+    authHeader['Content-Type'] = 'multipart/form-data'
+    try {
+        const response = await axios.post(base_url + url, data, { headers: authHeader })
+        return response
+    } catch (error) {
+        throw error
+    }
 }
 
 const patch = async ({ url, data }) => {
     const authHeader = getAuthorizationHeaders()
-    const response = await axios.patch( base_url+url, data, {headers: authHeader})
-    return response
+    try {
+        const response = await axios.patch(base_url + url, data, { headers: authHeader })
+        return response
+    } catch (error) {
+        throw error
+    }
 }
 
 const remove = async ({ url, data }) => {
     const authHeader = getAuthorizationHeaders()
-    const response = await axios.delete( base_url+url, data, {headers: authHeader})
-    return response
+    try {
+        const response = await axios.delete(base_url + url, data, { headers: authHeader })
+        return response
+    } catch (error) {
+        throw error
+    }
 }
 
-export {get, post, patch, remove}
+export { get, post, postForm, patch, remove }
