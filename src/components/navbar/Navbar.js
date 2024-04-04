@@ -62,6 +62,13 @@ const Navbar = () => {
     else setShowFullNavbar(false)
   }, [pathname, showSearch, mobile])
 
+  useEffect(() => {
+    const auth = localStorage.getItem("travlogUserToken")
+    if (auth) {
+      setIsLoggedIn(true)
+    }
+  }, [])
+
   const handleCreateClick = () => {
     if(isLoggedIn) router.push('/create')
     else setOpenLogin(true)
@@ -107,17 +114,17 @@ const Navbar = () => {
                   <Avatar src={showFullNavbar ? accountLogo.src : accountWLogo.src} />
                 </li>
                 {accountClicked && !mobile && <div className={classes['dropdown-list']} ref={dropdownRef}>
-                  <Link onClick={()=>setAccountClicked(false)} href="/profile?tab=1">Profile</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/profile?tab=2">Bookmarks</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/settings">Settings</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/profile?tab=1">Profile</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/profile?tab=2">Bookmarks</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/settings">Settings</Link>
                   <span onClick={logout}>Logout</span>
                 </div>}
                 {accountClicked && mobile && <div className={classes['dropdown-list']} ref={dropdownRef}>
-                  <Link onClick={()=>setAccountClicked(false)} href="/user">Profile</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/creations">Creations</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/bookmarks">Bookmarks</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/Activity">Activity</Link>
-                  <Link onClick={()=>setAccountClicked(false)} href="/settings">Settings</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/user">Profile</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/creations">Creations</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/bookmarks">Bookmarks</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/Activity">Activity</Link>
+                  <Link onClick={() => setAccountClicked(false)} href="/settings">Settings</Link>
                   <span onClick={logout}>Logout</span>
                 </div>}
               </>

@@ -2,29 +2,36 @@
 import React, { useState, useEffect } from 'react'
 import classes from './MoreFromAuthor.module.css'
 import SideBlogCard from '../sideblogcard/SideBlogCard';
+import { enqueueSnackbar } from 'notistack';
+import { getMoreFromAuthor } from '@/utils/api';
+import ComponentLoader from '../loaders/ComponentLoader';
 
-const MoreFromAuthor = () => {
-  const [authorBlogs, setAuthorBlogs] = useState([]);
+const MoreFromAuthor = ({ author }) => {
+  const [authorBlogs, setAuthorBlogs] = useState([])
+  const [loading, setLoading] = useState(false)
 
-  try {
-    useEffect(() => {
-      async function fetchBlogs() {
-        const response = await fetch("https://backend-travlog.vercel.app/blog/all?limit=3");
-        const resData = await response.json();
-        setAuthorBlogs(resData);
+  useEffect(() => {
+    async function fetchBlogs() {
+      try {
+        const response = await getMoreFromAuthor(`/creator/more/${author}`)
+        setAuthorBlogs(response.data)
+      } catch (error) {
+        console.error(error)
+        enqueueSnackbar("Unable to fetch more from author!", { variant: "error" })
+      } finally {
+        setLoading(false)
       }
-      fetchBlogs();
-    }, []);
-  } catch (err) {
-    console.log(err);
-  }
+    }
+    fetchBlogs();
+  }, []);
 
-  if(authorBlogs.count === 0) return (<></>)
 
   return (
     <div className={classes["mfa-container"]}>
       <h2>More From Author</h2>
-      {authorBlogs.map((blog) => (<SideBlogCard blog={blog} key={blog._id} />))}
+      {!loading ? authorBlogs.map((blog) => (
+        <SideBlogCard blog={blog} key={blog._id} />
+      )) : <ComponentLoader />}
     </div>
   )
 }

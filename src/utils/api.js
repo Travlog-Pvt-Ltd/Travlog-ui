@@ -13,3 +13,5 @@ export const createBlog = async(url, data) => postForm({url,data})
 
 export const getAllBlogs = async(url, data) => get({url,data})
 export const getSingleBlog = async(url,data) => get({url,data})
+
+export const getMoreFromAuthor = async(url,data) => get({url,data})
