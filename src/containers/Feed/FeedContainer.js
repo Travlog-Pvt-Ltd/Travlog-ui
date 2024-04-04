@@ -12,7 +12,7 @@ const FeedContainer = () => {
     const [skip, setSkip] = useState(0)
     const [hasmore, setHasmore] = useState(true)
     const [loading, setLoading] = useState(false)
-    const limit = 5
+    const limit = 10
     const observer = useRef()
 
     async function fetchBlogs() {

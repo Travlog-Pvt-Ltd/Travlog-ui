@@ -7,9 +7,11 @@ import { createBlog, createDraft, getDraftDetails, searchTags } from "@/utils/ap
 import { enqueueSnackbar } from "notistack";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import RichEditor from "../Editor/Editor";
+import ChoiceModal from "@/components/modals/ThumbnailChoiceModal/ChoiceModal";
 
 const CreateContainer = () => {
-    const { setOpenLogin, isLoggedIn } = useAuth()
+    const { setOpenLogin } = useAuth()
     const inputRef = useRef(null)
     const [query, setQuery] = useState("")
     const [searchResult, setSearchResult] = useState([])
@@ -17,12 +19,16 @@ const CreateContainer = () => {
     const [thumbnail, setThumbnail] = useState(null)
     const [thumbnailUrl, setThumbnailUrl] = useState()
     const [loading, setLoading] = useState(false)
+    const [editorLoading, setEditorLoading] = useState(true)
     const [data, setData] = useState({ title: "", content: "", attachments: [] })
+    const [nextTask, setNextTask] = useState()
+    const [showChoiceModal, setShowChoiceModal] = useState(false)
     const router = useRouter()
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        const auth = localStorage.getItem('travlogUserToken')
+        if (!auth) {
             setOpenLogin(true)
             router.push("/")
         }
@@ -88,18 +94,42 @@ const CreateContainer = () => {
         }, 0);
     }
 
-    const handleCreateDraft = async () => {
-        const payload = {
-            title: data.title,
-            content: data.content,
-            attachments: data.attachments,
-            tags: selectedTags,
-            thumbnail: thumbnailUrl
+    const checkThumbnail = (next) => {
+        if (thumbnailUrl && thumbnail) {
+            setShowChoiceModal(true)
+            setNextTask(next)
         }
+        else {
+            if (next === 'create'){
+                if(thumbnailUrl) handleCreateBlog('url')
+                else if(thumbnail) handleCreateBlog('file')
+                else {
+                    enqueueSnackbar("Choose a thumbnail!", {variant:"error"})
+                    return
+                }
+            }
+            else{
+                if(thumbnailUrl) handleCreateDraft('url')
+                else handleCreateDraft('file')
+            }
+        }
+    }
+
+    const handleFileChange = (e) => {
+        if (e.target.files.length > 0) setThumbnail(e.target.files[0])
+    }
+
+    const handleCreateDraft = async (type) => {
+        const formData = new FormData()
+        formData.append("title", data.title)
+        formData.append("content", data.content)
+        formData.append("tags", selectedTags)
+        if(type==='url') formData.append("thumbnailUrl", thumbnailUrl)
+        else formData.append("thumbnailFile", thumbnail)
         setLoading(true)
         try {
             const draftId = searchParams.get('draftId')
-            const response = await createDraft(`/draft?draftId=${draftId}`, payload)
+            const response = await createDraft(`/draft?draftId=${draftId}`, formData)
             if (response.status == 201) {
                 enqueueSnackbar("Draft saved!", { variant: "success" })
                 router.push("/")
@@ -112,18 +142,29 @@ const CreateContainer = () => {
         }
     }
 
-    const handleCreateBlog = async () => {
-        const payload = {
-            title: data.title,
-            content: data.content,
-            attachments: data.attachments,
-            tags: selectedTags,
-            thumbnail: thumbnailUrl
+    const handleCreateBlog = async (type) => {
+        if(!data.title || !data.content){
+            enqueueSnackbar("Fill all the required fields!", {variant:"error"})
+            return
         }
+        if(type==='url' && !thumbnailUrl){
+            enqueueSnackbar("Fill all the required fields!", {variant:"error"})
+            return
+        }
+        if(type==='file' && !thumbnail){
+            enqueueSnackbar("Fill all the required fields!", {variant:"error"})
+            return
+        }
+        const formData = new FormData()
+        formData.append("title", data.title)
+        formData.append("content", data.content)
+        formData.append("tags", selectedTags)
+        if(type==='url') formData.append("thumbnailUrl", thumbnailUrl)
+        else formData.append("thumbnailFile", thumbnail)
         setLoading(true)
         try {
             const draftId = searchParams.get('draftId')
-            const response = await createBlog(`/blog?draftId=${draftId}`, payload)
+            const response = await createBlog(`/blog?draftId=${draftId}`, formData)
             if (response.status == 201) {
                 enqueueSnackbar("Blog created!", { variant: "success" })
                 router.push("/")
@@ -136,70 +177,66 @@ const CreateContainer = () => {
         }
     }
 
-
     return (
-        <div className={classes.create}>
-            <div className={classes['create-left']}>
-                <div className={classes.heading}>
-                    <h2>Write your Blog</h2>
-                </div>
-                <div className={classes.title}>
-                    <div className={classes['title-label']}>Title</div>
-                    <div className={classes['title-value']}>
-                        <input type="text" placeholder="Enter the title" name="title" value={data.title} onChange={handleChange} />
+        <>
+            <div className={classes.create}>
+                <div className={classes['create-left']}>
+                    <div className={classes.heading}>
+                        <h2>Write your Blog</h2>
                     </div>
-                </div>
-                <div className={classes.body}>
-                    <div className={classes['body-top']}>
-
-                    </div>
-                    <div className={classes['body-bottom']}>
-                        <textarea placeholder="Start writing your travlog ..." value={data.content} name="content" onChange={handleChange} />
-                    </div>
-                </div>
-                <div></div>
-            </div>
-            <div className={classes['create-right']}>
-                <div className={classes.tags}>
-                    <div className={classes['tags-label']}>Tags</div>
-                    <div className={classes['tags-value']}>
-                        <img src={searchLogo.src} alt="" />
-                        <input value={query} onChange={handleSearch} onKeyDown={handleKeyDown} onBlur={handleBlur} type="text" placeholder="Search tags related to your travlog" />
-                        {searchResult.length > 0 && <div className={`search-result ${classes['result-list']}`}>
-                            {searchResult.map(item => {
-                                if (selectedTags.includes(item.name)) return null
-                                return <div onMouseDown={() => handleTagSelect(item)} className={classes.result} key={item._id}>{item.name}</div>
-                            })}
-                        </div>}
-                    </div>
-                </div>
-                <div className={classes['selected-tags-container']}>
-                    <div style={{ textAlign: "center", width: "100%" }}>{selectedTags.length > 0 ? "Click on the tags to remove" : "Search and select tags to add"}</div>
-                    <div className={classes['selected-tags-div']}>
-                        {selectedTags.length > 0 && selectedTags.map(tag => {
-                            return <span onClick={() => handleTagRemove(tag)} key={tag}>{tag}</span>
-                        })}
-                    </div>
-                </div>
-                <div className={classes.thumbnail}>
-                    <div className={classes['thumbnail-text']}>
-                        <div className={classes['thumbnail-label']}>Thumbnail</div>
-                        <div className={classes['thumbnail-value']}>
-                            <input value={thumbnailUrl} onChange={(e) => { setThumbnailUrl(e.target.value); setThumbnail(null) }} type="text" placeholder="Add thumbnail url" />
+                    <div className={classes.title}>
+                        <div className={classes['title-label']}>Title</div>
+                        <div className={classes['title-value']}>
+                            <input type="text" placeholder="Enter the title" name="title" value={data.title} onChange={handleChange} />
                         </div>
                     </div>
-                    <div style={{ width: "100%", textAlign: "center" }}>Or</div>
-                    <input ref={inputRef} style={{ display: "none" }} type="file" accept="image/*" onChange={(e) => { setThumbnail(e.target.files[0]); setThumbnailUrl("") }} />
-                    <div onClick={() => inputRef.current.click()} className={`${classes['thumbnail-file']} pointer`}>
-                        {thumbnail ? thumbnail.name : "Choose thumbnail file"}
+                    <div className={classes.body}>
+                        <RichEditor setEditorLoading={setEditorLoading} editorLoading={editorLoading} onChange={(content) => setData(prev => ({ ...prev, ['content']: content }))} />
                     </div>
                 </div>
-                <div className={classes['btns']}>
-                    <button onClick={handleCreateDraft} className={`btn ${classes['create-btn']}`}>Save</button>
-                    <button onClick={handleCreateBlog} className={`btn ${classes['create-btn']}`}>Publish</button>
+                <div className={classes['create-right']}>
+                    <div className={classes.tags}>
+                        <div className={classes['tags-label']}>Tags</div>
+                        <div className={classes['tags-value']}>
+                            <img src={searchLogo.src} alt="" />
+                            <input value={query} onChange={handleSearch} onKeyDown={handleKeyDown} onBlur={handleBlur} type="text" placeholder="Search tags related to your travlog" />
+                            {searchResult.length > 0 && <div className={`search-result ${classes['result-list']}`}>
+                                {searchResult.map(item => {
+                                    if (selectedTags.includes(item.name)) return null
+                                    return <div onMouseDown={() => handleTagSelect(item)} className={classes.result} key={item._id}>{item.name}</div>
+                                })}
+                            </div>}
+                        </div>
+                    </div>
+                    <div className={classes['selected-tags-container']}>
+                        <div style={{ textAlign: "center", width: "100%" }}>{selectedTags.length > 0 ? "Click on the tags to remove" : "Search and select tags to add"}</div>
+                        <div className={classes['selected-tags-div']}>
+                            {selectedTags.length > 0 && selectedTags.map(tag => {
+                                return <span onClick={() => handleTagRemove(tag)} key={tag}>{tag}</span>
+                            })}
+                        </div>
+                    </div>
+                    <div className={classes.thumbnail}>
+                        <div className={classes['thumbnail-text']}>
+                            <div className={classes['thumbnail-label']}>Thumbnail</div>
+                            <div className={classes['thumbnail-value']}>
+                                <input value={thumbnailUrl} onChange={(e) => setThumbnailUrl(e.target.value)} type="text" placeholder="Add thumbnail url" />
+                            </div>
+                        </div>
+                        <div style={{ width: "100%", textAlign: "center" }}>Or</div>
+                        <input ref={inputRef} style={{ display: "none" }} type="file" accept="image/*" onChange={(e) => handleFileChange(e)} />
+                        <div onClick={() => inputRef.current.click()} className={`${classes['thumbnail-file']} pointer`}>
+                            {thumbnail ? thumbnail.name : "Choose thumbnail file"}
+                        </div>
+                    </div>
+                    <div className={classes['btns']}>
+                        <button onClick={() => checkThumbnail('save')} className={`btn ${classes['create-btn']}`}>Save</button>
+                        <button onClick={() => checkThumbnail('create')} className={`btn ${classes['create-btn']}`}>Publish</button>
+                    </div>
                 </div>
             </div>
-        </div>
+            {showChoiceModal && <ChoiceModal open={showChoiceModal} close={()=>setShowChoiceModal(false)} next={nextTask} create={handleCreateBlog} save={handleCreateDraft} />}
+        </>
     )
 }
 

@@ -9,15 +9,20 @@ import dotsIcon from '@/assets/logos/dots.svg';
 import bookmarkIcon from '@/assets/logos/bookmark.svg';
 import viewIcon from '@/assets/logos/view.svg';
 import { useRouter } from "next/navigation";
+import parse from "html-react-parser"
 
 const Blogcard = ({ blog }) => {
   const router = useRouter()
 
+  const getBlogContent = (content) => {
+    const result = content.replace(/<img[^>]*>/g, '').replace(/<a[^>]*>(.*?)<\/a>/g, '$1').replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ');
+    return result
+  }
+
   return (
     <>
       {blog.thumbnail ? (
-        // Don't use image on background in css. Use <img/> and flex. We need alt and lazy loading on images which won't be possible with background image.
-        <img loading="lazy" className={classes["bc-img"]} src={blog.thumbnail} />
+        <img onClick={() => router.push(`/${blog._id}`)} loading="lazy" className={classes["bc-img"]} src={blog.thumbnail} alt="Blog thumbnail" />
       ) : null}
 
       <div className={classes["bc-body"]}>
@@ -25,12 +30,11 @@ const Blogcard = ({ blog }) => {
           <div className={classes["bc-header"]}>
             <Image src={blog.author.profileLogo ? blog.author.profileLogo : accountIcon} alt="" />
             <span>{blog.author.name}</span>
-            <span className={classes["bc-date"]}>{formatDate(blog.updatedAt)}</span>
+            <span className={classes["bc-date"]}>{formatDate(blog.createdAt)}</span>
           </div>
-          {/* Use conditional routing using useRouter and onClick instead of link and <a> since we may need to implement more functionality like analytics and web engage when we click on something in future. */}
           <div onClick={() => router.push(`/${blog._id}`)} className={classes["bc-content"]}>
             <h2>{blog.title}</h2>
-            <p>{blog.content.slice(0, 400)}</p>
+            {parse(`${getBlogContent(blog.content)}`)}
           </div>
         </div>
 
