@@ -13,7 +13,7 @@ import { useAuth } from '@/context/AuthContext';
 import { enqueueSnackbar } from 'notistack';
 
 
-const Login = ({ openLogin, closeLogin }) => {
+const LoginModal = ({ openLogin, closeLogin }) => {
     const [register, setRegister] = useState(false)
     const {setIsLoggedIn} = useAuth()
 
@@ -49,7 +49,7 @@ const Login = ({ openLogin, closeLogin }) => {
                     boxShadow: '0px 20px 24px -4px #10182814',
                     width: '90%',
                     maxWidth: "475px",
-                    height: '50%',
+                    height: 'fit-content',
                     zIndex: "10",
                     padding: "30px 40px 50px",
                 },
@@ -66,4 +66,4 @@ const Login = ({ openLogin, closeLogin }) => {
     )
 }
 
-export default Login
+export default LoginModal
