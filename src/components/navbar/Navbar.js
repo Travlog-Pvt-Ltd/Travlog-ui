@@ -14,12 +14,13 @@ import accountLogo from "@/assets/logos/account.svg";
 import accountWLogo from "@/assets/logos/accountw.svg";
 import notificationLogo from "@/assets/logos/notification.svg";
 import notificationWLogo from "@/assets/logos/notificationw.svg";
-import Login from "../auth/Login";
+import LoginModal from "../auth/LoginModal";
 import Link from "next/link";
 import { useNavbar } from "@/context/NavbarContext";
 import { Avatar, useMediaQuery } from "@mui/material";
 import SearchBar from "../searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
+import LoginDrawer from "../auth/LoginDrawer";
 
 
 const Navbar = () => {
@@ -140,7 +141,7 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-      {openLogin && <Login openLogin={openLogin} closeLogin={() => setOpenLogin(false)} />}
+      {openLogin && (!mobile ? <LoginModal openLogin={openLogin} closeLogin={() => setOpenLogin(false)} /> : <LoginDrawer openDrawer={openLogin} setOpenDrawer={setOpenLogin} position="bottom" mobile={mobile} />)}
     </>
   );
 };
