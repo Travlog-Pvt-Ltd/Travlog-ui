@@ -56,14 +56,14 @@ const FeedContainer = () => {
                     if (blogs.length - 1 === index) {
                         return (
                             <div ref={lastElementRef} className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} />
+                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
                             </div>
                         )
                     }
                     else {
                         return (
                             <div className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} />
+                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
                             </div>
                         )
                     }

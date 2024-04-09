@@ -24,7 +24,7 @@ import LoginDrawer from "../auth/LoginDrawer";
 
 
 const Navbar = () => {
-  const { openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn } = useAuth()
+  const { openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn, setUser } = useAuth()
   const { showSearch } = useNavbar()
   const router = useRouter()
   const mobile = useMediaQuery('(max-width:768px)')
@@ -64,9 +64,10 @@ const Navbar = () => {
   }, [pathname, showSearch, mobile])
 
   useEffect(() => {
-    const auth = localStorage.getItem("travlogUserToken")
-    if (auth) {
+    const detail = localStorage.getItem("travlogUserDetail")
+    if (detail) {
       setIsLoggedIn(true)
+      setUser(JSON.parse(detail))
     }
   }, [])
 
@@ -78,6 +79,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.removeItem('travlogUserToken')
     localStorage.removeItem('travlogUserDetail')
+    setUser()
     setIsLoggedIn(false)
     setAccountClicked(false)
   }

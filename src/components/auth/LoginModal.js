@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Modal from 'react-modal'
-import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth'
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 
 import "./Login.css"
 import LoginComp from './Comps/LoginComp';
@@ -15,18 +15,19 @@ import { enqueueSnackbar } from 'notistack';
 
 const LoginModal = ({ openLogin, closeLogin }) => {
     const [register, setRegister] = useState(false)
-    const {setIsLoggedIn} = useAuth()
+    const { setIsLoggedIn, setUser } = useAuth()
 
-    const handleGoogleLogin = async() => {
+    const handleGoogleLogin = async () => {
         try {
             const provider = new GoogleAuthProvider()
             const auth = getAuth(app)
             const result = await signInWithPopup(auth, provider)
-            const response = await googleLogin('/auth/login/google-login', {email:result.user.email, name:result.user.displayName, oAuthToken:result.user.accessToken, profileImage:result.user.photoURL})
+            const response = await googleLogin('/auth/login/google-login', { email: result.user.email, name: result.user.displayName, oAuthToken: result.user.accessToken, profileImage: result.user.photoURL })
             console.log(response);
             localStorage.setItem("travlogUserToken", response.data.token)
             localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
             setIsLoggedIn(true)
+            setUser(response.data.user)
             closeLogin()
             enqueueSnackbar("Google login successful!", { variant: "success" })
         } catch (error) {

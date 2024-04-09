@@ -4,7 +4,7 @@ import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
 
 const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
-    const { setIsLoggedIn } = useAuth()
+    const { setIsLoggedIn, setUser } = useAuth()
     const [data, setData] = useState({
         email: "",
         password: ""
@@ -31,6 +31,7 @@ const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
             localStorage.setItem("travlogUserToken", response.data.token)
             localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
             setIsLoggedIn(true)
+            setUser(response.data.user)
             closeLogin()
             enqueueSnackbar("Logged in successfully", { variant: "success" })
         } catch (error) {

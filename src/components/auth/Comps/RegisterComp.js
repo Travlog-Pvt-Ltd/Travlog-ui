@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react"
 
 
 const RegisterComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
-    const { setIsLoggedIn } = useAuth()
+    const { setIsLoggedIn, setUser } = useAuth()
     const [data, setData] = useState({
         email: "",
         name: "",
@@ -87,6 +87,7 @@ const RegisterComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
             localStorage.setItem("travlogUserToken", response.data.token)
             localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
             setIsLoggedIn(true)
+            setUser(response.data.user)
             closeLogin()
             enqueueSnackbar("Registered successfully!", { variant: "success" })
         } catch (error) {

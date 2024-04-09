@@ -6,16 +6,18 @@ const AuthContext = createContext()
 function AuthProvider({children}){
     const [openLogin, setOpenLogin] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [user, setUser] = useState()
 
     useEffect(()=>{
-        const auth = localStorage.getItem("travlogUserToken")
-        if(auth){
+        const detail = localStorage.getItem("travlogUserDetail")
+        if(detail){
             setIsLoggedIn(true)
+            setUser(JSON.parse(detail))
         }
     },[])
 
     return (
-        <AuthContext.Provider value={{openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn}}>
+        <AuthContext.Provider value={{openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn, user, setUser}}>
             {children}
         </AuthContext.Provider>
     )

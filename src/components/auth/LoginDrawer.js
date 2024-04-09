@@ -12,7 +12,7 @@ import { enqueueSnackbar } from 'notistack';
 
 const LoginDrawer = ({ openDrawer, setOpenDrawer, position, mobile }) => {
     const [register, setRegister] = useState(false)
-    const { setIsLoggedIn } = useAuth()
+    const { setIsLoggedIn, setUser } = useAuth()
 
     const handleGoogleLogin = async () => {
         try {
@@ -24,6 +24,7 @@ const LoginDrawer = ({ openDrawer, setOpenDrawer, position, mobile }) => {
             localStorage.setItem("travlogUserToken", response.data.token)
             localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
             setIsLoggedIn(true)
+            setUser(response.data.user)
             setOpenDrawer(false)
             enqueueSnackbar("Google login successful!", { variant: "success" })
         } catch (error) {
