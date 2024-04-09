@@ -18,6 +18,12 @@
   font-size: 1.1rem;
 }
 
+.blogContent * img{
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
 .blogContent div{
   margin-top: 10px;
 }
