@@ -1,6 +1,6 @@
 import Image from "next/image";
 import classes from "./Blogcard.module.css";
-import "@styles/loader.css"
+import "@styles/smallLoader.css"
 import { formatDate } from "@utils/formatdate";
 import accountIcon from '@assets/logos/account.svg';
 import heartIcon from '@assets/logos/heart.svg';

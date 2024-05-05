@@ -2,7 +2,7 @@
 
 import { followCreator, unfollowCreator } from '@utils/api';
 import classes from './SingleBlog.module.css'
-import "@styles/Loader.css"
+import "@styles/smallLoader.css"
 import { formatDate } from '@utils/formatdate';
 import parse from "html-react-parser"
 import { useState } from 'react';
