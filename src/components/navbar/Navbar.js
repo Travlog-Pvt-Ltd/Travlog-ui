@@ -3,26 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 
 import classes from "./Navbar.module.css";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@context/AuthContext";
 
-import travlogLogo from "@/assets/logos/logo.svg";
-import searchLogo from "@/assets/logos/search.svg";
-import searchWLogo from "@/assets/logos/searchw.svg";
-import writeLogo from "@/assets/logos/write.svg";
-import writeWLogo from "@/assets/logos/writew.svg";
-import accountLogo from "@/assets/logos/account.svg";
-import accountWLogo from "@/assets/logos/accountw.svg";
-import notificationLogo from "@/assets/logos/notification.svg";
-import notificationWLogo from "@/assets/logos/notificationw.svg";
-import LoginModal from "../auth/LoginModal";
+import travlogLogo from "@assets/logos/logo.svg";
+import searchLogo from "@assets/logos/search.svg";
+import writeLogo from "@assets/logos/write.svg";
+import writeWLogo from "@assets/logos/writew.svg";
+import accountLogo from "@assets/logos/account.svg";
+import accountWLogo from "@assets/logos/accountw.svg";
+import notificationLogo from "@assets/logos/notification.svg";
+import notificationWLogo from "@assets/logos/notificationw.svg";
+import LoginModal from "@components/auth/LoginModal";
 import Link from "next/link";
-import { useNavbar } from "@/context/NavbarContext";
+import { useNavbar } from "@context/NavbarContext";
 import { Avatar, useMediaQuery } from "@mui/material";
-import SearchBar from "../searchbar/SearchBar";
+import SearchBar from "@components/searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
-import LoginDrawer from "../auth/LoginDrawer";
-import { logout } from "@/utils/axios";
-import { getLocalStorageItems } from "@/utils/localStorageUtils";
+import LoginDrawer from "@components/auth/LoginDrawer";
+import { logout } from "@utils/axios";
 
 
 const Navbar = () => {

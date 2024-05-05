@@ -1,6 +1,6 @@
 'use client';
 
-import { getLocalStorageItems } from "@/utils/localStorageUtils";
+import { getLocalStorageItems } from "@utils/localStorageUtils";
 import { createContext, useContext, useEffect, useState } from "react"
 const AuthContext = createContext()
 

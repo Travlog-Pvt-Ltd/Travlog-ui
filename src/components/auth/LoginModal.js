@@ -7,11 +7,11 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import "./Login.css"
 import LoginComp from './Comps/LoginComp';
 import RegisterComp from './Comps/RegisterComp';
-import { app } from '@/utils/firebase.config';
-import { googleLogin } from '@/utils/api';
-import { useAuth } from '@/context/AuthContext';
+import { app } from '@utils/firebase.config';
+import { googleLogin } from '@utils/api';
+import { useAuth } from '@context/AuthContext';
 import { enqueueSnackbar } from 'notistack';
-import { setLocalStorageItems } from '@/utils/localStorageUtils';
+import { setLocalStorageItems } from '@utils/localStorageUtils';
 
 
 const LoginModal = ({ openLogin, closeLogin }) => {

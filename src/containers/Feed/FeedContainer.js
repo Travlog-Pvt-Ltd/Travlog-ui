@@ -1,10 +1,10 @@
 import { useMediaQuery } from "@mui/material"
 import classes from "./FeedContainer.module.css"
-import Blogcard from "@/components/blogcard/Blogcard"
+import Blogcard from "@components/blogcard/Blogcard"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { getAllBlogs } from "@/utils/api"
-import ComponentLoader from "@/components/loaders/ComponentLoader"
-import PageLoader from "@/components/loaders/PageLoader"
+import { getAllBlogs } from "@utils/api"
+import ComponentLoader from "@components/loaders/ComponentLoader"
+import PageLoader from "@components/loaders/PageLoader"
 
 const FeedContainer = () => {
     const mobile = useMediaQuery('(max-width:768px)')

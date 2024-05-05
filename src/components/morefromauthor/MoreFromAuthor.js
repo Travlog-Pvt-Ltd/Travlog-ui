@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react'
 import classes from './MoreFromAuthor.module.css'
-import SideBlogCard from '../sideblogcard/SideBlogCard';
+import SideBlogCard from '@components/sideblogcard/SideBlogCard';
 import { enqueueSnackbar } from 'notistack';
-import { getMoreFromAuthor } from '@/utils/api';
-import ComponentLoader from '../loaders/ComponentLoader';
+import { getMoreFromAuthor } from '@utils/api';
+import ComponentLoader from '@components/loaders/ComponentLoader';
 
 const MoreFromAuthor = ({ author }) => {
   const [authorBlogs, setAuthorBlogs] = useState([])

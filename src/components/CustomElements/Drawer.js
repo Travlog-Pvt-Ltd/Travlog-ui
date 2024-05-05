@@ -1,5 +1,5 @@
 import { IconButton, Drawer } from "@mui/material";
-import close from "@/assets/logos/Close.svg"
+import close from "@assets/logos/Close.svg"
 
 const CustomDrawer = ({
     position,

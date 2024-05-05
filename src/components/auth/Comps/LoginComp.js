@@ -1,6 +1,6 @@
-import { useAuth } from "@/context/AuthContext"
-import { login } from "@/utils/api"
-import { setLocalStorageItems } from "@/utils/localStorageUtils"
+import { useAuth } from "@context/AuthContext"
+import { login } from "@utils/api"
+import { setLocalStorageItems } from "@utils/localStorageUtils"
 import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
 

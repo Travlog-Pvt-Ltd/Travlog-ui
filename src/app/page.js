@@ -3,11 +3,11 @@
 import { useMediaQuery } from "@mui/material";
 import classes from './page.module.css'
 
-import InfoLink from "@/components/infolink/InfoLink";
-import Attractions from "@/components/attractions/Attractions";
-import Hero from "@/components/hero/Hero";
-import Itineary from "@/components/itineary/Itineary";
-import FeedContainer from "@/containers/Feed/FeedContainer";
+import InfoLink from "@components/infolink/InfoLink";
+import Attractions from "@components/attractions/Attractions";
+import Hero from "@components/hero/Hero";
+import Itineary from "@components/itineary/Itineary";
+import FeedContainer from "@containers/Feed/FeedContainer";
 
 
 export default function Home() {

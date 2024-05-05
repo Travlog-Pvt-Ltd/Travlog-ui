@@ -4,14 +4,13 @@ import { useMediaQuery } from "@mui/material";
 
 import classes from './page.module.css'
 
-import InfoLink from "@/components/infolink/InfoLink";
-import Attractions from "@/components/attractions/Attractions";
-import MoreFromAuthor from "@/components/morefromauthor/MoreFromAuthor";
-import RelatedBlogs from "@/components/relatedblogs/RelatedBlogs";
-import SingleBlog from "@/components/singleblog/SingleBlog";
-import PageLoader from "@/components/loaders/PageLoader";
-import { getSingleBlog } from "@/utils/api";
-import { getLocalStorageItems } from "@/utils/localStorageUtils";
+import Attractions from "@components/attractions/Attractions";
+import MoreFromAuthor from "@components/morefromauthor/MoreFromAuthor";
+import RelatedBlogs from "@components/relatedblogs/RelatedBlogs";
+import SingleBlog from "@components/singleblog/SingleBlog";
+import PageLoader from "@components/loaders/PageLoader";
+import { getSingleBlog } from "@utils/api";
+import { getLocalStorageItems } from "@utils/localStorageUtils";
 
 const BlogPostPage = ({ params }) => {
   const [blog, setBlog] = useState();

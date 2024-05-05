@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import SearchBar from '../searchbar/SearchBar'
+import SearchBar from '@components/searchbar/SearchBar'
 
 import classes from './Hero.module.css'
-import { useNavbar } from '@/context/NavbarContext'
+import { useNavbar } from '@context/NavbarContext'
 
 const Hero = () => {
   const scrollRef = useRef()

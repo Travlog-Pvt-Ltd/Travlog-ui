@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { getLocalStorageItems, getRefreshToken, setLocalStorageItems } from './localStorageUtils'
-const base_url = 'http://localhost:8080'
+const base_url = process.env.NEXT_PUBLIC_BACKEND_URL
 
 const getAuthorizationHeaders = () => {
     const token = getLocalStorageItems().token

@@ -1,8 +1,8 @@
 'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import { register, sendOTP, verifyOTP } from "@/utils/api"
-import { setLocalStorageItems } from "@/utils/localStorageUtils";
+import { useAuth } from "@context/AuthContext";
+import { register, sendOTP, verifyOTP } from "@utils/api"
+import { setLocalStorageItems } from "@utils/localStorageUtils";
 import { enqueueSnackbar } from "notistack"
 import React, { useEffect, useRef, useState } from "react"
 

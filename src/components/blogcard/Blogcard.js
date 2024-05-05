@@ -1,21 +1,21 @@
 import Image from "next/image";
 import classes from "./Blogcard.module.css";
-import "@/styles/Loader.css"
-import { formatDate } from "@/utils/formatdate";
-import accountIcon from '@/assets/logos/account.svg';
-import heartIcon from '@/assets/logos/heart.svg';
-import shareIcon from '@/assets/logos/share.svg'
-import dotsIcon from '@/assets/logos/dots.svg';
-import dislike from '@/assets/logos/dislike.svg';
-import Blueheart from "@/assets/logos/Blueheart.svg"
-import Redheart from "@/assets/logos/Redheart.svg"
+import "@styles/Loader.css"
+import { formatDate } from "@utils/formatdate";
+import accountIcon from '@assets/logos/account.svg';
+import heartIcon from '@assets/logos/heart.svg';
+import shareIcon from '@assets/logos/share.svg'
+import dotsIcon from '@assets/logos/dots.svg';
+import dislike from '@assets/logos/dislike.svg';
+import Blueheart from "@assets/logos/Blueheart.svg"
+import Redheart from "@assets/logos/Redheart.svg"
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser"
 import { useMediaQuery } from "@mui/material";
-import { dislikeBlog, likeBlog } from "@/utils/api";
-import { useAuth } from "@/context/AuthContext";
+import { dislikeBlog, likeBlog } from "@utils/api";
+import { useAuth } from "@context/AuthContext";
 import { useState } from "react";
-import { setLocalStorageItems } from "@/utils/localStorageUtils";
+import { setLocalStorageItems } from "@utils/localStorageUtils";
 
 const Blogcard = ({ blog, setBlogs }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth()
