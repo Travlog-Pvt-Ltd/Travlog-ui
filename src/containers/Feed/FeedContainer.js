@@ -55,15 +55,15 @@ const FeedContainer = () => {
                 {blogs.map((blog, index) => {
                     if (blogs.length - 1 === index) {
                         return (
-                            <div ref={lastElementRef} className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
+                            <div key={blog._id} ref={lastElementRef} className={classes.blogcard}>
+                                <Blogcard blog={blog} setBlogs={setBlogs} />
                             </div>
                         )
                     }
                     else {
                         return (
-                            <div className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
+                            <div key={blog._id} className={classes.blogcard}>
+                                <Blogcard blog={blog} setBlogs={setBlogs} />
                             </div>
                         )
                     }

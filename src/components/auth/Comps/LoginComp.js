@@ -52,7 +52,7 @@ const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
             </div>
             <button onClick={() => handleLogin(data)} className='btn submit-btn'>SUBMIT</button>
             <button onClick={handleGoogleLogin} className='btn google-login-btn'>CONTINUE WITH GOOGLE</button>
-            <p className='login-toggle-p'>Don't have an account? <span className='link' onClick={changeView}>Register</span></p>
+            <p className='login-toggle-p'>Don&apos;t have an account? <span className='link' onClick={changeView}>Register</span></p>
         </div>
     )
 }
