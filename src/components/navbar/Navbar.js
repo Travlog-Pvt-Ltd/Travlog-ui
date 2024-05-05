@@ -3,24 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 
 import classes from "./Navbar.module.css";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@context/AuthContext";
 
-import travlogLogo from "@/assets/logos/logo.svg";
-import searchLogo from "@/assets/logos/search.svg";
-import searchWLogo from "@/assets/logos/searchw.svg";
-import writeLogo from "@/assets/logos/write.svg";
-import writeWLogo from "@/assets/logos/writew.svg";
-import accountLogo from "@/assets/logos/account.svg";
-import accountWLogo from "@/assets/logos/accountw.svg";
-import notificationLogo from "@/assets/logos/notification.svg";
-import notificationWLogo from "@/assets/logos/notificationw.svg";
-import LoginModal from "../auth/LoginModal";
+import travlogLogo from "@assets/logos/logo.svg";
+import searchLogo from "@assets/logos/search.svg";
+import writeLogo from "@assets/logos/write.svg";
+import writeWLogo from "@assets/logos/writew.svg";
+import accountLogo from "@assets/logos/account.svg";
+import accountWLogo from "@assets/logos/accountw.svg";
+import notificationLogo from "@assets/logos/notification.svg";
+import notificationWLogo from "@assets/logos/notificationw.svg";
+import LoginModal from "@components/auth/LoginModal";
 import Link from "next/link";
-import { useNavbar } from "@/context/NavbarContext";
+import { useNavbar } from "@context/NavbarContext";
 import { Avatar, useMediaQuery } from "@mui/material";
-import SearchBar from "../searchbar/SearchBar";
+import SearchBar from "@components/searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
-import LoginDrawer from "../auth/LoginDrawer";
+import LoginDrawer from "@components/auth/LoginDrawer";
+import { logout } from "@utils/axios";
 
 
 const Navbar = () => {
@@ -63,25 +63,20 @@ const Navbar = () => {
     else setShowFullNavbar(false)
   }, [pathname, showSearch, mobile])
 
-  useEffect(() => {
-    const detail = localStorage.getItem("travlogUserDetail")
-    if (detail) {
-      setIsLoggedIn(true)
-      setUser(JSON.parse(detail))
-    }
-  }, [])
-
   const handleCreateClick = () => {
-    if(isLoggedIn) router.push('/create')
+    if (isLoggedIn) router.push('/create')
     else setOpenLogin(true)
   }
 
-  const logout = () => {
-    localStorage.removeItem('travlogUserToken')
-    localStorage.removeItem('travlogUserDetail')
-    setUser()
-    setIsLoggedIn(false)
-    setAccountClicked(false)
+  const handleLogout = async () => {
+    try {
+      await logout()
+      setUser()
+      setIsLoggedIn(false)
+      setAccountClicked(false)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -128,7 +123,7 @@ const Navbar = () => {
                   <Link onClick={() => setAccountClicked(false)} href="/bookmarks">Bookmarks</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/Activity">Activity</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/settings">Settings</Link>
-                  <span onClick={logout}>Logout</span>
+                  <span onClick={handleLogout}>Logout</span>
                 </div>}
               </>
             ) : (

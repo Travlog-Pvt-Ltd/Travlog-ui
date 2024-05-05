@@ -1,4 +1,4 @@
-import ComponentLoader from '@/components/loaders/ComponentLoader';
+import ComponentLoader from '@components/loaders/ComponentLoader';
 import { Editor } from '@tinymce/tinymce-react';
 import { useEffect } from 'react';
 

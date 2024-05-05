@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react'
 import classes from './RelatedBlogs.module.css'
-import SideBlogCard from '../sideblogcard/SideBlogCard';
+import SideBlogCard from '@components/sideblogcard/SideBlogCard';
 
 const RelatedBlogs = () => {
   const [relatedBlogs, setRelatedBlogs] = useState([]);

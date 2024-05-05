@@ -9,7 +9,13 @@
   font-size: 1.7rem;
 }
 
-.blog p {
+.author{
+  /* display: flex; */
+  gap: 8px;
+  width: fit-content;
+}
+
+.author p {
   margin: 0.5em auto;
 }
 
@@ -22,16 +28,22 @@
   width: auto !important;
   height: auto !important;
   max-width: 100% !important;
+  display: block !important;
+  float: none !important;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .blogContent div{
   margin-top: 10px;
 }
 
-.blog p button {
+.author button {
   border: none;
   background: none;
   color: blue;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 @media (min-width: 768px) {

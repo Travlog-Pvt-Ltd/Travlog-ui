@@ -7,10 +7,11 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import "./Login.css"
 import LoginComp from './Comps/LoginComp';
 import RegisterComp from './Comps/RegisterComp';
-import { app } from '@/utils/firebase.config';
-import { googleLogin } from '@/utils/api';
-import { useAuth } from '@/context/AuthContext';
+import { app } from '@utils/firebase.config';
+import { googleLogin } from '@utils/api';
+import { useAuth } from '@context/AuthContext';
 import { enqueueSnackbar } from 'notistack';
+import { setLocalStorageItems } from '@utils/localStorageUtils';
 
 
 const LoginModal = ({ openLogin, closeLogin }) => {
@@ -24,8 +25,7 @@ const LoginModal = ({ openLogin, closeLogin }) => {
             const result = await signInWithPopup(auth, provider)
             const response = await googleLogin('/auth/login/google-login', { email: result.user.email, name: result.user.displayName, oAuthToken: result.user.accessToken, profileImage: result.user.photoURL })
             console.log(response);
-            localStorage.setItem("travlogUserToken", response.data.token)
-            localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+            setLocalStorageItems(response.data)
             setIsLoggedIn(true)
             setUser(response.data.user)
             closeLogin()

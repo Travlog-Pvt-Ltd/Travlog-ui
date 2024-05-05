@@ -1,10 +1,10 @@
 import { useMediaQuery } from "@mui/material"
 import classes from "./FeedContainer.module.css"
-import Blogcard from "@/components/blogcard/Blogcard"
+import Blogcard from "@components/blogcard/Blogcard"
 import { useCallback, useEffect, useRef, useState } from "react"
-import { getAllBlogs } from "@/utils/api"
-import ComponentLoader from "@/components/loaders/ComponentLoader"
-import PageLoader from "@/components/loaders/PageLoader"
+import { getAllBlogs } from "@utils/api"
+import ComponentLoader from "@components/loaders/ComponentLoader"
+import PageLoader from "@components/loaders/PageLoader"
 
 const FeedContainer = () => {
     const mobile = useMediaQuery('(max-width:768px)')
@@ -22,10 +22,10 @@ const FeedContainer = () => {
             const response = await getAllBlogs('/blog/all', { limit, skip })
             setBlogs(prev => {
                 if (skip === 0 && prev.length > 0) return prev
-                else return [...prev, ...response.data]
+                else return [...prev, ...response?.data]
             })
             setSkip(prev => prev + limit)
-            if (response.data.length < limit) setHasmore(false)
+            if (response?.data.length < limit) setHasmore(false)
         } catch (error) {
             console.error(error)
         } finally {
@@ -55,15 +55,15 @@ const FeedContainer = () => {
                 {blogs.map((blog, index) => {
                     if (blogs.length - 1 === index) {
                         return (
-                            <div ref={lastElementRef} className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
+                            <div key={blog._id} ref={lastElementRef} className={classes.blogcard}>
+                                <Blogcard blog={blog} setBlogs={setBlogs} />
                             </div>
                         )
                     }
                     else {
                         return (
-                            <div className={classes.blogcard}>
-                                <Blogcard blog={blog} key={blog._id} setBlogs={setBlogs} />
+                            <div key={blog._id} className={classes.blogcard}>
+                                <Blogcard blog={blog} setBlogs={setBlogs} />
                             </div>
                         )
                     }

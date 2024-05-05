@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -14,6 +15,7 @@
     "@mui/material": "^5.15.14",
     "@tinymce/tinymce-react": "^5.0.0",
     "axios": "^1.6.8",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "firebase": "^10.9.0",
     "html-react-parser": "^5.1.10",
@@ -21,6 +23,20 @@
     "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "sharp": "^0.33.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "eslint-config-next": "14.1.4"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{html,css}": "prettier --write"
   }
 }

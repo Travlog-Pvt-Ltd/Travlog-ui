@@ -1,7 +1,8 @@
 'use client';
 
-import { useAuth } from "@/context/AuthContext";
-import { register, sendOTP, verifyOTP } from "@/utils/api"
+import { useAuth } from "@context/AuthContext";
+import { register, sendOTP, verifyOTP } from "@utils/api"
+import { setLocalStorageItems } from "@utils/localStorageUtils";
 import { enqueueSnackbar } from "notistack"
 import React, { useEffect, useRef, useState } from "react"
 
@@ -84,8 +85,7 @@ const RegisterComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
         }
         try {
             const response = await register("/auth/register", data)
-            localStorage.setItem("travlogUserToken", response.data.token)
-            localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+            setLocalStorageItems(response.data)
             setIsLoggedIn(true)
             setUser(response.data.user)
             closeLogin()

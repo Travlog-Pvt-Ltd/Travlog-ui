@@ -1,20 +1,21 @@
 import Image from "next/image";
 import classes from "./Blogcard.module.css";
-import "@/Styles/Loader.css"
-import { formatDate } from "@/utils/formatdate";
-import accountIcon from '@/assets/logos/account.svg';
-import heartIcon from '@/assets/logos/heart.svg';
-import shareIcon from '@/assets/logos/share.svg'
-import dotsIcon from '@/assets/logos/dots.svg';
-import dislike from '@/assets/logos/dislike.svg';
-import Blueheart from "@/assets/logos/Blueheart.svg"
-import Redheart from "@/assets/logos/Redheart.svg"
+import "@styles/smallLoader.css"
+import { formatDate } from "@utils/formatdate";
+import accountIcon from '@assets/logos/account.svg';
+import heartIcon from '@assets/logos/heart.svg';
+import shareIcon from '@assets/logos/share.svg'
+import dotsIcon from '@assets/logos/dots.svg';
+import dislike from '@assets/logos/dislike.svg';
+import Blueheart from "@assets/logos/Blueheart.svg"
+import Redheart from "@assets/logos/Redheart.svg"
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser"
 import { useMediaQuery } from "@mui/material";
-import { dislikeBlog, likeBlog } from "@/utils/api";
-import { useAuth } from "@/context/AuthContext";
+import { dislikeBlog, likeBlog } from "@utils/api";
+import { useAuth } from "@context/AuthContext";
 import { useState } from "react";
+import { setLocalStorageItems } from "@utils/localStorageUtils";
 
 const Blogcard = ({ blog, setBlogs }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth()
@@ -44,7 +45,7 @@ const Blogcard = ({ blog, setBlogs }) => {
     try {
       const response = await likeBlog('/like/blog/like', { blogId: blog._id })
       setUser(response.data.user)
-      localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+      setLocalStorageItems({user: response.data.user})
       setBlogs(prev => {
         const temp = prev.map(item => {
           if (item._id == response.data.blog._id) return response.data.blog
@@ -68,7 +69,7 @@ const Blogcard = ({ blog, setBlogs }) => {
     try {
       const response = await dislikeBlog('/like/blog/dislike', { blogId: blog._id })
       setUser(response.data.user)
-      localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+      setLocalStorageItems({user: response.data.user})
       setBlogs(prev => {
         const temp = prev.map(item => {
           if (item._id == response.data.blog._id) return response.data.blog
@@ -91,7 +92,7 @@ const Blogcard = ({ blog, setBlogs }) => {
 
       <div className={classes["bc-body"]}>
         <div className={classes['bc-header']}>
-          <div className={classes['bc-title']}>{blog.title}</div>
+          <div onClick={() => router.push(`/${blog._id}`)} className={classes['bc-title']}>{blog.title}</div>
           <div className={classes["bc-info"]}>
             <div className={classes['bc-author-info']}>
               <span>{blog.author.name}</span>
@@ -126,20 +127,20 @@ const Blogcard = ({ blog, setBlogs }) => {
               <span onClick={handleLike} className={classes.icons}>{likeLoading ?
                 <div className="like-loader"></div>
                 :
-                (user?.likes.includes(blog._id) ? <Image src={Blueheart} /> : <Image src={heartIcon} />)
+                (user?.likes?.includes(blog._id) ? <Image src={Blueheart} /> : <Image src={heartIcon} />)
               }</span>
               <span onClick={handleDislike} className={classes.icons}>{dislikeLoading ?
                 <div className="like-loader"></div>
                 :
-                (user?.dislikes.includes(blog._id) ? <Image src={Redheart} /> : <Image src={dislike} />)
+                (user?.dislikes?.includes(blog._id) ? <Image src={Redheart} /> : <Image src={dislike} />)
               }</span>
               <span className={classes.icons}><Image src={shareIcon} /></span>
               <span className={classes.icons}><Image src={dotsIcon} /></span>
             </div>
           </div>
           <div className={classes['bc-stat-count']}>
-            <span>{blog.likeCount} likes</span>
-            <span>{blog.viewCount} views</span>
+            <span>{blog?.likeCount} likes</span>
+            <span>{blog?.viewCount} views</span>
           </div>
         </div>
       </div>

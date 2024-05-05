@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react"
 import classes from "./CreateContainer.module.css"
-import searchLogo from "@/assets/logos/search.svg";
-import { createBlog, createDraft, getDraftDetails, searchTags } from "@/utils/api";
+import searchLogo from "@assets/logos/search.svg";
+import { createBlog, createDraft, getDraftDetails, searchTags } from "@utils/api";
 import { enqueueSnackbar } from "notistack";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import RichEditor from "../Editor/Editor";
-import ChoiceModal from "@/components/modals/ThumbnailChoiceModal/ChoiceModal";
+import { useAuth } from "@context/AuthContext";
+import RichEditor from "@containers/Editor/Editor";
+import ChoiceModal from "@components/modals/ThumbnailChoiceModal/ChoiceModal";
+import { getLocalStorageItems } from "@utils/localStorageUtils";
 
 const CreateContainer = () => {
     const { setOpenLogin } = useAuth()
@@ -27,7 +28,7 @@ const CreateContainer = () => {
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        const auth = localStorage.getItem('travlogUserToken')
+        const auth = getLocalStorageItems().token
         if (!auth) {
             setOpenLogin(true)
             router.push("/")

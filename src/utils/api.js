@@ -17,3 +17,6 @@ export const getSingleBlog = async(url,data) => get({url,data})
 export const getMoreFromAuthor = async(url,data) => get({url,data})
 export const likeBlog = async(url,data) => patch({url,data})
 export const dislikeBlog = async(url,data) => patch({url,data})
+
+export const followCreator = async(url,data) => patch({url,data})
+export const unfollowCreator = async(url,data) => patch({url,data})

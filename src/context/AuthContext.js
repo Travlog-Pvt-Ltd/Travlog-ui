@@ -1,5 +1,6 @@
 'use client';
 
+import { getLocalStorageItems } from "@utils/localStorageUtils";
 import { createContext, useContext, useEffect, useState } from "react"
 const AuthContext = createContext()
 
@@ -9,10 +10,10 @@ function AuthProvider({children}){
     const [user, setUser] = useState()
 
     useEffect(()=>{
-        const detail = localStorage.getItem("travlogUserDetail")
+        const detail = getLocalStorageItems().user
         if(detail){
             setIsLoggedIn(true)
-            setUser(JSON.parse(detail))
+            setUser(detail)
         }
     },[])
 

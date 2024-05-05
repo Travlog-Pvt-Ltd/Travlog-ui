@@ -1,5 +1,6 @@
-import { useAuth } from "@/context/AuthContext"
-import { login } from "@/utils/api"
+import { useAuth } from "@context/AuthContext"
+import { login } from "@utils/api"
+import { setLocalStorageItems } from "@utils/localStorageUtils"
 import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
 
@@ -28,8 +29,7 @@ const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
         setLoading(true)
         try {
             const response = await login('/auth/login', data)
-            localStorage.setItem("travlogUserToken", response.data.token)
-            localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+            setLocalStorageItems(response.data)
             setIsLoggedIn(true)
             setUser(response.data.user)
             closeLogin()
@@ -52,7 +52,7 @@ const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
             </div>
             <button onClick={() => handleLogin(data)} className='btn submit-btn'>SUBMIT</button>
             <button onClick={handleGoogleLogin} className='btn google-login-btn'>CONTINUE WITH GOOGLE</button>
-            <p className='login-toggle-p'>Don't have an account? <span className='link' onClick={changeView}>Register</span></p>
+            <p className='login-toggle-p'>Don&apos;t have an account? <span className='link' onClick={changeView}>Register</span></p>
         </div>
     )
 }

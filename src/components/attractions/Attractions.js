@@ -2,7 +2,7 @@ import React from 'react'
 import { useMediaQuery } from '@mui/material'
 import classes from './Attractions.module.css'
 
-import sikkimImg from '@/assets/images/sikkim.jpg'
+import sikkimImg from '@assets/images/sikkim.jpg'
 
 const Attractions = ({top}) => {
   const mobile = useMediaQuery('(max-width:768px)')
