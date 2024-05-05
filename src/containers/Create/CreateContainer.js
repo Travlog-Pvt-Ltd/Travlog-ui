@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import RichEditor from "../Editor/Editor";
 import ChoiceModal from "@/components/modals/ThumbnailChoiceModal/ChoiceModal";
+import { getLocalStorageItems } from "@/utils/localStorageUtils";
 
 const CreateContainer = () => {
     const { setOpenLogin } = useAuth()
@@ -27,7 +28,7 @@ const CreateContainer = () => {
     const searchParams = useSearchParams()
 
     useEffect(() => {
-        const auth = localStorage.getItem('travlogUserToken')
+        const auth = getLocalStorageItems().token
         if (!auth) {
             setOpenLogin(true)
             router.push("/")

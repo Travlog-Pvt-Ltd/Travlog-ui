@@ -1,28 +1,21 @@
-.blogpage{
+.blogpage {
   max-width: var(--max-width);
-  margin: 62px auto;
+  display: flex;
+  margin: 75px auto;
 }
 
 .blogpage-left{
-  width: 100%;
+  width: 70%;
 }
 
-.blogpage-right{
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .blogpage{
-    display: flex;
-  }
-
+@media (max-width:768px){
   .blogpage-left{
-    width: 65% !important;
+    width: 100%;
   }
+}
 
-  .blogpage-right{
-    display: flex;
-    flex-direction: column;
-    width: 35% !important;
-  }
+.blogpage-right {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }

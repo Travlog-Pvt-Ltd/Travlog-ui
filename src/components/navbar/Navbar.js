@@ -21,6 +21,8 @@ import { Avatar, useMediaQuery } from "@mui/material";
 import SearchBar from "../searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
 import LoginDrawer from "../auth/LoginDrawer";
+import { logout } from "@/utils/axios";
+import { getLocalStorageItems } from "@/utils/localStorageUtils";
 
 
 const Navbar = () => {
@@ -63,25 +65,20 @@ const Navbar = () => {
     else setShowFullNavbar(false)
   }, [pathname, showSearch, mobile])
 
-  useEffect(() => {
-    const detail = localStorage.getItem("travlogUserDetail")
-    if (detail) {
-      setIsLoggedIn(true)
-      setUser(JSON.parse(detail))
-    }
-  }, [])
-
   const handleCreateClick = () => {
-    if(isLoggedIn) router.push('/create')
+    if (isLoggedIn) router.push('/create')
     else setOpenLogin(true)
   }
 
-  const logout = () => {
-    localStorage.removeItem('travlogUserToken')
-    localStorage.removeItem('travlogUserDetail')
-    setUser()
-    setIsLoggedIn(false)
-    setAccountClicked(false)
+  const handleLogout = async () => {
+    try {
+      await logout()
+      setUser()
+      setIsLoggedIn(false)
+      setAccountClicked(false)
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -128,7 +125,7 @@ const Navbar = () => {
                   <Link onClick={() => setAccountClicked(false)} href="/bookmarks">Bookmarks</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/Activity">Activity</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/settings">Settings</Link>
-                  <span onClick={logout}>Logout</span>
+                  <span onClick={handleLogout}>Logout</span>
                 </div>}
               </>
             ) : (

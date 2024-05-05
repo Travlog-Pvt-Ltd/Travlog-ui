@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext"
 import { login } from "@/utils/api"
+import { setLocalStorageItems } from "@/utils/localStorageUtils"
 import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
 
@@ -28,8 +29,7 @@ const LoginComp = ({ changeView, closeLogin, handleGoogleLogin }) => {
         setLoading(true)
         try {
             const response = await login('/auth/login', data)
-            localStorage.setItem("travlogUserToken", response.data.token)
-            localStorage.setItem("travlogUserDetail", JSON.stringify(response.data.user))
+            setLocalStorageItems(response.data)
             setIsLoggedIn(true)
             setUser(response.data.user)
             closeLogin()

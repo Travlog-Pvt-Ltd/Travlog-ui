@@ -22,10 +22,10 @@ const FeedContainer = () => {
             const response = await getAllBlogs('/blog/all', { limit, skip })
             setBlogs(prev => {
                 if (skip === 0 && prev.length > 0) return prev
-                else return [...prev, ...response.data]
+                else return [...prev, ...response?.data]
             })
             setSkip(prev => prev + limit)
-            if (response.data.length < limit) setHasmore(false)
+            if (response?.data.length < limit) setHasmore(false)
         } catch (error) {
             console.error(error)
         } finally {
