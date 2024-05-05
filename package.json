@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -24,5 +25,17 @@
     "react-dom": "^18",
     "react-modal": "^3.16.1",
     "sharp": "^0.33.3"
+  },
+  "devDependencies": {
+    "eslint": "^9.2.0",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{html,css}": "prettier --write"
   }
 }
