@@ -40,5 +40,10 @@
       "prettier --write"
     ],
     "src/**/*.{html,css}": "prettier --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
