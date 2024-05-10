@@ -21,10 +21,10 @@ const BlogPostPage = ({ params }) => {
   useEffect(() => {
     async function fetchBlog() {
       setLoading(true)
-      let userId = ""
-      const user = getLocalStorageItems().user
-      if (user) userId = user._id
       try {
+        let userId = ""
+        const user = getLocalStorageItems().user
+        if (user) userId = user._id
         const response = await getSingleBlog(`/blog/${params.slug}`, { id: userId })
         setBlog(response.data)
       } catch (error) {

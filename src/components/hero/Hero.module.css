@@ -9,6 +9,12 @@
   justify-content: flex-end;
 }
 
+@media(max-width: 768px){
+  .hero{
+    display: none;
+  }
+}
+
 .hero::before {
   content: "";
   background: url("../../../public/assets/images/sikkim.jpg") no-repeat center
@@ -19,10 +25,4 @@
   z-index: -5;
   top: 0;
   left: 0;
-}
-
-.content{
-  margin-bottom: 50px;
-  display: flex;
-  justify-content: center;
 }

@@ -1,4 +1,4 @@
-'user client'
+'use client'
 
 import { useEffect, useRef, useState } from "react"
 import classes from "./CreateContainer.module.css"

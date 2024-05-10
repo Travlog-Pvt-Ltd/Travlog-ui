@@ -1,4 +1,3 @@
-import React from 'react'
 import classes from './Itineary.module.css'
 
 const Itineary = () => {
