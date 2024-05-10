@@ -1,30 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
 import SearchBar from '@components/searchbar/SearchBar'
-
 import classes from './Hero.module.css'
-import { useNavbar } from '@context/NavbarContext'
+import SearchScrollWrapper from '@components/HOC/SearchScrollWrapper'
 
 const Hero = () => {
-  const scrollRef = useRef()
-  const {setShowSearch} = useNavbar()
-
-  useEffect(()=>{
-    const handleScroll = () => {
-      const rect = scrollRef.current.getBoundingClientRect()
-      const isOutOfScreen = rect.bottom < 0 || rect.top > window.innerHeight
-      setShowSearch(isOutOfScreen)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  },[])
-
   return (
     <div className={classes.hero}>
-      <div ref={scrollRef} className={classes.content}>
+      <SearchScrollWrapper>
         <SearchBar />
-      </div>
+      </SearchScrollWrapper>
     </div>
   )
 }

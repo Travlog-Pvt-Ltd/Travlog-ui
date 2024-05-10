@@ -10,10 +10,10 @@ const getAuthorizationHeaders = () => {
 
 const logout = async () => {
     try {
-        const user = getLocalStorageItems().user
-        if (user) {
-            const id = JSON.parse(user)._id
-            await axios.post(base_url + '/auth/logout', data = { userId: id })
+        const user = getLocalStorageItems()?.user
+        if (user?._id) {
+            const data = {userId: user._id}
+            await axios.post(base_url + '/auth/logout', data)
         }
     } catch (error) {
         throw error

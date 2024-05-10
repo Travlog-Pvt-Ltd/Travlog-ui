@@ -1,16 +1,18 @@
+'use client'
+
 import { useMediaQuery } from "@mui/material"
 import classes from "./FeedContainer.module.css"
 import Blogcard from "@components/blogcard/Blogcard"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { getAllBlogs } from "@utils/api"
 import ComponentLoader from "@components/loaders/ComponentLoader"
-import PageLoader from "@components/loaders/PageLoader"
+import FeedLoader from "@components/loaders/FeedLoader"
 
-const FeedContainer = () => {
+const FeedContainer = ({ initialData }) => {
     const mobile = useMediaQuery('(max-width:768px)')
-    const [blogs, setBlogs] = useState([])
-    const [skip, setSkip] = useState(0)
-    const [hasmore, setHasmore] = useState(true)
+    const [blogs, setBlogs] = useState(initialData)
+    const [skip, setSkip] = useState(10)
+    const [hasmore, setHasmore] = useState(initialData.length >= 10)
     const [loading, setLoading] = useState(false)
     const limit = 10
     const observer = useRef()
@@ -20,10 +22,7 @@ const FeedContainer = () => {
         setLoading(true)
         try {
             const response = await getAllBlogs('/blog/all', { limit, skip })
-            setBlogs(prev => {
-                if (skip === 0 && prev.length > 0) return prev
-                else return [...prev, ...response?.data]
-            })
+            setBlogs(prev => [...prev, ...response?.data])
             setSkip(prev => prev + limit)
             if (response?.data.length < limit) setHasmore(false)
         } catch (error) {
@@ -32,10 +31,6 @@ const FeedContainer = () => {
             setLoading(false)
         }
     }
-
-    useEffect(() => {
-        fetchBlogs();
-    }, []);
 
     const lastElementRef = useCallback(node => {
         if (loading || !hasmore) return
@@ -50,7 +45,7 @@ const FeedContainer = () => {
 
     return (
         <>
-            {loading && blogs.length===0 && <PageLoader open={loading} />}
+            {loading && blogs.length===0 && <FeedLoader mobile={mobile} open={loading} />}
             <div className={mobile ? classes['homepage-mobile-left'] : classes['homepage-left']}>
                 {blogs.map((blog, index) => {
                     if (blogs.length - 1 === index) {
@@ -68,7 +63,8 @@ const FeedContainer = () => {
                         )
                     }
                 })}
-                {loading && blogs.length > 0 && <ComponentLoader />}
+                {loading && blogs.length > 0 && mobile && <ComponentLoader />}
+                {loading && blogs.length > 0 && !mobile && <FeedLoader />}
             </div>
         </>
     )

@@ -21,6 +21,7 @@ import SearchBar from "@components/searchbar/SearchBar";
 import { usePathname, useRouter } from "next/navigation";
 import LoginDrawer from "@components/auth/LoginDrawer";
 import { logout } from "@utils/axios";
+import { enqueueSnackbar } from "notistack";
 
 
 const Navbar = () => {
@@ -74,6 +75,7 @@ const Navbar = () => {
       setUser()
       setIsLoggedIn(false)
       setAccountClicked(false)
+      enqueueSnackbar('Logged Out Successfully!')
     } catch (error) {
       console.error(error);
     }
@@ -115,7 +117,7 @@ const Navbar = () => {
                   <Link onClick={() => setAccountClicked(false)} href="/profile?tab=1">Profile</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/profile?tab=2">Bookmarks</Link>
                   <Link onClick={() => setAccountClicked(false)} href="/settings">Settings</Link>
-                  <span onClick={logout}>Logout</span>
+                  <span onClick={handleLogout}>Logout</span>
                 </div>}
                 {accountClicked && mobile && <div className={classes['dropdown-list']} ref={dropdownRef}>
                   <Link onClick={() => setAccountClicked(false)} href="/user">Profile</Link>

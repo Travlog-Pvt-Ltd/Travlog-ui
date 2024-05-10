@@ -62,7 +62,7 @@ const SingleBlog = ({ blog }) => {
         {/* <img src={blog.author.profileImage} alt="" /> */}
         <div className={classes.author}>
           <p>{blog.author.name}</p>
-          {!followLoading ? <div className="like-loader"></div> : (followsAuthor() ? <button onClick={handleUnfollowAuthor}>Unfollow</button> : <button onClick={handleFollowAuthor}>Follow</button>)}
+          {followLoading ? <div className="like-loader"></div> : (followsAuthor() ? <button onClick={handleUnfollowAuthor}>Unfollow</button> : <button onClick={handleFollowAuthor}>Follow</button>)}
         </div>
         <div>
           <p>{formatDate(blog.createdAt)}</p>
