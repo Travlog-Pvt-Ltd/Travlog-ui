@@ -10,7 +10,7 @@ import RelatedBlogs from '@components/relatedblogs/RelatedBlogs';
 import SingleBlog from '@components/singleblog/SingleBlog';
 import PageLoader from '@components/loaders/PageLoader';
 import { getSingleBlog } from '@utils/api';
-import { getCookie } from 'cookies-next';
+import { getUserDetailFromCookie } from '@utils/localStorageUtils';
 
 const BlogPostPage = ({ params }) => {
   const [blog, setBlog] = useState();
@@ -22,8 +22,8 @@ const BlogPostPage = ({ params }) => {
       setLoading(true);
       try {
         let userId = '';
-        const cookieUser = getCookie('travlogUserDetail');
-        if (cookieUser) userId = JSON.parse(cookieUser)._id;
+        const cookieUser = getUserDetailFromCookie();
+        if (cookieUser) userId = cookieUser._id;
         const response = await getSingleBlog(`/blog/${params.slug}`, {
           id: userId,
         });

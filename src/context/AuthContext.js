@@ -1,6 +1,6 @@
 'use client';
 
-import { getCookie } from 'cookies-next';
+import { getUserDetailFromCookie } from '@utils/localStorageUtils';
 import { createContext, useContext, useEffect, useState } from 'react';
 const AuthContext = createContext();
 
@@ -10,10 +10,10 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const detail = getCookie('travlogUserDetail');
+    const detail = getUserDetailFromCookie();
     if (detail) {
       setIsLoggedIn(true);
-      setUser(JSON.parse(detail));
+      setUser(detail);
     }
   }, []);
 

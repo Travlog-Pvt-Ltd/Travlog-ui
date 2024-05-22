@@ -15,6 +15,7 @@ import { useAuth } from '@context/AuthContext';
 import RichEditor from '@containers/Editor/Editor';
 import ChoiceModal from '@components/modals/ThumbnailChoiceModal/ChoiceModal';
 import { getCookie } from 'cookies-next';
+import { getTokenFromCookie } from '@utils/localStorageUtils';
 
 const CreateContainer = () => {
   const { setOpenLogin } = useAuth();
@@ -33,7 +34,7 @@ const CreateContainer = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const auth = getCookie('travlogUserToken');
+    const auth = getTokenFromCookie();
     if (!auth) {
       setOpenLogin(true);
       router.push('/');

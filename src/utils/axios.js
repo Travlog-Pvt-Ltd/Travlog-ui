@@ -1,22 +1,26 @@
 import axios from 'axios';
-import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+import { deleteCookie, setCookie } from 'cookies-next';
+import {
+  getRefreshTokenFromCookie,
+  getTokenFromCookie,
+  getUserDetailFromCookie,
+} from './localStorageUtils';
+const secret = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
+import CryptoJS from 'crypto-js';
 const base_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const getAuthorizationHeaders = () => {
-  const token = getCookie('travlogUserToken');
+  const token = getTokenFromCookie();
   if (!token) return {};
   return { authorization: `Bearer ${token}` };
 };
 
 const logout = async () => {
   try {
-    let user = getCookie('travlogUserDetail');
-    if (user) {
-      user = JSON.parse(user);
-      if (user?._id) {
-        const data = { userId: user._id };
-        await axios.post(base_url + '/auth/logout', data);
-      }
+    const user = getUserDetailFromCookie();
+    if (user?._id) {
+      const data = { userId: user._id };
+      await axios.post(base_url + '/auth/logout', data);
     }
   } catch (error) {
     throw error;
@@ -29,13 +33,22 @@ const logout = async () => {
 
 const getRefresh = async () => {
   try {
-    const refreshToken = getCookie('travlogRefreshToken');
+    const refreshToken = getRefreshTokenFromCookie();
     const data = { token: refreshToken };
     const response = await axios.post(base_url + '/auth/refresh', data);
     const { token, refToken, user } = response.data;
-    setCookie('travlogUserToken', token);
-    setCookie('travlogRefreshToken', refToken);
-    setCookie('travlogUserDetail', user);
+    setCookie(
+      'travlogUserToken',
+      CryptoJS.AES.encrypt(token, secret).toString()
+    );
+    setCookie(
+      'travlogRefreshToken',
+      CryptoJS.AES.encrypt(refToken, secret).toString()
+    );
+    setCookie(
+      'travlogUserDetail',
+      CryptoJS.AES.encrypt(JSON.stringify(user), secret).toString()
+    );
     return true;
   } catch (error) {
     await logout();
