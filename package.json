@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.14",
     "@tinymce/tinymce-react": "^5.0.0",
     "axios": "^1.6.8",
+    "cookies-next": "^4.2.1",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",
     "firebase": "^10.9.0",

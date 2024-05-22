@@ -1,31 +1,40 @@
 'use client';
 
-import { getLocalStorageItems } from "@utils/localStorageUtils";
-import { createContext, useContext, useEffect, useState } from "react"
-const AuthContext = createContext()
+import { getUserDetailFromCookie } from '@utils/localStorageUtils';
+import { createContext, useContext, useEffect, useState } from 'react';
+const AuthContext = createContext();
 
-function AuthProvider({children}){
-    const [openLogin, setOpenLogin] = useState(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [user, setUser] = useState()
+function AuthProvider({ children }) {
+  const [openLogin, setOpenLogin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState();
 
-    useEffect(()=>{
-        const detail = getLocalStorageItems().user
-        if(detail){
-            setIsLoggedIn(true)
-            setUser(detail)
-        }
-    },[])
+  useEffect(() => {
+    const detail = getUserDetailFromCookie();
+    if (detail) {
+      setIsLoggedIn(true);
+      setUser(detail);
+    }
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{openLogin, setOpenLogin, isLoggedIn, setIsLoggedIn, user, setUser}}>
-            {children}
-        </AuthContext.Provider>
-    )
+  return (
+    <AuthContext.Provider
+      value={{
+        openLogin,
+        setOpenLogin,
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export const useAuth = () => {
-    return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};
 
-export default AuthProvider
+export default AuthProvider;

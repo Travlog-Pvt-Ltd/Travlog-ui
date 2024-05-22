@@ -1,36 +1,37 @@
 'use client';
-import { useEffect, useState } from "react";
-import { useMediaQuery } from "@mui/material";
+import { useEffect, useState } from 'react';
+import { useMediaQuery } from '@mui/material';
 
-import classes from './page.module.css'
+import classes from './page.module.css';
 
-import Attractions from "@components/attractions/Attractions";
-import MoreFromAuthor from "@components/morefromauthor/MoreFromAuthor";
-import RelatedBlogs from "@components/relatedblogs/RelatedBlogs";
-import SingleBlog from "@components/singleblog/SingleBlog";
-import PageLoader from "@components/loaders/PageLoader";
-import { getSingleBlog } from "@utils/api";
-import { getLocalStorageItems } from "@utils/localStorageUtils";
+import Attractions from '@components/attractions/Attractions';
+import MoreFromAuthor from '@components/morefromauthor/MoreFromAuthor';
+import RelatedBlogs from '@components/relatedblogs/RelatedBlogs';
+import SingleBlog from '@components/singleblog/SingleBlog';
+import PageLoader from '@components/loaders/PageLoader';
+import { getSingleBlog } from '@utils/api';
+import { getUserDetailFromCookie } from '@utils/localStorageUtils';
 
 const BlogPostPage = ({ params }) => {
   const [blog, setBlog] = useState();
-  const [loading, setLoading] = useState(false)
-  const mobile = useMediaQuery('(max-width:768px)')
-
+  const [loading, setLoading] = useState(false);
+  const mobile = useMediaQuery('(max-width:768px)');
 
   useEffect(() => {
     async function fetchBlog() {
-      setLoading(true)
+      setLoading(true);
       try {
-        let userId = ""
-        const user = getLocalStorageItems().user
-        if (user) userId = user._id
-        const response = await getSingleBlog(`/blog/${params.slug}`, { id: userId })
-        setBlog(response.data)
+        let userId = '';
+        const cookieUser = getUserDetailFromCookie();
+        if (cookieUser) userId = cookieUser._id;
+        const response = await getSingleBlog(`/blog/${params.slug}`, {
+          id: userId,
+        });
+        setBlog(response.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
     fetchBlog();
@@ -38,19 +39,26 @@ const BlogPostPage = ({ params }) => {
 
   return (
     <main>
-      {loading ?
-        <PageLoader open={loading} /> :
+      {loading ? (
+        <PageLoader open={loading} />
+      ) : (
         <div className={classes.blogpage}>
-          {blog && <div className={classes['blogpage-left']}><SingleBlog blog={blog} /></div>}
-          {!mobile && blog && <div className={classes["blogpage-right"]}>
-            <Attractions />
-            <MoreFromAuthor author={blog.author._id} />
-            <RelatedBlogs />
-          </div>}
+          {blog && (
+            <div className={classes['blogpage-left']}>
+              <SingleBlog blog={blog} />
+            </div>
+          )}
+          {!mobile && blog && (
+            <div className={classes['blogpage-right']}>
+              <Attractions />
+              <MoreFromAuthor author={blog.author._id} />
+              <RelatedBlogs />
+            </div>
+          )}
         </div>
-      }
+      )}
     </main>
-  )
-}
+  );
+};
 
-export default BlogPostPage
+export default BlogPostPage;
