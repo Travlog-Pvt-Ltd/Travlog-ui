@@ -65,7 +65,7 @@ const get = async ({ url, data }) => {
     });
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       const res = await getRefresh();
       if (res) {
         const authHeader = getAuthorizationHeaders();
@@ -93,7 +93,7 @@ const post = async ({ url, data }) => {
     });
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       const res = await getRefresh();
       if (res) {
         const authHeader = getAuthorizationHeaders();
@@ -121,7 +121,7 @@ const postForm = async ({ url, data }) => {
     });
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       const res = await getRefresh();
       if (res) {
         const authHeader = getAuthorizationHeaders();
@@ -149,7 +149,7 @@ const patch = async ({ url, data }) => {
     });
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       const res = await getRefresh();
       if (res) {
         const authHeader = getAuthorizationHeaders();
@@ -176,7 +176,7 @@ const remove = async ({ url, data }) => {
     });
     return response;
   } catch (error) {
-    if (error.response.status === 403) {
+    if (error?.response?.status === 403) {
       const res = await getRefresh();
       if (res) {
         const authHeader = getAuthorizationHeaders();

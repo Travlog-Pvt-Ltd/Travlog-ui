@@ -116,7 +116,9 @@ const Blogcard = ({ blog, setBlogs }) => {
             </div>
             <img
               src={
-                blog.author.profileLogo ? blog.author.profileLogo : accountIcon
+                blog.author.profileLogo
+                  ? blog.author.profileLogo
+                  : accountIcon.src
               }
               alt=''
             />

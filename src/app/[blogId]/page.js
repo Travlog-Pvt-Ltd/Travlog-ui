@@ -24,7 +24,7 @@ const BlogPostPage = ({ params }) => {
         let userId = '';
         const cookieUser = getUserDetailFromCookie();
         if (cookieUser) userId = cookieUser._id;
-        const response = await getSingleBlog(`/blog/${params.slug}`, {
+        const response = await getSingleBlog(`/blog/${params.blogId}`, {
           id: userId,
         });
         setBlog(response.data);
