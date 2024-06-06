@@ -76,3 +76,5 @@ export const dislikeBlog = async (url, data) => {
 
 export const followCreator = async (url, data) => patch({ url, data });
 export const unfollowCreator = async (url, data) => patch({ url, data });
+
+export const getComments = async (url, data) => get({ url, data });

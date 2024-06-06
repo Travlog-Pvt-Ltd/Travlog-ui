@@ -4,12 +4,12 @@
   margin: 75px auto;
 }
 
-.blogpage-left{
+.blogpage-left {
   width: 70%;
 }
 
-@media (max-width:768px){
-  .blogpage-left{
+@media (max-width: 768px) {
+  .blogpage-left {
     width: 100%;
   }
 }

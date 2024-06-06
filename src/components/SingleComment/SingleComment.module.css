@@ -1,0 +1,139 @@
+.commentAndReplies {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment {
+  display: flex;
+  gap: 8px;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.commentCard {
+  background-color: rgb(240, 249, 255);
+  padding: 8px;
+  border-radius: 0 12px 12px;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px #d0d0d0;
+}
+
+.avatarBorder {
+  border: 1px solid rgb(150, 150, 150);
+}
+
+.authorName {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.author {
+  background-color: #ff6b5c;
+  border-radius: 4px;
+  color: white;
+  padding: 0px 6px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.header button {
+  border: none;
+  background: none;
+  color: blue;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toggleReplies {
+  width: 20px;
+  height: 22px;
+  padding: 4px 2px 2px;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer span {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.buttons img {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.repliesContainer {
+  margin-left: 30px;
+}
+
+.replyBox {
+  margin-left: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 12px;
+  border: 1px solid grey;
+  padding: 4px;
+}
+
+.replyBox textarea {
+  outline: none;
+  border: none;
+  padding: 8px;
+  resize: vertical;
+  border-radius: 12px;
+}
+
+.activeInput {
+  border: 1px solid rgb(200, 200, 200);
+}
+
+.replyButtons {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 8px;
+  padding: 2px 4px;
+}
+
+.replyButtons button {
+  background-color: #ff6b5c;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 8px;
+  box-shadow: 0 0 1px #ff6b5c;
+  cursor: pointer;
+}
+
+.replyButtons button:hover {
+  background-color: rgba(255, 108, 92, 0.75);
+}
