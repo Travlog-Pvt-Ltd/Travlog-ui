@@ -95,45 +95,6 @@
   margin-left: 30px;
 }
 
-.replyBox {
-  margin-left: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-radius: 12px;
-  border: 1px solid grey;
-  padding: 4px;
-}
-
-.replyBox textarea {
-  outline: none;
-  border: none;
-  padding: 8px;
-  resize: vertical;
-  border-radius: 12px;
-}
-
 .activeInput {
   border: 1px solid rgb(200, 200, 200);
-}
-
-.replyButtons {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 8px;
-  padding: 2px 4px;
-}
-
-.replyButtons button {
-  background-color: #ff6b5c;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 4px 8px;
-  box-shadow: 0 0 1px #ff6b5c;
-  cursor: pointer;
-}
-
-.replyButtons button:hover {
-  background-color: rgba(255, 108, 92, 0.75);
 }

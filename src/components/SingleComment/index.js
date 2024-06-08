@@ -6,18 +6,15 @@ import { followCreator, unfollowCreator } from '@utils/api';
 import Replies from '@assets/logos/comment/replies.svg';
 import hideReplies from '@assets/logos/comment/hideReplies.svg';
 import accountLogo from '@assets/logos/account.svg';
-import heartIcon from '@assets/logos/heart.svg';
-import dotsIcon from '@assets/logos/dots.svg';
-import dislike from '@assets/logos/dislike.svg';
 import ButtonGroup from '@components/ButtonGroup';
+import CreateComment from '@components/CreateComment';
 
 const SingleComment = ({ comment, author }) => {
   const [showReply, setShowReply] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const { user, setUser, isLoggedIn, setOpenLogin } = useAuth();
-  const [newReply, setNewReply] = useState('');
   const [replying, setReplying] = useState(false);
-  const [focused, setFocused] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const handleFollowAuthor = async () => {
     if (!isLoggedIn) {
@@ -118,24 +115,26 @@ const SingleComment = ({ comment, author }) => {
         </div>
       </div>
       {replying && (
-        <div className={`${styles.replyBox} ${focused && styles.activeInput}`}>
-          <textarea
-            rows={1}
-            placeholder='Add a Reply'
-            value={newReply}
-            onChange={(e) => setNewReply(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-          />
-          <div className={styles.replyButtons}>
-            <button>Comment</button>
-            <button onClick={() => setReplying(false)}>Cancel</button>
-          </div>
-        </div>
+        <CreateComment
+          comment={comment._id}
+          customClass={styles.activeInput}
+          closeReply={() => setReplying(false)}
+          reply={true}
+          replying={replying}
+          openReplies={() => setShowReply(true)}
+          isReplyOpen={showReply}
+          refreshReplies={() => setRefresh(true)}
+        />
       )}
       {showReply && (
         <div className={styles.repliesContainer}>
-          <CommentContainer author={author} id={comment?._id} type={1} />
+          <CommentContainer
+            author={author}
+            id={comment?._id}
+            type={1}
+            refresh={refresh}
+            resetRefresh={() => setRefresh(false)}
+          />
         </div>
       )}
     </div>
