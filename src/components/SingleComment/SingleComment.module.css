@@ -59,6 +59,17 @@
   text-align: center;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.since {
+  font-size: 10px;
+  font-weight: 600;
+}
+
 .header button {
   border: none;
   background: none;

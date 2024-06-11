@@ -8,6 +8,7 @@ import hideReplies from '@assets/logos/comment/hideReplies.svg';
 import accountLogo from '@assets/logos/account.svg';
 import ButtonGroup from '@components/ButtonGroup';
 import CreateComment from '@components/CreateComment';
+import { timeSinceUpdated } from '@utils/formatdate';
 
 const SingleComment = ({ comment, author }) => {
   const [showReply, setShowReply] = useState(false);
@@ -61,6 +62,8 @@ const SingleComment = ({ comment, author }) => {
     return check;
   };
 
+  const createdSince = timeSinceUpdated(comment.createdAt);
+
   return (
     <div className={styles.commentAndReplies}>
       <div className={styles.comment}>
@@ -85,19 +88,24 @@ const SingleComment = ({ comment, author }) => {
         <div className={styles.commentSection}>
           <div className={styles.commentCard}>
             <div className={styles.header}>
-              <span className={styles.authorName}>{comment?.userId?.name}</span>{' '}
-              {comment?.userId?._id === author && (
-                <span className={styles.author}>Creator</span>
-              )}
-              {user &&
-                comment?.userId?._id != user?._id &&
-                (followLoading ? (
-                  <div className='like-loader'></div>
-                ) : followsAuthor() ? (
-                  <button onClick={handleUnfollowAuthor}>Unfollow</button>
-                ) : (
-                  <button onClick={handleFollowAuthor}>Follow</button>
-                ))}
+              <div>
+                <span className={styles.authorName}>
+                  {comment?.userId?.name}
+                </span>{' '}
+                {comment?.userId?._id === author && (
+                  <span className={styles.author}>Creator</span>
+                )}
+                {user &&
+                  comment?.userId?._id != user?._id &&
+                  (followLoading ? (
+                    <div className='like-loader'></div>
+                  ) : followsAuthor() ? (
+                    <button onClick={handleUnfollowAuthor}>Unfollow</button>
+                  ) : (
+                    <button onClick={handleFollowAuthor}>Follow</button>
+                  ))}
+              </div>
+              <span className={styles.since}>{createdSince} ago</span>
             </div>
             <div className={styles.body}>{comment?.content}</div>
           </div>
