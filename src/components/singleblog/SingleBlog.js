@@ -9,13 +9,12 @@ import { useState } from 'react';
 import { useAuth } from '@context/AuthContext';
 import CommentContainer from '@containers/CommentContainer';
 import ButtonGroup from '@components/ButtonGroup';
+import CreateComment from '@components/CreateComment';
 
 const SingleBlog = ({ blog }) => {
   const { user, setUser, isLoggedIn, setOpenLogin } = useAuth();
   const [followLoading, setFollowLoading] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const [newComment, setNewComment] = useState('');
-  const [focused, setFocused] = useState(false);
 
   const handleFollowAuthor = async () => {
     if (!isLoggedIn) {
@@ -99,24 +98,7 @@ const SingleBlog = ({ blog }) => {
           </div>
           {showComment && (
             <div className={styles.commentContainer}>
-              <div
-                className={`${styles.commentBox} ${focused && styles.activeInput}`}
-              >
-                <textarea
-                  rows={1}
-                  placeholder='Add a Comment'
-                  value={newComment}
-                  onChange={(e) => setNewComment(e.target.value)}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setFocused(false)}
-                />
-                {focused && (
-                  <div className={styles.replyButtons}>
-                    <button>Comment</button>
-                    <button onClick={() => setFocused(false)}>Cancel</button>
-                  </div>
-                )}
-              </div>
+              <CreateComment />
               <CommentContainer
                 author={blog.author._id}
                 id={blog._id}
