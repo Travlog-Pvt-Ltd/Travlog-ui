@@ -5,8 +5,9 @@ import {
   getTokenFromCookie,
   getUserDetailFromCookie,
 } from './localStorageUtils';
-const secret = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
 import CryptoJS from 'crypto-js';
+
+const secret = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
 const base_url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const getAuthorizationHeaders = () => {
@@ -35,6 +36,7 @@ const getRefresh = async () => {
   try {
     const refreshToken = getRefreshTokenFromCookie();
     const data = { token: refreshToken };
+    console.log(data);
     const response = await axios.post(base_url + '/auth/refresh', data);
     const { token, refToken, user } = response.data;
     setCookie(
@@ -168,20 +170,22 @@ const patch = async ({ url, data }) => {
   }
 };
 
-const remove = async ({ url, data }) => {
+const remove = async ({ url }) => {
   const authHeader = getAuthorizationHeaders();
   try {
-    const response = await axios.delete(base_url + url, data, {
+    const response = await axios.delete(base_url + url, {
       headers: authHeader,
     });
     return response;
   } catch (error) {
     if (error?.response?.status === 403) {
+      console.log(403);
       const res = await getRefresh();
+      console.log('refresh -> ', res);
       if (res) {
         const authHeader = getAuthorizationHeaders();
         try {
-          const response = await axios.delete(base_url + url, data, {
+          const response = await axios.delete(base_url + url, {
             headers: authHeader,
           });
           return response;

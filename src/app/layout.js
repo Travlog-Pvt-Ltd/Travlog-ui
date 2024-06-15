@@ -5,7 +5,7 @@ import SnackProvider from '@context/SnackbarContext';
 import Navbar from '@components/navbar/Navbar';
 import NavbarProvider from '@context/NavbarContext';
 import Script from 'next/script';
-import CacheProvider from '@context/CacheContext';
+import CommentProvider from '@context/CommentContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,16 +21,16 @@ export default function RootLayout({ children }) {
         <Script src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js' />
       </head>
       <body className={inter.className}>
-        <AuthProvider>
-          <NavbarProvider>
-            <SnackProvider>
-              <CacheProvider>
+        <SnackProvider>
+          <AuthProvider>
+            <NavbarProvider>
+              <CommentProvider>
                 <Navbar />
                 {children}
-              </CacheProvider>
-            </SnackProvider>
-          </NavbarProvider>
-        </AuthProvider>
+              </CommentProvider>
+            </NavbarProvider>
+          </AuthProvider>
+        </SnackProvider>
       </body>
     </html>
   );

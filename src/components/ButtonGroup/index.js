@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from './ButtonGroup.module.css';
 import heartIcon from '@assets/logos/heart.svg';
 import shareIcon from '@assets/logos/share.svg';
-import dotsIcon from '@assets/logos/dots.svg';
 import dislikeIcon from '@assets/logos/dislike.svg';
 import bookmarkIcon from '@assets/logos/bookmark.svg';
 import commentIcon from '@assets/logos/comment.svg';
@@ -11,6 +10,7 @@ import redheart from '@assets/logos/Redheart.svg';
 import { useAuth } from '@context/AuthContext';
 import { dislikeBlog, likeBlog } from '@utils/api';
 import { useParams } from 'next/navigation';
+import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
 
 const ButtonGroup = ({
   like = true,
@@ -18,12 +18,13 @@ const ButtonGroup = ({
   comment = true,
   share = true,
   bookmark = true,
-  moreOptions = true,
   handleCommentVisibility = () => {},
   count = true,
   customClass = null,
   parent = 'blog',
   parentId = null,
+  menuList = [],
+  commentParentId = null,
 }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth();
   const [likeLoading, setLikeLoading] = useState(false);
@@ -103,7 +104,14 @@ const ButtonGroup = ({
       )}
       {share && <img src={shareIcon.src} alt='Share' />}
       {bookmark && <img src={bookmarkIcon.src} alt='Bookmark' />}
-      {moreOptions && <img src={dotsIcon.src} alt='More options' />}
+      {menuList.length > 0 && (
+        <MoreOptionsButton
+          commentParentId={commentParentId}
+          parent={parent}
+          parentId={parentId}
+          menuList={menuList}
+        />
+      )}
     </div>
   );
 };
