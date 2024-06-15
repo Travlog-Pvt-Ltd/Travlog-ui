@@ -2,46 +2,41 @@ import SingleComment from '@components/SingleComment';
 import { getComments } from '@utils/api';
 import React, { useEffect, useState } from 'react';
 import styles from './CommentContainer.module.css';
-import { useCache } from '@context/CacheContext';
+import { useComment } from '@context/CommentContext';
+import ComponentLoader from '@components/loaders/ComponentLoader';
 
-const CommentContainer = ({
-  id,
-  type,
-  author,
-  refresh = false,
-  resetRefresh = () => {},
-}) => {
-  const [data, setData] = useState();
-  const { comments, setComments } = useCache();
+const CommentContainer = ({ id, type, author }) => {
+  const { comments, setComments } = useComment();
 
   const getData = async () => {
-    const res = await getComments('/comment/', { id, type });
-    setData(res.data);
-    if (!type) {
-      setComments(res.data);
+    try {
+      const res = await getComments('/comment/', { id, type });
+      setComments((prev) => ({ ...prev, [`${id}`]: res?.data ?? [] }));
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  if (refresh) {
-    getData();
-    resetRefresh();
-  }
-
   useEffect(() => {
-    if (!type && comments.length > 0) {
-      setData(comments);
-    } else {
-      getData();
-    }
-  }, [comments]);
+    getData();
+  }, []);
 
   return (
     <div className={styles.commentContainer}>
-      {data?.map((comment) => {
-        return (
-          <SingleComment author={author} key={comment._id} comment={comment} />
-        );
-      })}
+      {comments[`${id}`] ? (
+        comments[`${id}`].map((comment) => {
+          return (
+            <SingleComment
+              author={author}
+              key={comment._id}
+              comment={comment}
+              parentId={id}
+            />
+          );
+        })
+      ) : (
+        <ComponentLoader />
+      )}
     </div>
   );
 };

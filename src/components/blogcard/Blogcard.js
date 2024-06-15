@@ -91,7 +91,7 @@ const Blogcard = ({ blog, setBlogs }) => {
     <>
       {blog.thumbnail ? (
         <img
-          onClick={() => router.push(`/${blog._id}`)}
+          onClick={() => router.push(`/blog/${blog._id}`)}
           loading='lazy'
           className={classes['bc-img']}
           src={blog.thumbnail}
@@ -102,7 +102,7 @@ const Blogcard = ({ blog, setBlogs }) => {
       <div className={classes['bc-body']}>
         <div className={classes['bc-header']}>
           <div
-            onClick={() => router.push(`/${blog._id}`)}
+            onClick={() => router.push(`/blog/${blog._id}`)}
             className={classes['bc-title']}
           >
             {blog.title}
@@ -126,7 +126,7 @@ const Blogcard = ({ blog, setBlogs }) => {
         </div>
         <div>
           <div
-            onClick={() => router.push(`/${blog._id}`)}
+            onClick={() => router.push(`/blog/${blog._id}`)}
             className={classes['bc-content']}
           >
             {parse(`${getBlogContent(blog.content)}`)}

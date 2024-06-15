@@ -3,33 +3,31 @@ import styles from './CreateComment.module.css';
 import { writeComment } from '@utils/api';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@context/AuthContext';
-import { useCache } from '@context/CacheContext';
+import { useComment } from '@context/CommentContext';
+import ComponentLoader from '@components/loaders/ComponentLoader';
 
 const CreateComment = ({
   reply = false,
   closeReply = () => {},
   replying = null,
   customClass = null,
-  blogId,
   comment = null,
-  openReplies = () => {},
-  isReplyOpen = false,
-  refreshReplies = () => {},
 }) => {
   const { isLoggedIn, setOpenLogin } = useAuth();
-  const { comments, setComments } = useCache();
+  const { setComments } = useComment();
   const [newComment, setNewComment] = useState('');
   const [focused, setFocused] = useState(false);
   const params = useParams();
+  const [loading, setLoading] = useState(false);
 
-  const handleSuccessfulComment = (comment) => {
-    if (reply) {
-      if (isReplyOpen) {
-        refreshReplies();
-      } else openReplies();
-    } else {
-      setComments((prev) => [comment, ...prev]);
-    }
+  const handleSuccessfulComment = (comment, parent) => {
+    setComments((prev) => {
+      const prevComments = { ...prev };
+      let temp = prevComments[`${parent}`] ?? [];
+      temp = [comment, ...temp];
+      prevComments[`${parent}`] = temp;
+      return prevComments;
+    });
   };
 
   const handleClose = () => {
@@ -43,6 +41,7 @@ const CreateComment = ({
       setOpenLogin(true);
       return;
     }
+    setLoading(true);
     let payload = { blog: params.blogId, content: newComment };
     if (reply) payload = { ...payload, comment };
     try {
@@ -50,10 +49,12 @@ const CreateComment = ({
         `/comment/${reply ? 'comment' : 'blog'}/${reply ? 'reply' : 'comment'}`,
         payload
       );
-      handleSuccessfulComment(response.data.comment);
+      const parent = reply ? comment : params.blogId;
+      handleSuccessfulComment(response?.data?.comment, parent);
     } catch (error) {
       console.error(error);
     } finally {
+      setLoading(false);
       handleClose();
     }
   };
@@ -77,7 +78,13 @@ const CreateComment = ({
       />
       {isOpen() && (
         <div className={styles.replyButtons}>
-          <button onClick={handleSubmit}>Comment</button>
+          <button onClick={handleSubmit}>
+            {loading ? (
+              <ComponentLoader className='buttonLoaderWhite' />
+            ) : (
+              'Comment'
+            )}
+          </button>
           <button onClick={handleClose}>Cancel</button>
         </div>
       )}

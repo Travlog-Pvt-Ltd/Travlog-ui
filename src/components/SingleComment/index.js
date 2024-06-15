@@ -9,13 +9,14 @@ import accountLogo from '@assets/logos/account.svg';
 import ButtonGroup from '@components/ButtonGroup';
 import CreateComment from '@components/CreateComment';
 import { timeSinceUpdated } from '@utils/formatdate';
+import { useComment } from '@context/CommentContext';
 
-const SingleComment = ({ comment, author }) => {
+const SingleComment = ({ comment, author, parentId }) => {
+  const { comments } = useComment();
   const [showReply, setShowReply] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const { user, setUser, isLoggedIn, setOpenLogin } = useAuth();
   const [replying, setReplying] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const handleFollowAuthor = async () => {
     if (!isLoggedIn) {
@@ -77,7 +78,9 @@ const SingleComment = ({ comment, author }) => {
             }
             alt='Profile picture'
           />
-          {comment?.replyCount > 0 && (
+          {((comments[`${comment._id}`] &&
+            comments[`${comment._id}`].length > 0) ||
+            comment?.replyCount > 0) && (
             <img
               className={styles.toggleReplies}
               src={!showReply ? Replies.src : hideReplies.src}
@@ -114,10 +117,12 @@ const SingleComment = ({ comment, author }) => {
             <ButtonGroup
               parent='comment'
               parentId={comment._id}
+              commentParentId={parentId}
               comment={false}
               share={false}
               bookmark={false}
               customClass={styles.buttons}
+              menuList={['Save', 'Edit', 'Delete', 'Report']}
             />
           </div>
         </div>
@@ -129,20 +134,11 @@ const SingleComment = ({ comment, author }) => {
           closeReply={() => setReplying(false)}
           reply={true}
           replying={replying}
-          openReplies={() => setShowReply(true)}
-          isReplyOpen={showReply}
-          refreshReplies={() => setRefresh(true)}
         />
       )}
       {showReply && (
         <div className={styles.repliesContainer}>
-          <CommentContainer
-            author={author}
-            id={comment?._id}
-            type={1}
-            refresh={refresh}
-            resetRefresh={() => setRefresh(false)}
-          />
+          <CommentContainer author={author} id={comment?._id} type={1} />
         </div>
       )}
     </div>

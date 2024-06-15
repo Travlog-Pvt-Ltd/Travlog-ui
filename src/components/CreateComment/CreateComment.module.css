@@ -31,9 +31,13 @@
   color: white;
   border: none;
   border-radius: 12px;
-  padding: 4px 8px;
   box-shadow: 0 0 1px #ff6b5c;
   cursor: pointer;
+  width: 75px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .replyButtons button:hover {

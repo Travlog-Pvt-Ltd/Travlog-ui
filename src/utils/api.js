@@ -1,5 +1,5 @@
 import { setCookie } from 'cookies-next';
-import { get, patch, post, postForm } from './axios';
+import { get, patch, post, postForm, remove } from './axios';
 const secret = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
 import CryptoJS from 'crypto-js';
 
@@ -80,3 +80,4 @@ export const unfollowCreator = async (url, data) => patch({ url, data });
 export const getComments = async (url, data) => get({ url, data });
 export const writeComment = async (url, data) => patch({ url, data });
 export const writeReply = async (url, data) => patch({ url, data });
+export const deleteCommentAPI = async (url) => remove({ url });
