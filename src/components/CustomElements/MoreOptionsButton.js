@@ -12,16 +12,18 @@ import {
 import { useComment } from '@context/CommentContext';
 import ComponentLoader from '@components/loaders/ComponentLoader';
 import { useAuth } from '@context/AuthContext';
+import { useFeed } from '@context/FeedContext';
 
 const MoreOptionsButton = ({
-  commentParentId,
-  parent,
-  parentId,
-  menuList,
-  author,
+  commentParentId = null,
+  parent = 'blog',
+  parentId = null,
+  menuList = [],
+  author = null,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const { deleteComment, editComment, deleting } = useComment();
+  const { saveBlog, saving } = useFeed();
   const { user, isLoggedIn, setOpenLogin } = useAuth();
 
   const handleMenuClose = () => {
@@ -46,8 +48,9 @@ const MoreOptionsButton = ({
       else if (parent == 'comment') reportComment(parentId);
       else if (parent == 'user') reportUser(parentId);
     } else if (item == 'Save' || item == 'Bookmark') {
-      if (parent == 'blog') saveBlog(parentId);
-      else if (parent == 'comment') saveComment(parentId);
+      if (parent == 'blog') {
+        await saveBlog(parentId);
+      } else if (parent == 'comment') saveComment(parentId);
     } else if (item == 'Edit') {
       if (parent == 'blog') editBlog(parentId);
       else if (parent == 'comment') editComment(parentId);
@@ -66,6 +69,12 @@ const MoreOptionsButton = ({
         >
           {menuList.map((item) => {
             if (deleting && item == 'Delete')
+              return (
+                <MenuItem key='Delete'>
+                  <ComponentLoader className='buttonLoader' />
+                </MenuItem>
+              );
+            if (saving && item == 'Bookmark')
               return (
                 <MenuItem key='Delete'>
                   <ComponentLoader className='buttonLoader' />

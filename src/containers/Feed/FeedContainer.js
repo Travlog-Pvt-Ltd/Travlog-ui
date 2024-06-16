@@ -7,37 +7,28 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getAllBlogs } from '@utils/api';
 import ComponentLoader from '@components/loaders/ComponentLoader';
 import FeedLoader from '@components/loaders/FeedLoader';
+import { useFeed } from '@context/FeedContext';
 
 const FeedContainer = ({ initialData }) => {
   const mobile = useMediaQuery('(max-width:768px)');
-  const [blogs, setBlogs] = useState([]);
-  const [skip, setSkip] = useState(10);
-  const [hasmore, setHasmore] = useState(initialData.length >= 10);
-  const [loading, setLoading] = useState(true);
-  const limit = 10;
+  const {
+    blogs,
+    setBlogs,
+    fetchBlogs,
+    hasmore,
+    setHasmore,
+    loading,
+    setLoading,
+  } = useFeed();
   const observer = useRef();
 
   useEffect(() => {
     if (initialData) {
       setBlogs(initialData);
       setLoading(false);
+      setHasmore(initialData.length >= 10);
     }
   }, []);
-
-  async function fetchBlogs() {
-    if (!hasmore) return;
-    setLoading(true);
-    try {
-      const response = await getAllBlogs('/blog/all', { limit, skip });
-      setBlogs((prev) => [...prev, ...response?.data]);
-      setSkip((prev) => prev + limit);
-      if (response?.data.length < limit) setHasmore(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const lastElementRef = useCallback(
     (node) => {

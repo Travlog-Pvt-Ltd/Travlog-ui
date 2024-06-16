@@ -15,6 +15,7 @@ import { useMediaQuery } from '@mui/material';
 import { dislikeBlog, likeBlog } from '@utils/api';
 import { useAuth } from '@context/AuthContext';
 import { useState } from 'react';
+import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
 
 const Blogcard = ({ blog, setBlogs }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth();
@@ -194,7 +195,12 @@ const Blogcard = ({ blog, setBlogs }) => {
                 <Image src={shareIcon} />
               </span>
               <span className={classes.icons}>
-                <Image src={dotsIcon} />
+                <MoreOptionsButton
+                  parent='blog'
+                  parentId={blog._id}
+                  menuList={['Bookmark', 'Hide', 'Report']}
+                  author={blog.author._id}
+                />
               </span>
             </div>
           </div>
