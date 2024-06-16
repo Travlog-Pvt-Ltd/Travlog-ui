@@ -1,4 +1,4 @@
-import CommentContainer from '@containers/CommentContainer';
+import dynamic from 'next/dynamic';
 import React, { useState } from 'react';
 import styles from './SingleComment.module.css';
 import { useAuth } from '@context/AuthContext';
@@ -7,12 +7,13 @@ import Replies from '@assets/logos/comment/replies.svg';
 import hideReplies from '@assets/logos/comment/hideReplies.svg';
 import accountLogo from '@assets/logos/account.svg';
 import ButtonGroup from '@components/ButtonGroup';
-import CreateComment from '@components/CreateComment';
 import { timeSinceUpdated } from '@utils/formatdate';
 import { useComment } from '@context/CommentContext';
+const CreateComment = dynamic(() => import('@components/CreateComment'));
+const CommentContainer = dynamic(() => import('@containers/CommentContainer'));
 
 const SingleComment = ({ comment, author, parentId }) => {
-  const { comments } = useComment();
+  const { comments, editing } = useComment();
   const [showReply, setShowReply] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
   const { user, setUser, isLoggedIn, setOpenLogin } = useAuth();
@@ -88,53 +89,65 @@ const SingleComment = ({ comment, author, parentId }) => {
             />
           )}
         </div>
-        <div className={styles.commentSection}>
-          <div className={styles.commentCard}>
-            <div className={styles.header}>
-              <div>
-                <span className={styles.authorName}>
-                  {comment?.userId?.name}
-                </span>{' '}
-                {comment?.userId?._id === author && (
-                  <span className={styles.author}>Creator</span>
-                )}
-                {user &&
-                  comment?.userId?._id != user?._id &&
-                  (followLoading ? (
-                    <div className='like-loader'></div>
-                  ) : followsAuthor() ? (
-                    <button onClick={handleUnfollowAuthor}>Unfollow</button>
-                  ) : (
-                    <button onClick={handleFollowAuthor}>Follow</button>
-                  ))}
+        {editing == comment._id ? (
+          <CreateComment
+            comment={comment._id}
+            closeReply={() => setReplying(false)}
+            customClass={styles.activeInput}
+            edit={true}
+            data={comment}
+          />
+        ) : (
+          <div className={styles.commentSection}>
+            <div className={styles.commentCard}>
+              <div className={styles.header}>
+                <div>
+                  <span className={styles.authorName}>
+                    {comment?.userId?.name}
+                  </span>{' '}
+                  {comment?.userId?._id === author && (
+                    <span className={styles.author}>Author</span>
+                  )}
+                </div>
+                <div className={styles.info}>
+                  <span className={styles.since}>{createdSince} ago</span>
+                  {comment.edited && (
+                    <>
+                      <span>•</span>
+                      <span>Edited</span>
+                    </>
+                  )}
+                </div>
               </div>
-              <span className={styles.since}>{createdSince} ago</span>
+              <div className={styles.body}>{comment?.content}</div>
             </div>
-            <div className={styles.body}>{comment?.content}</div>
+            <div className={styles.footer}>
+              <span onClick={() => setReplying(true)}>Reply</span>
+              <ButtonGroup
+                parent='comment'
+                parentId={comment._id}
+                commentParentId={parentId}
+                comment={false}
+                share={false}
+                bookmark={false}
+                customClass={styles.buttons}
+                menuList={['Save', 'Edit', 'Delete', 'Report']}
+                author={comment.userId._id}
+              />
+            </div>
           </div>
-          <div className={styles.footer}>
-            <span onClick={() => setReplying(true)}>Reply</span>
-            <ButtonGroup
-              parent='comment'
-              parentId={comment._id}
-              commentParentId={parentId}
-              comment={false}
-              share={false}
-              bookmark={false}
-              customClass={styles.buttons}
-              menuList={['Save', 'Edit', 'Delete', 'Report']}
-            />
-          </div>
-        </div>
+        )}
       </div>
       {replying && (
-        <CreateComment
-          comment={comment._id}
-          customClass={styles.activeInput}
-          closeReply={() => setReplying(false)}
-          reply={true}
-          replying={replying}
-        />
+        <div style={{ marginLeft: '40px' }}>
+          <CreateComment
+            comment={comment._id}
+            customClass={styles.activeInput}
+            closeReply={() => setReplying(false)}
+            reply={true}
+            replying={replying}
+          />
+        </div>
       )}
       {showReply && (
         <div className={styles.repliesContainer}>

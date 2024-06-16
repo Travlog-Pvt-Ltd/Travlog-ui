@@ -11,6 +11,7 @@ function CommentProvider({ children }) {
   const [commentParent, setCommentParent] = useState(null);
   const [comments, setComments] = useState({});
   const [deleting, setDeleting] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     if (
@@ -38,10 +39,16 @@ function CommentProvider({ children }) {
       enqueueSnackbar('Comment deleted!', { variant: 'success' });
     } catch (error) {
       console.error(error);
-      enqueueSnackbar(error?.response?.data?.message, { variant: 'error' });
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: 'error',
+      });
     } finally {
       setDeleting(false);
     }
+  };
+
+  const editComment = (id) => {
+    setEditing(id);
   };
 
   return (
@@ -52,8 +59,11 @@ function CommentProvider({ children }) {
         comments,
         setComments,
         deleteComment,
+        editComment,
         deleting,
         setDeleting,
+        editing,
+        setEditing,
       }}
     >
       {children}

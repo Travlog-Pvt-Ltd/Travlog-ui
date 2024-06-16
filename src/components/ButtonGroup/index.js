@@ -25,6 +25,7 @@ const ButtonGroup = ({
   parentId = null,
   menuList = [],
   commentParentId = null,
+  author = null,
 }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth();
   const [likeLoading, setLikeLoading] = useState(false);
@@ -110,6 +111,7 @@ const ButtonGroup = ({
           parent={parent}
           parentId={parentId}
           menuList={menuList}
+          author={author}
         />
       )}
     </div>
