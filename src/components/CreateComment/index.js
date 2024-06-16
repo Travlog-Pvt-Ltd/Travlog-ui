@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './CreateComment.module.css';
-import { writeComment } from '@utils/api';
+import { editComment, writeComment } from '@utils/api';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@context/AuthContext';
 import { useComment } from '@context/CommentContext';
@@ -12,10 +12,12 @@ const CreateComment = ({
   replying = null,
   customClass = null,
   comment = null,
+  edit = false,
+  data = null,
 }) => {
   const { isLoggedIn, setOpenLogin } = useAuth();
-  const { setComments } = useComment();
-  const [newComment, setNewComment] = useState('');
+  const { setComments, setEditing } = useComment();
+  const [newComment, setNewComment] = useState(data?.content ?? '');
   const [focused, setFocused] = useState(false);
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -34,9 +36,38 @@ const CreateComment = ({
     setNewComment('');
     if (reply) closeReply();
     setFocused(false);
+    setEditing(null);
   };
 
-  const handleSubmit = async (e) => {
+  const handleEditing = async () => {
+    try {
+      setLoading(true);
+      const payload = { commentId: comment, content: newComment };
+      const res = await editComment('/comment/comment/edit', payload);
+      const updatedComment = res?.data?.comment;
+      const parent = updatedComment?.isReply
+        ? updatedComment?.parent
+        : updatedComment?.blog;
+      setComments((prev) => {
+        const prevComments = { ...prev };
+        let temp = prevComments[`${parent}`] ?? [];
+        temp = temp.map((item) => {
+          if (item._id == updatedComment._id) return updatedComment;
+          else return item;
+        });
+        prevComments[`${parent}`] = temp;
+        return prevComments;
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+      handleClose();
+      setEditing(null);
+    }
+  };
+
+  const handleSubmit = async () => {
     if (!isLoggedIn) {
       setOpenLogin(true);
       return;
@@ -59,6 +90,11 @@ const CreateComment = ({
     }
   };
 
+  const handleClick = async () => {
+    if (edit) await handleEditing();
+    else await handleSubmit();
+  };
+
   const isOpen = () => {
     if (replying != null) return replying;
     else return focused;
@@ -67,7 +103,6 @@ const CreateComment = ({
   return (
     <div
       className={`${styles.commentBox} ${focused && (customClass ? customClass : styles.activeInput)}`}
-      style={{ marginLeft: reply ? '40px' : '' }}
     >
       <textarea
         rows={1}
@@ -75,12 +110,15 @@ const CreateComment = ({
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         onFocus={() => setFocused(true)}
+        autoFocus={edit || replying}
       />
       {isOpen() && (
         <div className={styles.replyButtons}>
-          <button onClick={handleSubmit}>
+          <button onClick={handleClick}>
             {loading ? (
               <ComponentLoader className='buttonLoaderWhite' />
+            ) : edit ? (
+              'Save'
             ) : (
               'Comment'
             )}

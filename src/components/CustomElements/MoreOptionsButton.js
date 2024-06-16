@@ -11,10 +11,18 @@ import {
 } from '@components/actions/ButtonActions';
 import { useComment } from '@context/CommentContext';
 import ComponentLoader from '@components/loaders/ComponentLoader';
+import { useAuth } from '@context/AuthContext';
 
-const MoreOptionsButton = ({ commentParentId, parent, parentId, menuList }) => {
+const MoreOptionsButton = ({
+  commentParentId,
+  parent,
+  parentId,
+  menuList,
+  author,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { deleteComment, deleting } = useComment();
+  const { deleteComment, editComment, deleting } = useComment();
+  const { user, isLoggedIn, setOpenLogin } = useAuth();
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -25,6 +33,10 @@ const MoreOptionsButton = ({ commentParentId, parent, parentId, menuList }) => {
   };
 
   const handleMenuClick = async (item) => {
+    if (!isLoggedIn) {
+      setOpenLogin(true);
+      return;
+    }
     if (item == 'Delete') {
       if (parent == 'blog') deleteBlog(parentId);
       else if (parent == 'comment')
@@ -36,31 +48,40 @@ const MoreOptionsButton = ({ commentParentId, parent, parentId, menuList }) => {
     } else if (item == 'Save' || item == 'Bookmark') {
       if (parent == 'blog') saveBlog(parentId);
       else if (parent == 'comment') saveComment(parentId);
+    } else if (item == 'Edit') {
+      if (parent == 'blog') editBlog(parentId);
+      else if (parent == 'comment') editComment(parentId);
     }
+    handleMenuClose();
   };
 
   return (
     <>
       <img src={dotsIcon.src} onClick={handleMenuOpen} alt='More options' />
-      <Menu
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={handleMenuClose}
-      >
-        {menuList.map((item) => {
-          if (deleting && item == 'Delete')
+      {anchorEl && (
+        <Menu
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={handleMenuClose}
+        >
+          {menuList.map((item) => {
+            if (deleting && item == 'Delete')
+              return (
+                <MenuItem key='Delete'>
+                  <ComponentLoader className='buttonLoader' />
+                </MenuItem>
+              );
+            if (item == 'Report' && user._id == author) return null;
+            if (item == 'Delete' && user._id != author) return null;
+            if (item == 'Edit' && user._id != author) return null;
             return (
-              <MenuItem key='Delete'>
-                <ComponentLoader className='buttonLoader' />
+              <MenuItem key={item} onClick={() => handleMenuClick(item)}>
+                {item}
               </MenuItem>
             );
-          return (
-            <MenuItem key={item} onClick={() => handleMenuClick(item)}>
-              {item}
-            </MenuItem>
-          );
-        })}
-      </Menu>
+          })}
+        </Menu>
+      )}
     </>
   );
 };

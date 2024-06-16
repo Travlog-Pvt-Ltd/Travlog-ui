@@ -5,6 +5,7 @@
   border-radius: 12px;
   border: 2px solid rgb(195, 195, 195);
   padding: 4px;
+  width: 100%;
 }
 
 .commentBox textarea {

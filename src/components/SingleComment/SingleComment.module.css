@@ -65,7 +65,10 @@
   gap: 10px;
 }
 
-.since {
+.info {
+  display: flex;
+  gap: 4px;
+  align-items: center;
   font-size: 10px;
   font-weight: 600;
 }

@@ -80,4 +80,5 @@ export const unfollowCreator = async (url, data) => patch({ url, data });
 export const getComments = async (url, data) => get({ url, data });
 export const writeComment = async (url, data) => patch({ url, data });
 export const writeReply = async (url, data) => patch({ url, data });
+export const editComment = async (url, data) => patch({ url, data });
 export const deleteCommentAPI = async (url) => remove({ url });

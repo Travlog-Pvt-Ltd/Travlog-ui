@@ -3,3 +3,10 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.moreComments {
+  font-size: 14px;
+  text-decoration: underline;
+  color: var(--secondary-color-text);
+  cursor: pointer;
+}
