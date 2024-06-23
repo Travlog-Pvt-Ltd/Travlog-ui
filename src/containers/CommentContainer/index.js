@@ -6,7 +6,7 @@ import { useComment } from '@context/CommentContext';
 import ComponentLoader from '@components/loaders/ComponentLoader';
 
 const CommentContainer = ({ id, type, author }) => {
-  const { comments, setComments, editing } = useComment();
+  const { comments, setComments } = useComment();
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);

@@ -14,7 +14,8 @@ import parse from 'html-react-parser';
 import { useMediaQuery } from '@mui/material';
 import { dislikeBlog, likeBlog } from '@utils/api';
 import { useAuth } from '@context/AuthContext';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
 
 const Blogcard = ({ blog, setBlogs }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth();
@@ -32,12 +33,13 @@ const Blogcard = ({ blog, setBlogs }) => {
     return result;
   };
 
-  const getTags = () => {
-    const result = blog.tags.filter((tag) => {
-      if (tag) return tag;
-    });
-    return result;
-  };
+  const getTags = useCallback(() => {
+    const places = blog?.tags?.places ?? [];
+    const activities = blog?.tags?.activities ?? [];
+    return [...places, ...activities];
+  }, [blog._id]);
+
+  const blogTags = getTags();
 
   const handleLike = async () => {
     if (!isLoggedIn) {
@@ -135,36 +137,36 @@ const Blogcard = ({ blog, setBlogs }) => {
 
         <div>
           <div className={classes['bc-footer']}>
-            {getTags().length > 0 ? (
+            {blogTags?.length > 0 ? (
               <div className={classes.tags}>
                 {!smallMobile &&
-                  blog.tags.slice(0, 2).map((tag) => {
+                  blogTags.slice(0, 2).map((tag) => {
                     return (
-                      <span key={tag} className={classes['tag-chip']}>
-                        {tag}
+                      <span key={tag._id} className={classes['tag-chip']}>
+                        {tag.name}
                       </span>
                     );
                   })}
                 {smallMobile &&
-                  blog.tags.slice(0, 1).map((tag) => {
+                  blogTags.slice(0, 1).map((tag) => {
                     return (
-                      <span key={tag} className={classes['tag-chip']}>
-                        {tag}
+                      <span key={tag._id} className={classes['tag-chip']}>
+                        {tag.name}
                       </span>
                     );
                   })}
-                {!smallMobile && blog.tags.length > 2 && (
+                {!smallMobile && blogTags.length > 2 && (
                   <span
                     className={`${classes['tag-chip']} ${classes['num-chip']}`}
                   >
-                    +{blog.tags.length - 2}
+                    +{blogTags.length - 2}
                   </span>
                 )}
-                {smallMobile && blog.tags.length > 1 && (
+                {smallMobile && blogTags.length > 1 && (
                   <span
                     className={`${classes['tag-chip']} ${classes['num-chip']}`}
                   >
-                    +{blog.tags.length - 1}
+                    +{blogTags.length - 1}
                   </span>
                 )}
               </div>
@@ -194,7 +196,12 @@ const Blogcard = ({ blog, setBlogs }) => {
                 <Image src={shareIcon} />
               </span>
               <span className={classes.icons}>
-                <Image src={dotsIcon} />
+                <MoreOptionsButton
+                  parent='blog'
+                  parentId={blog._id}
+                  menuList={['Bookmark', 'Hide', 'Report']}
+                  author={blog.author._id}
+                />
               </span>
             </div>
           </div>

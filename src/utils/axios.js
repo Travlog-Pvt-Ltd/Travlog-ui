@@ -36,7 +36,6 @@ const getRefresh = async () => {
   try {
     const refreshToken = getRefreshTokenFromCookie();
     const data = { token: refreshToken };
-    console.log(data);
     const response = await axios.post(base_url + '/auth/refresh', data);
     const { token, refToken, user } = response.data;
     setCookie(
@@ -179,9 +178,7 @@ const remove = async ({ url }) => {
     return response;
   } catch (error) {
     if (error?.response?.status === 403) {
-      console.log(403);
       const res = await getRefresh();
-      console.log('refresh -> ', res);
       if (res) {
         const authHeader = getAuthorizationHeaders();
         try {

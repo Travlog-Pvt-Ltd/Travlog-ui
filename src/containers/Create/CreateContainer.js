@@ -22,7 +22,10 @@ const CreateContainer = () => {
   const inputRef = useRef(null);
   const [query, setQuery] = useState('');
   const [searchResult, setSearchResult] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState({
+    places: [],
+    activities: [],
+  });
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailUrl, setThumbnailUrl] = useState();
   const [loading, setLoading] = useState(false);
@@ -81,16 +84,30 @@ const CreateContainer = () => {
   };
 
   const handleTagSelect = (item) => {
-    setSelectedTags((prev) => [...prev, item.name]);
+    if (item.isPlace || !item.types) {
+      setSelectedTags((prev) => ({ ...prev, places: [item, ...prev.places] }));
+    } else {
+      setSelectedTags((prev) => ({
+        ...prev,
+        activities: [item, ...prev.activities],
+      }));
+    }
     setQuery('');
     setSearchResult([]);
   };
 
   const handleTagRemove = (tag) => {
-    const newTags = selectedTags.filter((el) => {
-      return el !== tag;
-    });
-    setSelectedTags(newTags);
+    if (tag.isPlace || !tag.types) {
+      const newPlaces = selectedTags.places.filter((el) => {
+        return el._id !== tag._id;
+      });
+      setSelectedTags((prev) => ({ ...prev, places: newPlaces }));
+    } else {
+      const newActivities = selectedTags.activities.filter((el) => {
+        return el._id !== tag._id;
+      });
+      setSelectedTags((prev) => ({ ...prev, activities: newActivities }));
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -233,7 +250,11 @@ const CreateContainer = () => {
               {searchResult.length > 0 && (
                 <div className={`search-result ${classes['result-list']}`}>
                   {searchResult.map((item) => {
-                    if (selectedTags.includes(item.name)) return null;
+                    if (
+                      selectedTags.places.includes(item._id) ||
+                      selectedTags.activities.includes(item._id)
+                    )
+                      return null;
                     return (
                       <div
                         onMouseDown={() => handleTagSelect(item)}
@@ -255,11 +276,19 @@ const CreateContainer = () => {
                 : 'Search and select tags to add'}
             </div>
             <div className={classes['selected-tags-div']}>
-              {selectedTags.length > 0 &&
-                selectedTags.map((tag) => {
+              {selectedTags?.places?.length > 0 &&
+                selectedTags?.places.map((tag) => {
                   return (
-                    <span onClick={() => handleTagRemove(tag)} key={tag}>
-                      {tag}
+                    <span onClick={() => handleTagRemove(tag)} key={tag._id}>
+                      {tag.name}
+                    </span>
+                  );
+                })}
+              {selectedTags?.activities?.length > 0 &&
+                selectedTags?.activities.map((tag) => {
+                  return (
+                    <span onClick={() => handleTagRemove(tag)} key={tag._id}>
+                      {tag.name}
                     </span>
                   );
                 })}

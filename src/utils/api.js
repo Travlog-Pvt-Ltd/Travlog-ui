@@ -82,3 +82,5 @@ export const writeComment = async (url, data) => patch({ url, data });
 export const writeReply = async (url, data) => patch({ url, data });
 export const editComment = async (url, data) => patch({ url, data });
 export const deleteCommentAPI = async (url) => remove({ url });
+
+export const addBookmark = async (url, data) => post({ url, data });

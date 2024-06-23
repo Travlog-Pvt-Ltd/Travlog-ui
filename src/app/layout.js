@@ -6,6 +6,7 @@ import Navbar from '@components/navbar/Navbar';
 import NavbarProvider from '@context/NavbarContext';
 import Script from 'next/script';
 import CommentProvider from '@context/CommentContext';
+import FeedProvider from '@context/FeedContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,10 +25,12 @@ export default function RootLayout({ children }) {
         <SnackProvider>
           <AuthProvider>
             <NavbarProvider>
-              <CommentProvider>
-                <Navbar />
-                {children}
-              </CommentProvider>
+              <FeedProvider>
+                <CommentProvider>
+                  <Navbar />
+                  {children}
+                </CommentProvider>
+              </FeedProvider>
             </NavbarProvider>
           </AuthProvider>
         </SnackProvider>
