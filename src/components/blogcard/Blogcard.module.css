@@ -9,7 +9,8 @@
 
 .bc-body {
   width: 100%;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 5px;
   padding: 0em 0.5em;
