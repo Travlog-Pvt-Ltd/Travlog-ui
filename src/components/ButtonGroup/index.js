@@ -8,7 +8,7 @@ import commentIcon from '@assets/logos/comment.svg';
 import blueheart from '@assets/logos/Blueheart.svg';
 import redheart from '@assets/logos/Redheart.svg';
 import { useAuth } from '@context/AuthContext';
-import { dislikeBlog, likeBlog } from '@utils/api';
+import { dislikeAction, likeAction } from '@utils/api';
 import { useParams } from 'next/navigation';
 import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
 
@@ -42,9 +42,9 @@ const ButtonGroup = ({
       let payload = {};
       if (parent === 'blog') payload = { blogId: parentId };
       else if (parent === 'comment') {
-        payload = { comment: parentId, blog: params.blogId };
+        payload = { commentId: parentId, blog: params.blogId };
       }
-      const response = await likeBlog(`/like/${parent}/like`, payload);
+      const response = await likeAction(`/like/${parent}/like`, payload);
       setUser(response.data.user);
     } catch (error) {
       console.error(error);
@@ -63,9 +63,9 @@ const ButtonGroup = ({
       let payload = {};
       if (parent === 'blog') payload = { blogId: parentId };
       else if (parent === 'comment') {
-        payload = { comment: parentId, blog: params.blogId };
+        payload = { commentId: parentId, blog: params.blogId };
       }
-      const response = await dislikeBlog(`/like/${parent}/dislike`, payload);
+      const response = await dislikeAction(`/like/${parent}/dislike`, payload);
       setUser(response.data.user);
     } catch (error) {
       console.error(error);

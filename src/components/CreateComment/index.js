@@ -74,7 +74,7 @@ const CreateComment = ({
     }
     setLoading(true);
     let payload = { blog: params.blogId, content: newComment };
-    if (reply) payload = { ...payload, comment };
+    if (reply) payload = { ...payload, commentId: comment };
     try {
       const response = await writeComment(
         `/comment/${reply ? 'comment' : 'blog'}/${reply ? 'reply' : 'comment'}`,

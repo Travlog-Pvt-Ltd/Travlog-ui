@@ -57,7 +57,7 @@ export const getAllBlogs = async (url, data) => get({ url, data });
 export const getSingleBlog = async (url, data) => get({ url, data });
 
 export const getMoreFromAuthor = async (url, data) => get({ url, data });
-export const likeBlog = async (url, data) => {
+export const likeAction = async (url, data) => {
   const response = await patch({ url, data });
   setCookie(
     'travlogUserDetail',
@@ -65,7 +65,7 @@ export const likeBlog = async (url, data) => {
   );
   return response;
 };
-export const dislikeBlog = async (url, data) => {
+export const dislikeAction = async (url, data) => {
   const response = await patch({ url, data });
   setCookie(
     'travlogUserDetail',

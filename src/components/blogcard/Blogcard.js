@@ -5,14 +5,13 @@ import { formatDate } from '@utils/formatdate';
 import accountIcon from '@assets/logos/account.svg';
 import heartIcon from '@assets/logos/heart.svg';
 import shareIcon from '@assets/logos/share.svg';
-import dotsIcon from '@assets/logos/dots.svg';
 import dislike from '@assets/logos/dislike.svg';
 import Blueheart from '@assets/logos/Blueheart.svg';
 import Redheart from '@assets/logos/Redheart.svg';
 import { useRouter } from 'next/navigation';
 import parse from 'html-react-parser';
 import { useMediaQuery } from '@mui/material';
-import { dislikeBlog, likeBlog } from '@utils/api';
+import { dislikeAction, likeAction } from '@utils/api';
 import { useAuth } from '@context/AuthContext';
 import { useCallback, useState } from 'react';
 import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
@@ -48,7 +47,9 @@ const Blogcard = ({ blog, setBlogs }) => {
     }
     setLikeLoading(true);
     try {
-      const response = await likeBlog('/like/blog/like', { blogId: blog._id });
+      const response = await likeAction('/like/blog/like', {
+        blogId: blog._id,
+      });
       setUser(response.data.user);
       setBlogs((prev) => {
         const temp = prev.map((item) => {
@@ -71,7 +72,7 @@ const Blogcard = ({ blog, setBlogs }) => {
     }
     setDislikeLoading(true);
     try {
-      const response = await dislikeBlog('/like/blog/dislike', {
+      const response = await dislikeAction('/like/blog/dislike', {
         blogId: blog._id,
       });
       setUser(response.data.user);

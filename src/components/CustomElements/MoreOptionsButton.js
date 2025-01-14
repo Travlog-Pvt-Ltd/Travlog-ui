@@ -79,9 +79,9 @@ const MoreOptionsButton = ({
                   <ComponentLoader className='buttonLoader' />
                 </MenuItem>
               );
-            if (item == 'Report' && user._id == author) return null;
-            if (item == 'Delete' && user._id != author) return null;
-            if (item == 'Edit' && user._id != author) return null;
+            if (item == 'Report' && user?._id == author) return null;
+            if (item == 'Delete' && user?._id != author) return null;
+            if (item == 'Edit' && user?._id != author) return null;
             return (
               <MenuItem key={item} onClick={() => handleMenuClick(item)}>
                 {item}
