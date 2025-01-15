@@ -23,17 +23,22 @@ function CommentProvider({ children }) {
     }
   }, [pathname]);
 
-  const deleteComment = async (id, parentId) => {
+  const deleteComment = async (id) => {
     setDeleting(true);
     try {
-      await deleteCommentAPI(`/comment/delete/${id}`);
+      const res = await deleteCommentAPI(`/comment/delete/${id}`);
+      const updatedComment = res?.data?.comment;
+      const parent = updatedComment?.isReply
+        ? updatedComment?.parent
+        : updatedComment?.blog;
       setComments((prev) => {
         const prevComments = { ...prev };
-        let temp = comments[`${parentId}`] ?? [];
-        temp = temp.filter((item) => {
-          return item._id != id;
+        let temp = comments[`${parent}`] ?? [];
+        temp = temp.map((item) => {
+          if (item._id == updatedComment._id) return updatedComment;
+          else return item;
         });
-        prevComments[`${parentId}`] = temp;
+        prevComments[`${parent}`] = temp;
         return prevComments;
       });
       enqueueSnackbar('Comment deleted!', { variant: 'success' });

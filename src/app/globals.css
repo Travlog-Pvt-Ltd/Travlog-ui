@@ -108,3 +108,9 @@ input:focus {
   width: 20px !important;
   height: 20px !important;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

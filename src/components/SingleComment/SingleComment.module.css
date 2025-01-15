@@ -31,6 +31,12 @@
   box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
 }
 
+.deletedCommentCard {
+  background-color: rgb(250 250 250);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+  color: rgb(0 0 0 / 60%);
+}
+
 .avatar {
   width: 32px;
   height: 32px;
@@ -47,6 +53,14 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+}
+
+.deletedAuthorName {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  font-style: italic;
+  color: grey;
 }
 
 .author {

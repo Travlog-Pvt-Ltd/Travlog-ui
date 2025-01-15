@@ -64,6 +64,16 @@ const SingleComment = ({ comment, author, parentId }) => {
     return check;
   };
 
+  const handleReplyButton = () => {
+    if (comment?.deleted) {
+      return;
+    } else if (!isLoggedIn) {
+      setOpenLogin(true);
+      return;
+    }
+    setReplying(true);
+  };
+
   const createdSince = timeSinceUpdated(comment.createdAt);
 
   return (
@@ -73,7 +83,7 @@ const SingleComment = ({ comment, author, parentId }) => {
           <img
             className={`${styles.avatar} ${comment?.userId?.profileLogo ? '' : styles.avatarBorder}`}
             src={
-              comment?.userId?.profileLogo
+              comment?.userId?.profileLogo && !comment?.deleted
                 ? comment?.userId?.profileLogo
                 : accountLogo.src
             }
@@ -99,16 +109,22 @@ const SingleComment = ({ comment, author, parentId }) => {
           />
         ) : (
           <div className={styles.commentSection}>
-            <div className={styles.commentCard}>
+            <div
+              className={`${styles.commentCard} ${comment?.deleted && styles.deletedCommentCard}`}
+            >
               <div className={styles.header}>
-                <div>
-                  <span className={styles.authorName}>
-                    {comment?.userId?.name}
-                  </span>{' '}
-                  {comment?.userId?._id === author && (
-                    <span className={styles.author}>Author</span>
-                  )}
-                </div>
+                {comment?.deleted ? (
+                  <span className={styles.deletedAuthorName}>deleted</span>
+                ) : (
+                  <div>
+                    <span className={styles.authorName}>
+                      {comment?.userId?.name}
+                    </span>{' '}
+                    {comment?.userId?._id === author && (
+                      <span className={styles.author}>Author</span>
+                    )}
+                  </div>
+                )}
                 <div className={styles.info}>
                   <span className={styles.since}>{createdSince} ago</span>
                   {comment.edited && (
@@ -122,18 +138,25 @@ const SingleComment = ({ comment, author, parentId }) => {
               <div className={styles.body}>{comment?.content}</div>
             </div>
             <div className={styles.footer}>
-              <span onClick={() => setReplying(true)}>Reply</span>
-              <ButtonGroup
-                parent='comment'
-                parentId={comment._id}
-                commentParentId={parentId}
-                comment={false}
-                share={false}
-                bookmark={false}
-                customClass={styles.buttons}
-                menuList={['Save', 'Edit', 'Delete', 'Report']}
-                author={comment.userId._id}
-              />
+              <span
+                className={comment?.deleted ? 'disabled' : null}
+                onClick={handleReplyButton}
+              >
+                Reply
+              </span>
+              {!comment?.deleted ? (
+                <ButtonGroup
+                  parent='comment'
+                  parentId={comment._id}
+                  commentParentId={parentId}
+                  comment={false}
+                  share={false}
+                  bookmark={false}
+                  customClass={styles.buttons}
+                  menuList={['Save', 'Edit', 'Delete', 'Report']}
+                  author={comment.userId._id}
+                />
+              ) : null}
             </div>
           </div>
         )}

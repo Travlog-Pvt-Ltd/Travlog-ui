@@ -40,8 +40,7 @@ const MoreOptionsButton = ({
     }
     if (item == 'Delete') {
       if (parent == 'blog') deleteBlog(parentId);
-      else if (parent == 'comment')
-        await deleteComment(parentId, commentParentId);
+      else if (parent == 'comment') await deleteComment(parentId);
     } else if (item == 'Report') {
       if (parent == 'blog') reportBlog(parentId);
       else if (parent == 'comment') reportComment(parentId);
