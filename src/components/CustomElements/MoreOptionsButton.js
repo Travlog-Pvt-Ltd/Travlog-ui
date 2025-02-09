@@ -58,7 +58,9 @@ const MoreOptionsButton = ({
 
   return (
     <>
-      <img src={dotsIcon.src} onClick={handleMenuOpen} alt='More options' />
+      <button onClick={handleMenuOpen} className='icon-button'>
+        <img src={dotsIcon.src} alt='More options' />
+      </button>
       {anchorEl && (
         <Menu
           open={Boolean(anchorEl)}

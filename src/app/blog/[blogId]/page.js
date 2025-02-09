@@ -1,21 +1,21 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { useMediaQuery } from '@mui/material';
 
-import classes from './page.module.css';
+import styles from './page.module.css';
 
 import Attractions from '@components/attractions/Attractions';
 import MoreFromAuthor from '@components/morefromauthor/MoreFromAuthor';
-import RelatedBlogs from '@components/relatedblogs/RelatedBlogs';
+import SimilarBlogs from '@components/SimilarBlogs/index.js';
 import SingleBlog from '@components/singleblog/SingleBlog';
 import PageLoader from '@components/loaders/PageLoader';
 import { getSingleBlog } from '@utils/api';
 import { getUserDetailFromCookie } from '@utils/localStorageUtils';
+import BlogNotFound from '@components/blogPage/blogNotFound/index.js';
+import Link from 'next/link';
 
 const BlogPostPage = ({ params }) => {
   const [blog, setBlog] = useState();
   const [loading, setLoading] = useState(false);
-  const mobile = useMediaQuery('(max-width:768px)');
 
   useEffect(() => {
     async function fetchBlog() {
@@ -37,25 +37,29 @@ const BlogPostPage = ({ params }) => {
     fetchBlog();
   }, []);
 
+  const backToHome = () => {
+    return (
+      <Link href='/' className={styles['back-link']}>
+        Back to all posts
+      </Link>
+    );
+  };
+
+  if (!(loading || blog)) {
+    return <BlogNotFound />;
+  }
+
   return (
-    <main>
+    <main className={styles['blog-page']}>
       {loading ? (
         <PageLoader open={loading} />
       ) : (
-        <div className={classes.blogpage}>
-          {blog && (
-            <div className={classes['blogpage-left']}>
-              <SingleBlog blog={blog} />
-            </div>
-          )}
-          {!mobile && blog && (
-            <div className={classes['blogpage-right']}>
-              <Attractions />
-              <MoreFromAuthor author={blog.author._id} />
-              <RelatedBlogs />
-            </div>
-          )}
-        </div>
+        <>
+          <div className={styles['blog-page-container']}>{backToHome()}</div>
+          <SingleBlog blog={blog} />
+          <MoreFromAuthor author={blog.author} blogId={params.blogId} />
+          <SimilarBlogs blog={blog} />
+        </>
       )}
     </main>
   );

@@ -1,7 +1,60 @@
-.mfa-container h2{
-  text-align: center;
+.mfa-container {
+  margin-top: 4rem;
 }
 
-.mfa-container {
-  margin: 1.25em 0;
+.author-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.author-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.author-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.author-intro {
+  color: #4b5563;
+}
+
+.view-profile-button {
+  padding: 0.5rem 1.5rem;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.view-profile-button:hover {
+  background-color: #4338ca;
+}
+
+.grid-container {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 448px;
+  }
 }

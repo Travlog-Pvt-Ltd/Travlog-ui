@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: inherit;
 }
 
 :root {
@@ -12,7 +13,7 @@
   --secondary-color: rgba(16, 190, 213, 0.17);
   --secondary-color-text: rgba(16, 190, 213, 0.9);
   --tertiary-color: rgb(254, 241, 229);
-  --background-color: #f0f9ff;
+  --background-color: #f9fafb;
   --button-color: #ff6b5c;
   --max-width: 1440px;
 }
@@ -113,4 +114,12 @@ input:focus {
   pointer-events: none;
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: transparent;
+  border: none;
 }
