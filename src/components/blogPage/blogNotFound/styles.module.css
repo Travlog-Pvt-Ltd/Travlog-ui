@@ -1,0 +1,27 @@
+.container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.home-link {
+  margin-top: 1rem;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  color: #4338ca;
+}

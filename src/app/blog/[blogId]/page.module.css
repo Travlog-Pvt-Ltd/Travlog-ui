@@ -1,21 +1,21 @@
-.blogpage {
-  max-width: var(--max-width);
-  display: flex;
+.blog-page {
+  max-width: 896px;
   margin: 75px auto;
 }
 
-.blogpage-left {
-  width: 70%;
-}
-
-@media (max-width: 768px) {
-  .blogpage-left {
-    width: 100%;
-  }
-}
-
-.blogpage-right {
+.blog-page-container {
   display: flex;
   flex-direction: column;
-  width: 30%;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  color: #4f46e5;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: #4338ca;
 }

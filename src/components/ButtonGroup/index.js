@@ -76,35 +76,43 @@ const ButtonGroup = ({
 
   return (
     <div className={`${styles.buttons} ${customClass}`}>
-      {like &&
-        (likeLoading ? (
-          <div className='like-loader'></div>
-        ) : user?.likes?.includes(parentId) ? (
-          <img onClick={handleLike} src={blueheart.src} alt='Remove Like' />
-        ) : (
-          <img onClick={handleLike} src={heartIcon.src} alt='Like' />
-        ))}
-      {dislike &&
-        (dislikeLoading ? (
-          <div className='like-loader'></div>
-        ) : user?.dislikes?.includes(parentId) ? (
-          <img
-            onClick={handleDislike}
-            src={redheart.src}
-            alt='Remove Dislike'
-          />
-        ) : (
-          <img onClick={handleDislike} src={dislikeIcon.src} alt='Dislike' />
-        ))}
-      {comment && (
-        <img
-          onClick={handleCommentVisibility}
-          src={commentIcon.src}
-          alt='Comment'
-        />
+      {like && (
+        <button onClick={handleLike} className='icon-button'>
+          {likeLoading ? (
+            <div className='like-loader'></div>
+          ) : user?.likes?.includes(parentId) ? (
+            <img src={blueheart.src} alt='Remove Like' />
+          ) : (
+            <img src={heartIcon.src} alt='Like' />
+          )}
+        </button>
       )}
-      {share && <img src={shareIcon.src} alt='Share' />}
-      {bookmark && <img src={bookmarkIcon.src} alt='Bookmark' />}
+      {dislike && (
+        <button onClick={handleDislike} className='icon-button'>
+          {dislikeLoading ? (
+            <div className='like-loader'></div>
+          ) : user?.dislikes?.includes(parentId) ? (
+            <img src={redheart.src} alt='Remove Dislike' />
+          ) : (
+            <img src={dislikeIcon.src} alt='Dislike' />
+          )}
+        </button>
+      )}
+      {comment && (
+        <button onClick={handleCommentVisibility} className='icon-button'>
+          <img src={commentIcon.src} alt='Comment' />
+        </button>
+      )}
+      {share && (
+        <button className='icon-button'>
+          <img src={shareIcon.src} alt='Share' />
+        </button>
+      )}
+      {bookmark && (
+        <button className='icon-button'>
+          <img src={bookmarkIcon.src} alt='Bookmark' />
+        </button>
+      )}
       {menuList.length > 0 && (
         <MoreOptionsButton
           commentParentId={commentParentId}

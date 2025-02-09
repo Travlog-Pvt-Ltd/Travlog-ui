@@ -1,0 +1,22 @@
+.relatedblogs-container {
+  margin: 4rem 0;
+}
+
+.grid-container {
+  display: grid;
+  gap: 2rem;
+}
+
+.similar-posts-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #111827; /* text-gray-900 */
+  margin-bottom: 1.5rem; /* mb-6 */
+}
+
+@media (min-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 448px;
+  }
+}
