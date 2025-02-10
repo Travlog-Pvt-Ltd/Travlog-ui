@@ -17,6 +17,7 @@
 
 .blog-image-container {
   position: relative;
+  overflow: hidden;
 }
 
 .blog-thumbnail {

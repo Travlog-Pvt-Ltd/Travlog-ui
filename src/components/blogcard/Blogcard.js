@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import classes from './Blogcard.module.css';
+import styles from './Blogcard.module.css';
 import '@styles/smallLoader.css';
 import { formatDate } from '@utils/formatdate';
 import accountIcon from '@assets/logos/account.svg';
@@ -19,7 +19,6 @@ import MoreOptionsButton from '@components/CustomElements/MoreOptionsButton';
 const Blogcard = ({ blog, setBlogs }) => {
   const { isLoggedIn, setOpenLogin, user, setUser } = useAuth();
   const router = useRouter();
-  const smallMobile = useMediaQuery('(max-width:580px)');
   const [likeLoading, setLikeLoading] = useState(false);
   const [dislikeLoading, setDislikeLoading] = useState(false);
 
@@ -91,128 +90,77 @@ const Blogcard = ({ blog, setBlogs }) => {
   };
 
   return (
-    <>
-      {blog.thumbnail ? (
-        <img
-          onClick={() => router.push(`/blog/${blog._id}`)}
-          loading='lazy'
-          className={classes['bc-img']}
-          src={blog.thumbnail}
-          alt='Blog thumbnail'
-        />
-      ) : null}
+    <div className={styles['blog-card']}>
+      <div
+        onClick={() => router.push(`/blog/${blog._id}`)}
+        className={styles['blog-thumbnail']}
+      >
+        <img src={blog.thumbnail} alt={blog.title} />
+      </div>
 
-      <div className={classes['bc-body']}>
-        <div className={classes['bc-header']}>
-          <div
+      <div className={styles['blog-content']}>
+        <div>
+          <div className={styles['blog-meta']}>
+            <span>{blog.author.name}</span> •{' '}
+            {new Date(blog.createdAt).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: '2-digit',
+            })}
+          </div>
+          <h3
             onClick={() => router.push(`/blog/${blog._id}`)}
-            className={classes['bc-title']}
+            className={styles['blog-title']}
           >
             {blog.title}
-          </div>
-          <div className={classes['bc-info']}>
-            <div className={classes['bc-author-info']}>
-              <span>{blog.author.name}</span>
-              <span className={classes['bc-date']}>
-                {formatDate(blog.createdAt)}
-              </span>
-            </div>
-            <img
-              src={
-                blog.author.profileLogo
-                  ? blog.author.profileLogo
-                  : accountIcon.src
-              }
-              alt=''
-            />
-          </div>
-        </div>
-        <div>
-          <div
+          </h3>
+          <p
             onClick={() => router.push(`/blog/${blog._id}`)}
-            className={classes['bc-content']}
+            className={styles['blog-excerpt']}
           >
             {parse(`${getBlogContent(blog.content)}`)}
+          </p>
+          <div className={styles['blog-tags']}>
+            {blogTags.slice(0, 3).map((tag) => (
+              <span key={tag._id} className={styles['blog-tag']}>
+                #{tag.name}
+              </span>
+            ))}
           </div>
         </div>
 
-        <div>
-          <div className={classes['bc-footer']}>
-            {blogTags?.length > 0 ? (
-              <div className={classes.tags}>
-                {!smallMobile &&
-                  blogTags.slice(0, 2).map((tag) => {
-                    return (
-                      <span key={tag._id} className={classes['tag-chip']}>
-                        {tag.name}
-                      </span>
-                    );
-                  })}
-                {smallMobile &&
-                  blogTags.slice(0, 1).map((tag) => {
-                    return (
-                      <span key={tag._id} className={classes['tag-chip']}>
-                        {tag.name}
-                      </span>
-                    );
-                  })}
-                {!smallMobile && blogTags.length > 2 && (
-                  <span
-                    className={`${classes['tag-chip']} ${classes['num-chip']}`}
-                  >
-                    +{blogTags.length - 2}
-                  </span>
-                )}
-                {smallMobile && blogTags.length > 1 && (
-                  <span
-                    className={`${classes['tag-chip']} ${classes['num-chip']}`}
-                  >
-                    +{blogTags.length - 1}
-                  </span>
-                )}
-              </div>
+        <div className={styles['blog-actions']}>
+          <button onClick={handleLike} className={styles.icons}>
+            {likeLoading ? (
+              <div className='like-loader'></div>
+            ) : user?.likes?.includes(blog._id) ? (
+              <Image src={Blueheart} />
             ) : (
-              <div></div>
+              <Image src={heartIcon} />
             )}
-            <div className={classes.iconContainer}>
-              <span onClick={handleLike} className={classes.icons}>
-                {likeLoading ? (
-                  <div className='like-loader'></div>
-                ) : user?.likes?.includes(blog._id) ? (
-                  <Image src={Blueheart} />
-                ) : (
-                  <Image src={heartIcon} />
-                )}
-              </span>
-              <span onClick={handleDislike} className={classes.icons}>
-                {dislikeLoading ? (
-                  <div className='like-loader'></div>
-                ) : user?.dislikes?.includes(blog._id) ? (
-                  <Image src={Redheart} />
-                ) : (
-                  <Image src={dislike} />
-                )}
-              </span>
-              <span className={classes.icons}>
-                <Image src={shareIcon} />
-              </span>
-              <span className={classes.icons}>
-                <MoreOptionsButton
-                  parent='blog'
-                  parentId={blog._id}
-                  menuList={['Bookmark', 'Hide', 'Report']}
-                  author={blog.author._id}
-                />
-              </span>
-            </div>
-          </div>
-          <div className={classes['bc-stat-count']}>
-            <span>{blog?.likeCount} likes</span>
-            <span>{blog?.viewCount} views</span>
-          </div>
+            &nbsp;
+            <span>{blog.likeCount}</span>
+          </button>
+
+          <button onClick={handleDislike} className={styles.icons}>
+            {dislikeLoading ? (
+              <div className='like-loader'></div>
+            ) : user?.dislikes?.includes(blog._id) ? (
+              <Image src={Redheart} />
+            ) : (
+              <Image src={dislike} />
+            )}
+            &nbsp;
+            <span>{blog.likeCount}</span>
+          </button>
+
+          <button className={styles.icons}>
+            <Image src={shareIcon} />
+            &nbsp; Share
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

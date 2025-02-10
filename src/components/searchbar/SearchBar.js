@@ -1,9 +1,13 @@
-import classes from './SearchBar.module.css'
+import styles from './SearchBar.module.css';
 
 const SearchBar = () => {
   return (
-    <input type='text' className={classes['search-bar']} placeholder='Search for a place' />
-  )
-}
+    <input
+      type='text'
+      className={styles['search-bar']}
+      placeholder='Search destinations or activities...'
+    />
+  );
+};
 
-export default SearchBar
+export default SearchBar;

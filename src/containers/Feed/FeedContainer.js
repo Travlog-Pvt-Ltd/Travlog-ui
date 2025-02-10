@@ -45,11 +45,7 @@ const FeedContainer = ({ initialData }) => {
   );
 
   return (
-    <div
-      className={
-        mobile ? classes['homepage-mobile-left'] : classes['homepage-left']
-      }
-    >
+    <div className={classes.homepage}>
       {loading && blogs.length === 0 && (
         <>
           <FeedLoader mobile={mobile} open={loading} />
