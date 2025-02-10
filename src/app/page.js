@@ -1,8 +1,5 @@
-import classes from './page.module.css';
-import InfoLink from '@components/infolink/InfoLink';
-import Attractions from '@components/attractions/Attractions';
+import styles from './page.module.css';
 import Hero from '@components/hero/Hero';
-import Itineary from '@components/itineary/Itineary';
 import FeedContainer from '@containers/Feed/FeedContainer';
 
 const getData = async () => {
@@ -28,14 +25,8 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <Attractions top={true} />
-      <div className={classes.homepage}>
+      <div className={styles.homepage}>
         <FeedContainer initialData={data} />
-        <div className={classes['homepage-right']}>
-          <InfoLink />
-          <Attractions />
-          <Itineary />
-        </div>
       </div>
     </>
   );

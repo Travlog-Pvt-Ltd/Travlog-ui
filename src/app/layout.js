@@ -7,6 +7,7 @@ import NavbarProvider from '@context/NavbarContext';
 import Script from 'next/script';
 import CommentProvider from '@context/CommentContext';
 import FeedProvider from '@context/FeedContext';
+import Footer from '@components/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
                 <CommentProvider>
                   <Navbar />
                   {children}
+                  <Footer />
                 </CommentProvider>
               </FeedProvider>
             </NavbarProvider>
