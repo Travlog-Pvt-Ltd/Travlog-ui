@@ -95,7 +95,7 @@ const Blogcard = ({ blog, setBlogs }) => {
         onClick={() => router.push(`/blog/${blog._id}`)}
         className={styles['blog-thumbnail']}
       >
-        <img src={blog.thumbnail} alt={blog.title} />
+        <img src={blog.thumbnail} alt='Blog thumbnail' />
       </div>
 
       <div className={styles['blog-content']}>
